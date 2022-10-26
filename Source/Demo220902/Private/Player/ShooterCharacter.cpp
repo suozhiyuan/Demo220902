@@ -19,13 +19,13 @@ AShooterCharacter::AShooterCharacter()
 	*/
 	Camera1P->SetupAttachment(GetCapsuleComponent());														/*挂载在根组件，那个胶囊体上
 	*/
-	Camera1P->SetRelativeLocation(FVector(0.0f, 0.0f, BaseEyeHeight + 30.0f));									/*设置组件的位置（相对于父组件），BaseEyeHeight为眼睛高度
+	Camera1P->SetRelativeLocation(FVector(0.0f, 0.0f, BaseEyeHeight));									/*设置组件的位置（相对于父组件），BaseEyeHeight为眼睛高度
 	*/
 	Camera1P->bUsePawnControlRotation = true;																		/*如果该组件被放置到一个Pawn上，是否使用这个 Pawn 的视角控件旋转 (初始值本来就是True)
 	*/
 	
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PawnMesh1P"));
-	Mesh1P->SetupAttachment(GetCapsuleComponent());																				/*挂载位置
+	Mesh1P->SetupAttachment(Camera1P);																				/*挂载位置
 	*/
 	Mesh1P->bOnlyOwnerSee = true;																					/*bOnlyOwnerSee 如果为True，只对组件所有者的视图可见。
 	*/
@@ -51,7 +51,7 @@ AShooterCharacter::AShooterCharacter()
 	*/
 	Mesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);															/* 更改此原生组件的所有ResponseToChannels容器为传入参数
 	*/
-	Mesh1P->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f - 116.0f - BaseEyeHeight));
+	Mesh1P->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f - 86.0f));
 
 	/*
 	 * Mesh 设置

@@ -22,27 +22,27 @@ ADemo220902GameMode::ADemo220902GameMode()
 	DefaultPawnClass = PlayerPawnObject.Class;
 
 	/*
-	 *≈‰÷√ Controller£¨≈‰÷√øÿ÷∆∆˜µΩ GameMode
+	 * ≈‰÷√ Controller£¨≈‰÷√øÿ÷∆∆˜µΩ GameMode
 	 */
 	PlayerControllerClass =	AShooterPlayerController::StaticClass();
 
 	/*
-	 * ≈‰÷√ PlayerState£¨≈‰÷√ PlayerState µΩ GameMode
+	 * ≈‰÷√ PlayerState µΩ GameMode
 	 */
 	PlayerStateClass = AShooterPlayerState::StaticClass();
 
 	/*
-	 *≈‰÷√ SpectatorPawn£¨≈‰÷√ SpectatorPawn µΩ GameMode
+	 *≈‰÷√ SpectatorPawn µΩ GameMode
 	 */
 	SpectatorClass = AShooterSpectatorPawn::StaticClass();
 
 	/*
-	 * ≈‰÷√ GameState£¨≈‰÷√ GameState µΩ GameMode
+	 * ≈‰÷√ GameState µΩ GameMode
 	 */
 	GameStateClass = AShooterGameState::StaticClass();
 
 	/*
-	 * ≈‰÷√ HUD£¨≈‰÷√ HUD µΩ GameMode
+	 * ≈‰÷√ HUD µΩ GameMode
 	 */
 	HUDClass = AShooterHUD::StaticClass();
 }
