@@ -51,7 +51,7 @@ AShooterCharacter::AShooterCharacter()
 	*/
 	Mesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);															/* 更改此原生组件的所有ResponseToChannels容器为传入参数
 	*/
-	Mesh1P->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f - 86.0f));
+	Mesh1P->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f - 150.0f));
 
 	/*
 	 * Mesh 设置
