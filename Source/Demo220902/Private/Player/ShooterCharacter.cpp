@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Demo220902.h"
 #include "Player/ShooterCharacter.h"
+#include "Demo220902.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -114,9 +114,12 @@ void AShooterCharacter::MoveForward(float Value)
 		 * 帮助查看移动输入是否被忽略。如果没有Pawn或者UpdatedComponent，返回true，否则根据Pawn的IsMoveInputIgnored()实现
 		 * 是否在下落
 		 */
-		bool bLimitRotation = (GetCharacterMovement()->IsMoveInputIgnored() || GetCharacterMovement()->IsFalling());
-		FRotator Rotation = bLimitRotation ? GetActorRotation() : Controller->GetControlRotation();
-		FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
+		//bool bLimitRotation = (GetCharacterMovement()->IsMoveInputIgnored() || GetCharacterMovement()->IsFalling());
+		//FRotator Rotation = bLimitRotation ? GetActorRotation() : Controller->GetControlRotation();
+		//FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
+		//AddMovementInput(Direction, Value);
+
+		FVector Direction = FRotationMatrix(GetActorRotation()).GetScaledAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
 	}
 }
@@ -125,9 +128,12 @@ void AShooterCharacter::MoveRight(float Value)
 {
 	if (Controller != nullptr)
 	{
-		bool bLimitRotation = (GetCharacterMovement()->IsMoveInputIgnored() || GetCharacterMovement()->IsFalling());
-		FRotator Rotation = bLimitRotation ? GetActorRotation() : Controller->GetControlRotation();
-		FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
+		//bool bLimitRotation = (GetCharacterMovement()->IsMoveInputIgnored() || GetCharacterMovement()->IsFalling());
+		//FRotator Rotation = bLimitRotation ? GetActorRotation() : Controller->GetControlRotation();
+		//FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
+		//AddMovementInput(Direction, Value);
+
+		FVector Direction = FRotationMatrix(GetActorRotation()).GetScaledAxis(EAxis::Y);
 		AddMovementInput(Direction, Value);
 	}
 }
