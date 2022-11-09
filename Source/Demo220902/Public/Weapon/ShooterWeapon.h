@@ -23,4 +23,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	
+	UPROPERTY(EditAnywhere, Category = Mesh)
+	USkeletalMeshComponent* Mesh1P;						// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。
+
 };

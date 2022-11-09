@@ -36,10 +36,11 @@ AShooterCharacter::AShooterCharacter()
 	Mesh1P->bCastDynamicShadow = false;																				/*是否投射阴影
 	*/
 	/* 
-	 * 该方法和枚举在4.21废弃
+	 * Mesh1P->MeshComponentUpdateFlag = EMeshComponentUpdateFlag::OnlyTickPoseWhenRendered;
+	 *
+	 * MeshComponentUpdateFlag 该方法和枚举在4.21废弃
 	 * MeshComponentUpdateFlag 改为了 VisibilityBasedAnimTickOption
 	 * EMeshComponentUpdateFlag 改为了 EVisibilityBasedAnimTickOption	 */
-	// Mesh1P->MeshComponentUpdateFlag = EMeshComponentUpdateFlag::OnlyTickPoseWhenRendered;
 	Mesh1P->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;				/* 该骨骼动画Mesh的Pose只在渲染的时候更新
 	*/
 	Mesh1P->PrimaryComponentTick.TickGroup = TG_EndPhysics;															/*设置该Mesh的更新组， TG_EndPhysics 结束物理模拟的特殊标记组。
@@ -47,7 +48,7 @@ AShooterCharacter::AShooterCharacter()
 	// 由于第三人称 Mesh 有具体的碰撞设置，这里选择关闭第一人称的碰撞
 	Mesh1P->SetCollisionObjectType(ECC_Pawn);																	/*设置 Mesh 的碰撞类型
 	*/
-	Mesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);												/*设置 Mesh 的物理模拟，以及可以空间查询(光线投射，扫描，重叠),由于第三人称已经有了这里用 NoCollision
+	Mesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);												/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠),由于第三人称已经有了这里用 NoCollision
 	*/
 	Mesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);															/* 更改此原生组件的所有ResponseToChannels容器为传入参数
 	*/
@@ -64,7 +65,7 @@ AShooterCharacter::AShooterCharacter()
 	*/
 	GetMesh()->SetCollisionObjectType(ECC_Pawn);																/*设置 Mesh 的碰撞类型
 	*/
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);										/*设置 Mesh 的物理模拟，以及可以空间查询(光线投射，扫描，重叠)
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);										/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠)
 	*/
 	GetMesh()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Block);									/*设置 Mesh 对三个碰撞通道的响应
 	*/
