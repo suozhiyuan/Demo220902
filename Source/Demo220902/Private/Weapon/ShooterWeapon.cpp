@@ -20,20 +20,17 @@ AShooterWeapon::AShooterWeapon()
 	FTransform NewTransform(FRotator(0.0f, 0.0f, -90.0f));
 	Mesh1P->SetRelativeTransform(NewTransform);
 
-
 }
 
 // Called when the game starts or when spawned
 void AShooterWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AShooterWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
