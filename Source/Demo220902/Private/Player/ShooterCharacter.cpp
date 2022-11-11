@@ -115,6 +115,10 @@ void AShooterCharacter::PostInitializeComponents()
 	FActorSpawnParameters SpawnInfo;
 	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;				// AlwaysSpawn: Actor将在所需的位置生成，无论碰撞与否
 	CurrentWeapon = GetWorld()->SpawnActor<AShooterWeapon>(ShooterWeaponClass, SpawnInfo);
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->AttachMeshToPawn();
+	}
 }
 
 void AShooterCharacter::MoveForward(float Value)
