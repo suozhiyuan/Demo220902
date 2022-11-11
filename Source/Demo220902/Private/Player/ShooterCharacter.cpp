@@ -117,7 +117,6 @@ void AShooterCharacter::PostInitializeComponents()
 	CurrentWeapon = GetWorld()->SpawnActor<AShooterWeapon>(ShooterWeaponClass, SpawnInfo);
 }
 
-
 void AShooterCharacter::MoveForward(float Value)
 {
 	if (Controller != nullptr)

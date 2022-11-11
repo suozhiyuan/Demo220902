@@ -22,6 +22,11 @@ AShooterWeapon::AShooterWeapon()
 
 }
 
+void AShooterWeapon::AttachMeshToPawn()
+{
+	//AttachToComponent();
+}
+
 // Called when the game starts or when spawned
 void AShooterWeapon::BeginPlay()
 {
