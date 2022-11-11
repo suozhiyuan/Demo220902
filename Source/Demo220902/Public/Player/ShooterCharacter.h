@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
+#include "Weapon/ShooterWeapon.h"
 #include "ShooterCharacter.generated.h"
+
 
 UCLASS()
 class DEMO220902_API AShooterCharacter : public ACharacter
@@ -27,13 +29,20 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void PostInitializeComponents() override;
+	
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
 protected:
 	UPROPERTY(EditAnywhere, Category = Camera)
 	UCameraComponent* Camera1P;
+
 	UPROPERTY(EditAnywhere, Category = Mesh)
-	USkeletalMeshComponent* Mesh1P;				/* SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。
-	*/
+	USkeletalMeshComponent* Mesh1P;				/* SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。*/
+
+	UPROPERTY(EditAnywhere, Category = Weapon)
+	TSubclassOf<AShooterWeapon> ShooterWeaponClass;
+
+	AShooterWeapon* CurrentWeapon;			// 当前武器
 };
