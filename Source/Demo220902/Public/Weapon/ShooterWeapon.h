@@ -27,6 +27,6 @@ public:
 
 	
 	UPROPERTY(EditAnywhere, Category = Mesh)
-	USkeletalMeshComponent* Mesh1P;						// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。
+	USkeletalMeshComponent* Mesh1P;						// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例，当要创建一个网络体时用到USkeletalMeshComponent。
 
 };
