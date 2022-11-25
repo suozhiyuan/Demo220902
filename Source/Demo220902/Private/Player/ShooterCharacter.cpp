@@ -108,13 +108,14 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AShooterCharacter::AddControllerPitchInput);		// Pitch 上下
 }
 
+// 构建组件初始化
 void AShooterCharacter::PostInitializeComponents()
 {
-	Super::PostInitializeComponents();
+	Super::PostInitializeComponents();				// 重写父类虚函数时，先用Super调用父类该方法，否则父类的初始化会出问题
 
-	FActorSpawnParameters SpawnInfo;
+	FActorSpawnParameters SpawnInfo;				// 传递给SpawnActor函数的可选参数的结构
 	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;				// AlwaysSpawn: Actor将在所需的位置生成，无论碰撞与否
-	CurrentWeapon = GetWorld()->SpawnActor<AShooterWeapon>(ShooterWeaponClass, SpawnInfo);
+	CurrentWeapon = GetWorld()->SpawnActor<AShooterWeapon>(ShooterWeaponClass, SpawnInfo);					// GetWorld中创建一个Actor，模板指定其创建类型，SpawnActor参数为指定的类
 	if (CurrentWeapon)
 	{
 		CurrentWeapon->AttachMeshToPawn();
