@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "ShooterWeapon.generated.h"
 
+class AShooterCharacter;
 UCLASS()
 class DEMO220902_API AShooterWeapon : public AActor
 {
@@ -15,6 +16,7 @@ public:
 	// Sets default values for this actor's properties
 	AShooterWeapon();
 
+	// 创建 Mesh 到 Pawn
 	void AttachMeshToPawn();
 
 protected:
@@ -25,6 +27,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void SetPawnOwner(AShooterCharacter* PawnOwner);
 	
 	UPROPERTY(EditAnywhere, Category = Mesh)
 	USkeletalMeshComponent* Mesh1P;						// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例，当要创建一个网络体时用到USkeletalMeshComponent。

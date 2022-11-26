@@ -111,17 +111,18 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 // 构建组件初始化
 void AShooterCharacter::PostInitializeComponents()
 {
-	Super::PostInitializeComponents();				// 重写父类虚函数时，先用Super调用父类该方法，否则父类的初始化会出问题
+	Super::PostInitializeComponents();						// 重写父类虚函数时，先用Super调用父类该方法，否则父类的初始化会出问题
 
-	FActorSpawnParameters SpawnInfo;				// 传递给SpawnActor函数的可选参数的结构
+	FActorSpawnParameters SpawnInfo;						// FActorSpawnParameters是一个传递给SpawnActor函数的可选参数的结构，用于指定创建时的各项参数
 	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;				// AlwaysSpawn: Actor将在所需的位置生成，无论碰撞与否
-	CurrentWeapon = GetWorld()->SpawnActor<AShooterWeapon>(ShooterWeaponClass, SpawnInfo);					// GetWorld中创建一个Actor，模板指定其创建类型，SpawnActor参数为指定的类
+	CurrentWeapon = GetWorld()->SpawnActor<AShooterWeapon>(ShooterWeaponClass, SpawnInfo);					// 在GetWorld调用SpawnActor方法创建Actor，模板指定其创建类型，SpawnActor的参数为指定的类和创建的方式
 	if (CurrentWeapon)
 	{
 		CurrentWeapon->AttachMeshToPawn();
 	}
 }
 
+// 前后移动
 void AShooterCharacter::MoveForward(float Value)
 {
 	if (Controller != nullptr)
@@ -140,6 +141,7 @@ void AShooterCharacter::MoveForward(float Value)
 	}
 }
 
+// 左右移动
 void AShooterCharacter::MoveRight(float Value)
 {
 	if (Controller != nullptr)

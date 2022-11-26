@@ -23,6 +23,7 @@ AShooterWeapon::AShooterWeapon()
 
 void AShooterWeapon::AttachMeshToPawn()
 {
+	// 创建组件
 	//AttachToComponent();
 }
 
@@ -36,5 +37,11 @@ void AShooterWeapon::BeginPlay()
 void AShooterWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+// 设置武器的
+void AShooterWeapon::SetPawnOwner(AShooterCharacter* PawnOwner)
+{
+
 }
 

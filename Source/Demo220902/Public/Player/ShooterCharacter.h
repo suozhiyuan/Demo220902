@@ -35,14 +35,18 @@ public:
 	void MoveRight(float Value);
 
 protected:
+	// 摄像机
 	UPROPERTY(EditAnywhere, Category = Camera)
 	UCameraComponent* Camera1P;
 
+	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。
 	UPROPERTY(EditAnywhere, Category = Mesh)
-	USkeletalMeshComponent* Mesh1P;				/* SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。*/
+	USkeletalMeshComponent* Mesh1P;
 
+	// 为了暴露到蓝图当中去，这里用一个TSubclassOf
 	UPROPERTY(EditAnywhere, Category = Weapon)
 	TSubclassOf<AShooterWeapon> ShooterWeaponClass;
 
-	AShooterWeapon* CurrentWeapon;			// 当前武器
+	// 当前武器
+	AShooterWeapon* CurrentWeapon;
 };
