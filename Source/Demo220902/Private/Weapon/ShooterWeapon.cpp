@@ -2,6 +2,7 @@
 
 
 #include "Weapon/ShooterWeapon.h"
+#include "Player/ShooterCharacter.h"
 
 // Sets default values
 AShooterWeapon::AShooterWeapon()
@@ -9,22 +10,16 @@ AShooterWeapon::AShooterWeapon()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
-	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh1PComponent"));
-	Mesh1P->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;
-	Mesh1P->CastShadow = false;													// 设置网络体组件是否投射阴影
-	Mesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);			// 设置网络体碰撞的启用类型，不启用
-	Mesh1P->SetCollisionObjectType(ECC_WorldDynamic);						// 设置网络体碰撞的对象类型
-	Mesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);						// 设置网络体对所有碰撞通道的响应为 ECR_Ignore 忽略
+	WeaponMesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh1PComponent"));
+	WeaponMesh1P->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;
+	WeaponMesh1P->CastShadow = false;													// 设置网络体组件是否投射阴影
+	WeaponMesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);			// 设置网络体碰撞的启用类型，不启用
+	WeaponMesh1P->SetCollisionObjectType(ECC_WorldDynamic);						// 设置网络体碰撞的对象类型
+	WeaponMesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);						// 设置网络体对所有碰撞通道的响应为 ECR_Ignore 忽略
 
-	RootComponent = Mesh1P;
+	RootComponent = WeaponMesh1P;
 	FTransform NewTransform(FRotator(0.0f, 0.0f, -90.0f));
-	Mesh1P->SetRelativeTransform(NewTransform);									//设置网络体的旋转用到的SetRelativeTransform
-}
-
-void AShooterWeapon::AttachMeshToPawn()
-{
-	// 创建组件
-	//AttachToComponent();
+	WeaponMesh1P->SetRelativeTransform(NewTransform);									//设置网络体的旋转用到的SetRelativeTransform
 }
 
 // Called when the game starts or when spawned
@@ -39,9 +34,24 @@ void AShooterWeapon::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-// 设置武器的
-void AShooterWeapon::SetPawnOwner(AShooterCharacter* PawnOwner)
+ // 设置武器当前的Pawn
+void AShooterWeapon::SetPawnOwner(AShooterCharacter* PawnOwner1)
 {
-
+	PawnOwner = PawnOwner1;
 }
 
+void AShooterWeapon::AttachMeshToPawn()
+{
+	if (PawnOwner)
+	{
+		USkeletalMeshComponent* PawnMesh1P = PawnOwner->GetFirstPersonMesh();
+		FName AttachPoint = PawnOwner->GetWeaponAttachPoint();
+		if (PawnMesh1P)
+		{
+			// 更改HiddenlnGame的值，如果为false，将在游戏过程中不可见
+			WeaponMesh1P->SetHiddenInGame(true);
+			// 创建组件
+			WeaponMesh1P->AttachToComponent(PawnMesh1P, FAttachmentTransformRules::KeepRelativeTransform, AttachPoint);
+		}
+	}
+}

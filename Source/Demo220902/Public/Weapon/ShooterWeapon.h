@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "ShooterWeapon.generated.h"
+
 
 class AShooterCharacter;
 UCLASS()
@@ -27,9 +29,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// 设置武器当前的Pawn
 	void SetPawnOwner(AShooterCharacter* PawnOwner);
-	
+
+	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例，当要创建一个网络体时用到USkeletalMeshComponent。
 	UPROPERTY(EditAnywhere, Category = Mesh)
-	USkeletalMeshComponent* Mesh1P;						// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例，当要创建一个网络体时用到USkeletalMeshComponent。
+	USkeletalMeshComponent* WeaponMesh1P;
+
+private:
+	AShooterCharacter* PawnOwner;
 
 };

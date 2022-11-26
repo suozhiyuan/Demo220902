@@ -5,6 +5,7 @@
 #include "Demo220902.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Weapon/ShooterWeapon.h"
 
 
 // Sets default values
@@ -118,6 +119,7 @@ void AShooterCharacter::PostInitializeComponents()
 	CurrentWeapon = GetWorld()->SpawnActor<AShooterWeapon>(ShooterWeaponClass, SpawnInfo);					// 在GetWorld调用SpawnActor方法创建Actor，模板指定其创建类型，SpawnActor的参数为指定的类和创建的方式
 	if (CurrentWeapon)
 	{
+		CurrentWeapon->SetPawnOwner(this);
 		CurrentWeapon->AttachMeshToPawn();
 	}
 }
@@ -155,3 +157,16 @@ void AShooterCharacter::MoveRight(float Value)
 		AddMovementInput(Direction, Value);
 	}
 }
+
+// 获取第一人称Mesh
+USkeletalMeshComponent* AShooterCharacter::GetFirstPersonMesh()
+{
+	return Mesh1P;
+}
+
+// 获取武器挂点
+FName AShooterCharacter::GetWeaponAttachPoint() const
+{
+	return WeaponAttachPoint;
+}
+

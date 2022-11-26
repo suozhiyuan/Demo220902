@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Weapon/ShooterWeapon.h"
+
 #include "ShooterWeapon_Projectile.generated.h"
 
 /**

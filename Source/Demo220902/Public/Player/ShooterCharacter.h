@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
-#include "Weapon/ShooterWeapon.h"
+
 #include "ShooterCharacter.generated.h"
 
 
+class AShooterWeapon;
 UCLASS()
 class DEMO220902_API AShooterCharacter : public ACharacter
 {
@@ -28,11 +29,17 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	// 构建组件初始化
 	virtual void PostInitializeComponents() override;
-	
+	// 前后移动
 	void MoveForward(float Value);
+	// 左右移动
 	void MoveRight(float Value);
+	// 获取第一人称Mesh
+	USkeletalMeshComponent* GetFirstPersonMesh();
+
+	// 获取武器挂点
+	FName GetWeaponAttachPoint() const;
 
 protected:
 	// 摄像机
@@ -49,4 +56,8 @@ protected:
 
 	// 当前武器
 	AShooterWeapon* CurrentWeapon;
+
+	// 武器挂点名称
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+	FName WeaponAttachPoint;
 };
