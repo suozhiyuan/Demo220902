@@ -54,7 +54,7 @@ AShooterCharacter::AShooterCharacter()
 	*/
 	Mesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);															/* 更改此原生组件的所有ResponseToChannels容器为传入参数
 	*/
-	Mesh1P->SetRelativeLocation(FVector(0.0f - 10.0f, 0.0f, 0.0f - 150.0f));
+	Mesh1P->SetRelativeLocation(FVector(0.0f - 5.0f, 0.0f, 0.0f - 150.0f));
 
 	/*
 	 * Mesh 设置
@@ -119,8 +119,8 @@ void AShooterCharacter::PostInitializeComponents()
 	CurrentWeapon = GetWorld()->SpawnActor<AShooterWeapon>(ShooterWeaponClass, SpawnInfo);					// 在GetWorld调用SpawnActor方法创建Actor，模板指定其创建类型，SpawnActor的参数为指定的类和创建的方式
 	if (CurrentWeapon)
 	{
-		CurrentWeapon->SetPawnOwner(this);
-		CurrentWeapon->AttachMeshToPawn();
+		CurrentWeapon->SetPawnOwner(this);		// 设置组件创建时的Pawn
+		CurrentWeapon->AttachMeshToPawn();		// 创建 Mesh 到 Pawn
 	}
 }
 

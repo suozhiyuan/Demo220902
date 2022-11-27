@@ -28,7 +28,7 @@ void AShooterWeapon::SetPawnOwner(AShooterCharacter* PawnOwner1)
 	PawnOwner = PawnOwner1;
 }
 
-// 创建 Mesh 到 Pawn
+// 创建Mesh到Pawn，设置创建后的状态
 void AShooterWeapon::AttachMeshToPawn()
 {
 	if (PawnOwner)
