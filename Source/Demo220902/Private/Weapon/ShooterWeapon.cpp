@@ -22,6 +22,29 @@ AShooterWeapon::AShooterWeapon()
 	WeaponMesh1P->SetRelativeTransform(NewTransform);									//设置网络体的旋转用到的SetRelativeTransform
 }
 
+// 设置武器当前的Pawn
+void AShooterWeapon::SetPawnOwner(AShooterCharacter* PawnOwner1)
+{
+	PawnOwner = PawnOwner1;
+}
+
+// 创建 Mesh 到 Pawn
+void AShooterWeapon::AttachMeshToPawn()
+{
+	if (PawnOwner)
+	{
+		//USkeletalMeshComponent* PawnMesh1P = PawnOwner->GetMesh1P();
+		FName AttachPoint = PawnOwner->GetWeaponAttachPoint();
+		if (PawnOwner->GetMesh1P())
+		{
+			// 更改HiddenlnGame的值,是否在游戏中隐藏
+			WeaponMesh1P->SetHiddenInGame(false);
+			// 在组件上创建组件，参数1:父组件Mesh   参数2:附加规则  参数3:要创建在父组件的节点
+			WeaponMesh1P->AttachToComponent(PawnOwner->GetMesh1P(), FAttachmentTransformRules::KeepRelativeTransform, AttachPoint);
+		}
+	}
+}
+
 // Called when the game starts or when spawned
 void AShooterWeapon::BeginPlay()
 {
@@ -34,24 +57,4 @@ void AShooterWeapon::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
- // 设置武器当前的Pawn
-void AShooterWeapon::SetPawnOwner(AShooterCharacter* PawnOwner1)
-{
-	PawnOwner = PawnOwner1;
-}
 
-void AShooterWeapon::AttachMeshToPawn()
-{
-	if (PawnOwner)
-	{
-		USkeletalMeshComponent* PawnMesh1P = PawnOwner->GetFirstPersonMesh();
-		FName AttachPoint = PawnOwner->GetWeaponAttachPoint();
-		if (PawnMesh1P)
-		{
-			// 更改HiddenlnGame的值，如果为false，将在游戏过程中不可见
-			WeaponMesh1P->SetHiddenInGame(true);
-			// 创建组件
-			WeaponMesh1P->AttachToComponent(PawnMesh1P, FAttachmentTransformRules::KeepRelativeTransform, AttachPoint);
-		}
-	}
-}

@@ -36,7 +36,7 @@ public:
 	// 左右移动
 	void MoveRight(float Value);
 	// 获取第一人称Mesh
-	USkeletalMeshComponent* GetFirstPersonMesh();
+	USkeletalMeshComponent* GetMesh1P();
 
 	// 获取武器挂点
 	FName GetWeaponAttachPoint() const;
