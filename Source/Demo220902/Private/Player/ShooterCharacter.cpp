@@ -20,9 +20,9 @@ AShooterCharacter::AShooterCharacter()
 	 */
 	Camera1P = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera1P"));						/*CreateDefaultSubobject 创建一个组件或子对象。
 	*/
-	Camera1P->SetupAttachment(GetCapsuleComponent());										/*挂载在根组件，那个胶囊体上
+	Camera1P->SetupAttachment(GetCapsuleComponent());												/*挂载在根组件，那个胶囊体上
 	*/
-	Camera1P->SetRelativeLocation(FVector(0.0f, 0.0f, BaseEyeHeight));					/*设置组件的位置（相对于父组件），BaseEyeHeight为眼睛高度
+	Camera1P->SetRelativeLocation(FVector(0.0f, 0.0f, BaseEyeHeight));								/*设置组件的位置（相对于父组件），BaseEyeHeight为眼睛高度
 	*/
 	Camera1P->bUsePawnControlRotation = true;														/*如果该组件被放置到一个Pawn上，是否使用这个 Pawn 的视角控件旋转 (初始值本来就是True)
 	*/
@@ -49,9 +49,9 @@ AShooterCharacter::AShooterCharacter()
 	Mesh1P->PrimaryComponentTick.TickGroup = TG_EndPhysics;															/*设置该Mesh的更新组， TG_EndPhysics 结束物理模拟的特殊标记组。
 	*/
 	// 由于第三人称 Mesh 有具体的碰撞设置，这里选择关闭第一人称的碰撞
-	Mesh1P->SetCollisionObjectType(ECC_Pawn);																	/*设置 Mesh 的碰撞类型
+	Mesh1P->SetCollisionObjectType(ECC_Pawn);																		/*设置 Mesh 的碰撞类型
 	*/
-	Mesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);												/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠),由于第三人称已经有了这里用 NoCollision
+	Mesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);													/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠),由于第三人称已经有了这里用 NoCollision
 	*/
 	Mesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);															/* 更改此原生组件的所有ResponseToChannels容器为传入参数
 	*/
@@ -66,11 +66,11 @@ AShooterCharacter::AShooterCharacter()
 	*/
 	GetMesh()->bReceivesDecals = false;																				/*是否接受贴花（弹孔）
 	*/
-	GetMesh()->SetCollisionObjectType(ECC_Pawn);																/*设置 Mesh 的碰撞类型
+	GetMesh()->SetCollisionObjectType(ECC_Pawn);																	/*设置 Mesh 的碰撞类型
 	*/
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);										/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠)
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);												/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠)
 	*/
-	GetMesh()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Block);									/*设置 Mesh 对三个碰撞通道的响应
+	GetMesh()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Block);											/*设置 Mesh 对三个碰撞通道的响应
 	*/
 	GetMesh()->SetCollisionResponseToChannel(COLLISION_PROJECTILE,ECR_Block);
 	GetMesh()->SetCollisionResponseToChannel(COLLISION_PICKUP, ECR_Block);
@@ -82,8 +82,12 @@ AShooterCharacter::AShooterCharacter()
 	 *  ECR_Block 阻挡
 	 */
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Ignore);		
-	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PROJECTILE, ECR_Block);		//  设置胶囊只对弹药阻挡
+	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PROJECTILE, ECR_Block);							//  设置胶囊只对弹药阻挡
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PICKUP, ECR_Ignore);
+
+	CurrentSpeed = 0.f;			// 当前速度
+	WalkSpeed = 175.f;			// 行走速度
+	RunSpeed = 375.f;			// 奔跑速度
 
 	IsTargeting = false;		// 瞄准状态初始化
 }
@@ -100,17 +104,24 @@ void AShooterCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FVector NewLocation = GetActorLocation() + CurrentSpeed * DeltaTime;
+	SetActorLocation(NewLocation);
 }
 
 // Called to bind functionality to input
 void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AShooterCharacter::MoveForward);
-	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AShooterCharacter::MoveRight);
-	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AShooterCharacter::AddControllerYawInput);			// Yaw 左右
-	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AShooterCharacter::AddControllerPitchInput);		// Pitch 上下
-	//PlayerInputComponent->BindAxis(TEXT("Target"), this, &AShooterCharacter::AddControllerPitchInput);		// 右键瞄准
+	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AShooterCharacter::MoveForward);						// 前后
+	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AShooterCharacter::MoveRight);							// 左右
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AShooterCharacter::AddControllerYawInput);					// Yaw 鼠标左右
+	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AShooterCharacter::AddControllerPitchInput);				// Pitch 鼠标上下
+
+	PlayerInputComponent->BindAction(TEXT("Target"), IE_Pressed, this, &AShooterCharacter::OnStartTargeting);		// 按下右键瞄准
+	PlayerInputComponent->BindAction(TEXT("Target"), IE_Released, this, &AShooterCharacter::OnEndTargeting);		// 放开右键瞄准
+
+	PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Pressed, this, &AShooterCharacter::OnStartSpeedUp);		// 按下加速
+	PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Released, this, &AShooterCharacter::OnEndSpeedUp);			// 放开还原
 }
 
 // 构建组件初始化
@@ -190,25 +201,45 @@ void AShooterCharacter::OnStartTargeting()
 {
 	if (AShooterPlayerController* MyPC = Cast<AShooterPlayerController>(Controller))		// 用控制器区分是角色还是Ai
 	{
-		IsTargeting = true;
+		SetIsTargeting(true);
 	}
 }
 
 // 结束瞄准
-void AShooterCharacter::OnStopTargeting()
+void AShooterCharacter::OnEndTargeting()
 {
-	IsTargeting = false;
+	SetIsTargeting(false);
 }
 
 // 获取瞄准状态
 bool AShooterCharacter::GetIsTargeting() const
 {
-
+	return IsTargeting;
 }
 
 // 设置瞄准状态
-bool AShooterCharacter::SetIsTargeting(bool bNewIsTargeting) const
+void AShooterCharacter::SetIsTargeting(bool NewIsTargeting)
+{
+	IsTargeting = NewIsTargeting;
+}
+
+// 开始加速
+void AShooterCharacter::OnStartSpeedUp()
+{
+	//SetMaxWalkSpeed
+	
+}
+
+// 结束加速
+void AShooterCharacter::OnEndSpeedUp()
 {
 
 }
+
+// 设置速度
+void AShooterCharacter::SetMaxWalkSpeed()
+{
+
+}
+
 

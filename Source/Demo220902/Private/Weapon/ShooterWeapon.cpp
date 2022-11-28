@@ -13,8 +13,8 @@ AShooterWeapon::AShooterWeapon()
 	WeaponMesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh1PComponent"));
 	WeaponMesh1P->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;
 	WeaponMesh1P->CastShadow = false;													// 设置网络体组件是否投射阴影
-	WeaponMesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);			// 设置网络体碰撞的启用类型，不启用
-	WeaponMesh1P->SetCollisionObjectType(ECC_WorldDynamic);						// 设置网络体碰撞的对象类型
+	WeaponMesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);					// 设置网络体碰撞的启用类型，不启用
+	WeaponMesh1P->SetCollisionObjectType(ECC_WorldDynamic);								// 设置网络体碰撞的对象类型
 	WeaponMesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);						// 设置网络体对所有碰撞通道的响应为 ECR_Ignore 忽略
 
 	RootComponent = WeaponMesh1P;

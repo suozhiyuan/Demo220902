@@ -35,6 +35,9 @@ public:
 	void MoveForward(float Value);
 	// 左右移动
 	void MoveRight(float Value);
+	// 加速
+	void SpeedUp(float Value);
+
 	// 获取第一人称Mesh
 	USkeletalMeshComponent* GetMesh1P();
 
@@ -49,19 +52,29 @@ public:
 	void OnStartTargeting();
 
 	// 结束瞄准
-	void OnStopTargeting();
+	void OnEndTargeting();
 
 	// 获取瞄准状态
 	UFUNCTION(BlueprintCallable, Category = Targeting)
 	bool GetIsTargeting() const;
 
 	// 设置瞄准状态
-	bool SetIsTargeting(bool bNewIsTargeting) const;
+	void SetIsTargeting(bool NewIsTargeting);
+
+	// 开始加速
+	void OnStartSpeedUp();
+
+	// 结束加速
+	void OnEndSpeedUp();
+
+	// 设置速度
+	void SetMaxWalkSpeed();
+
 
 protected:
 	// 摄像机
 	UPROPERTY(EditAnywhere, Category = Camera)
-	UCameraComponent* CaTargetmera1P;
+	UCameraComponent* Camera1P;
 
 	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。
 	UPROPERTY(EditAnywhere, Category = Mesh)
@@ -80,4 +93,16 @@ protected:
 
 	// 瞄准状态
 	bool IsTargeting;
+
+	// 当前速度
+	UPROPERTY(EditAnywhere, Category = Speed)
+	float CurrentSpeed;
+
+	// 行走速度
+	UPROPERTY(EditAnywhere, Category = Speed)
+	float WalkSpeed;
+
+	// 奔跑速度
+	UPROPERTY(EditAnywhere, Category = Speed)
+	float RunSpeed;
 };
