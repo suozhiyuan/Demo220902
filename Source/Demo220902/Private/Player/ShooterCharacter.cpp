@@ -5,6 +5,7 @@
 #include "Demo220902.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/ShooterPlayerController.h"
 #include "Weapon/ShooterWeapon.h"
 
 
@@ -83,6 +84,8 @@ AShooterCharacter::AShooterCharacter()
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Ignore);		
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PROJECTILE, ECR_Block);		//  设置胶囊只对弹药阻挡
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PICKUP, ECR_Ignore);
+
+	IsTargeting = false;		// 瞄准状态初始化
 }
 
 // Called when the game starts or when spawned
@@ -107,6 +110,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AShooterCharacter::MoveRight);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AShooterCharacter::AddControllerYawInput);			// Yaw 左右
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AShooterCharacter::AddControllerPitchInput);		// Pitch 上下
+	//PlayerInputComponent->BindAxis(TEXT("Target"), this, &AShooterCharacter::AddControllerPitchInput);		// 右键瞄准
 }
 
 // 构建组件初始化
@@ -169,3 +173,42 @@ FName AShooterCharacter::GetWeaponAttachPoint() const
 {
 	return WeaponAttachPoint;
 }
+
+// 获取瞄准方向
+FRotator AShooterCharacter::GetAimOffsets() const
+{
+	// 获取世界坐标
+	FVector AimDirectionW = GetBaseAimRotation().Vector();
+	// 世界坐标转换自身坐标
+	FVector AimDirectionL = ActorToWorld().InverseTransformVectorNoScale(AimDirectionW);
+
+	return AimDirectionL.Rotation();
+}
+
+// 开始瞄准
+void AShooterCharacter::OnStartTargeting()
+{
+	if (AShooterPlayerController* MyPC = Cast<AShooterPlayerController>(Controller))		// 用控制器区分是角色还是Ai
+	{
+		IsTargeting = true;
+	}
+}
+
+// 结束瞄准
+void AShooterCharacter::OnStopTargeting()
+{
+	IsTargeting = false;
+}
+
+// 获取瞄准状态
+bool AShooterCharacter::GetIsTargeting() const
+{
+
+}
+
+// 设置瞄准状态
+bool AShooterCharacter::SetIsTargeting(bool bNewIsTargeting) const
+{
+
+}
+

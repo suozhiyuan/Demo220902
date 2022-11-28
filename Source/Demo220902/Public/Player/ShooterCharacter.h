@@ -41,10 +41,27 @@ public:
 	// 获取武器挂点
 	FName GetWeaponAttachPoint() const;
 
+	// 获取瞄准方向
+	UFUNCTION(BlueprintCallable, Category = Weapon)
+	FRotator GetAimOffsets() const;
+
+	// 开始瞄准
+	void OnStartTargeting();
+
+	// 结束瞄准
+	void OnStopTargeting();
+
+	// 获取瞄准状态
+	UFUNCTION(BlueprintCallable, Category = Targeting)
+	bool GetIsTargeting() const;
+
+	// 设置瞄准状态
+	bool SetIsTargeting(bool bNewIsTargeting) const;
+
 protected:
 	// 摄像机
 	UPROPERTY(EditAnywhere, Category = Camera)
-	UCameraComponent* Camera1P;
+	UCameraComponent* CaTargetmera1P;
 
 	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。
 	UPROPERTY(EditAnywhere, Category = Mesh)
@@ -60,4 +77,7 @@ protected:
 	// 武器挂点名称
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	FName WeaponAttachPoint;
+
+	// 瞄准状态
+	bool IsTargeting;
 };
