@@ -3,6 +3,7 @@
 
 #include "Weapon/ShooterWeapon.h"
 #include "Player/ShooterCharacter.h"
+#include "Player/ShooterPlayerController.h"
 
 // Sets default values
 AShooterWeapon::AShooterWeapon()
@@ -43,6 +44,38 @@ void AShooterWeapon::AttachMeshToPawn()
 			WeaponMesh1P->AttachToComponent(PawnOwner->GetMesh1P(), FAttachmentTransformRules::KeepRelativeTransform, AttachPoint);
 		}
 	}
+}
+
+// 获取眼睛方向
+FVector AShooterWeapon::GetAdjustAim()
+{
+	FVector FinalAim = FVector::ZeroVector;
+
+	// 获取当前控制器
+	AShooterPlayerController* PlayerController = GetInstigator() ? Cast<AShooterPlayerController>(GetInstigator()->GetController()) : nullptr;
+	if (PlayerController)
+	{
+		FVector CamerLocation;
+		FRotator CamerRotator;
+		PlayerController->GetPlayerViewPoint(CamerLocation, CamerRotator);		// 获取眼睛方向
+		FinalAim = CamerRotator.Vector();
+	}
+	return FinalAim;
+}
+
+void AShooterWeapon::FireWeapon()
+{
+	//在子类实现
+}
+
+// 获取枪口位置
+FVector AShooterWeapon::GetMuzzleLocation()
+{
+	if (WeaponMesh1P)
+	{
+		return	WeaponMesh1P->GetSocketLocation(MuzzleAttachPoint);
+	}
+	return FVector::ZeroVector;
 }
 
 // Called when the game starts or when spawned

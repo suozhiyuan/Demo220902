@@ -9,6 +9,7 @@
 
 
 class AShooterCharacter;
+
 UCLASS()
 class DEMO220902_API AShooterWeapon : public AActor
 {
@@ -21,9 +22,20 @@ public:
 	// 创建 Mesh 到 Pawn
 	void AttachMeshToPawn();
 
+	// 获取眼睛方向
+	FVector GetAdjustAim();
+
+	// 火焰武器
+	void FireWeapon();
+
+	// 获取枪口位置
+	FVector GetMuzzleLocation();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+
 
 public:	
 	// Called every frame
@@ -32,9 +44,14 @@ public:
 	// 设置武器当前的Pawn
 	void SetPawnOwner(AShooterCharacter* PawnOwner);
 
+protected:
 	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例，当要创建一个网络体时用到USkeletalMeshComponent。
 	UPROPERTY(EditAnywhere, Category = Mesh)
 	USkeletalMeshComponent* WeaponMesh1P;
+
+	// 子弹在枪口的位置
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+	FName MuzzleAttachPoint;
 
 private:
 	AShooterCharacter* PawnOwner;
