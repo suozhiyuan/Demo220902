@@ -252,5 +252,3 @@ void AShooterCharacter::OnEndSpeedUp()
 		IsSpeedUp = false;
 	}
 }
-
-
