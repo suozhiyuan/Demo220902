@@ -84,12 +84,13 @@ AShooterCharacter::AShooterCharacter()
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Ignore);		
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PROJECTILE, ECR_Block);							//  设置胶囊只对弹药阻挡
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PICKUP, ECR_Ignore);
-
-	CurrentSpeed = 0.f;			// 当前速度
-	WalkSpeed = 175.f;			// 行走速度
-	RunSpeed = 375.f;			// 奔跑速度
-
-	IsTargeting = false;		// 瞄准状态初始化
+	
+	WalkSpeed = 250.f;
+	RunSpeed =  500.f;
+	IsSpeedUp = false;										// 初始化没有加速状态
+	IsTargeting = false;									// 瞄准状态初始化
+	IsTargetingWalk = false;								// 瞄准行走标记，为True时说明开镜前是跑步的
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;		// 速度初始化
 }
 
 // Called when the game starts or when spawned
@@ -103,9 +104,7 @@ void AShooterCharacter::BeginPlay()
 void AShooterCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	FVector NewLocation = GetActorLocation() + CurrentSpeed * DeltaTime;
-	SetActorLocation(NewLocation);
+	
 }
 
 // Called to bind functionality to input
@@ -202,6 +201,11 @@ void AShooterCharacter::OnStartTargeting()
 	if (AShooterPlayerController* MyPC = Cast<AShooterPlayerController>(Controller))		// 用控制器区分是角色还是Ai
 	{
 		SetIsTargeting(true);
+		if (IsSpeedUp)				// 开镜时如果有加速则标记，这个标记在关镜时用作加速判断
+		{
+			IsTargetingWalk = true;
+			OnEndSpeedUp();																		// 瞄准时降低速度
+		}
 	}
 }
 
@@ -209,6 +213,11 @@ void AShooterCharacter::OnStartTargeting()
 void AShooterCharacter::OnEndTargeting()
 {
 	SetIsTargeting(false);
+	if (IsTargetingWalk)
+	{
+		OnStartSpeedUp();
+		IsTargetingWalk = false;
+	}
 }
 
 // 获取瞄准状态
@@ -226,20 +235,22 @@ void AShooterCharacter::SetIsTargeting(bool NewIsTargeting)
 // 开始加速
 void AShooterCharacter::OnStartSpeedUp()
 {
-	//SetMaxWalkSpeed
+	if (!IsSpeedUp)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+		IsSpeedUp = true;
+	}
 	
 }
 
 // 结束加速
 void AShooterCharacter::OnEndSpeedUp()
 {
-
-}
-
-// 设置速度
-void AShooterCharacter::SetMaxWalkSpeed()
-{
-
+	if (IsSpeedUp)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+		IsSpeedUp = false;
+	}
 }
 
 

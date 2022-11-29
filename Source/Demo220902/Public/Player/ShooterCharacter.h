@@ -66,9 +66,7 @@ public:
 
 	// 结束加速
 	void OnEndSpeedUp();
-
-	// 设置速度
-	void SetMaxWalkSpeed();
+	
 
 
 protected:
@@ -94,10 +92,6 @@ protected:
 	// 瞄准状态
 	bool IsTargeting;
 
-	// 当前速度
-	UPROPERTY(EditAnywhere, Category = Speed)
-	float CurrentSpeed;
-
 	// 行走速度
 	UPROPERTY(EditAnywhere, Category = Speed)
 	float WalkSpeed;
@@ -105,4 +99,11 @@ protected:
 	// 奔跑速度
 	UPROPERTY(EditAnywhere, Category = Speed)
 	float RunSpeed;
+
+	// 加速状态
+	bool IsSpeedUp;
+
+	// 瞄准时行走标记
+	bool IsTargetingWalk;
+	
 };
