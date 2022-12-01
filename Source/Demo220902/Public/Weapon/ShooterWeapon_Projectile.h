@@ -16,6 +16,7 @@ struct FProjectileWeaponData
 	//GENERATED_BODY()
 	GENERATED_USTRUCT_BODY()
 
+	// 子弹类
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<AShooterProjectile> ProjectileClass;
 
@@ -27,7 +28,7 @@ struct FProjectileWeaponData
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	int32 ExplosionRad;
 
-	//伤害类型
+	// 伤害类型
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<UDamageType> DmgType;
 
@@ -47,6 +48,7 @@ public:
 
 
 protected:
+	// 子弹
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	FProjectileWeaponData ProjectileConfig;
 

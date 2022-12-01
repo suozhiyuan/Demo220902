@@ -57,7 +57,7 @@ FVector AShooterWeapon::GetAdjustAim()
 	{
 		FVector CamerLocation;
 		FRotator CamerRotator;
-		PlayerController->GetPlayerViewPoint(CamerLocation, CamerRotator);		// 获取眼睛方向
+		PlayerController->GetPlayerViewPoint(CamerLocation, CamerRotator);		// 获取眼睛方向和位置
 		FinalAim = CamerRotator.Vector();
 	}
 	return FinalAim;

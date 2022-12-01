@@ -4,15 +4,25 @@
 #include "Weapon/ShooterWeapon_Projectile.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "Weapon/ShooterProjectile.h"
 
 void AShooterWeapon_Projectile::FireWeapon()
 {
 	Super::FireWeapon();
 
-	FVector ShooterDirection, Origin;
-	ShooterDirection = GetAdjustAim();
+	FVector ShooterDirection;
+	FVector Origin;
+	ShooterDirection = GetAdjustAim();		// 眼睛方向
+	Origin = GetMuzzleLocation();			// 枪口位置
+	FTransform SpawnTM(ShooterDirection.Rotation(), Origin);	//位置方向
 
-	Origin = GetMuzzleLocation();
+	// 动态延迟生成参与者的实例
+	AShooterProjectile* Projectile = Cast<AShooterProjectile>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, ProjectileConfig.ProjectileClass, SpawnTM));
 
-	//UGameplayStatics::BeginDeferredActorSpawnFromClass();
+	if (Projectile)
+	{
+		Projectile->SetInstigator(GetInstigator());
+		Projectile->SetOwner(this);
+	}
+
 }
