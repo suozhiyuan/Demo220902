@@ -31,7 +31,6 @@ struct FProjectileWeaponData
 	// ÉËº¦ÀàÐÍ
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<UDamageType> DmgType;
-
 };
 
 
@@ -44,8 +43,8 @@ class DEMO220902_API AShooterWeapon_Projectile : public AShooterWeapon		// ¼Ì³Ð»
 	GENERATED_BODY()
 
 public:
+	// »ðÇ¹
 	void FireWeapon();
-
 
 protected:
 	// ×Óµ¯
