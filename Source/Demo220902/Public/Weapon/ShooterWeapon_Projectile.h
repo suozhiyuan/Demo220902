@@ -16,7 +16,7 @@ struct FProjectileWeaponData
 	//GENERATED_BODY()
 	GENERATED_USTRUCT_BODY()
 
-	// ×Óµ¯Àà
+	// ×Óµ¯Àà£¬Ö÷Òª¸ø×Óµ¯µÄÀ¶Í¼ÀàÓÃ
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<AShooterProjectile> ProjectileClass;
 
@@ -45,6 +45,9 @@ class DEMO220902_API AShooterWeapon_Projectile : public AShooterWeapon		// ¼Ì³Ğ»
 public:
 	// »ğÇ¹
 	void FireWeapon();
+
+	// ·µ»ØÎäÆ÷µÄ×Óµ¯ÅäÖÃ
+	const void GetWeaponConfig(FProjectileWeaponData &Data);
 
 protected:
 	// ×Óµ¯

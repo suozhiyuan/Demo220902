@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ShooterWeapon_Projectile.h"
 #include "GameFramework/Actor.h"
 #include "ShooterProjectile.generated.h"
 
@@ -37,6 +38,10 @@ public:
 	// 碰撞后产生的事件
 	void OnImpact(const FHitResult& ImpactResult);
 
+	// 爆炸效果处理
+	void Explode(const FHitResult& ImpactResult);
+
+
 protected:
 	// 一个球形碰撞组件
 	UPROPERTY(EditDefaultsOnly,Category = Projectile)
@@ -45,4 +50,11 @@ protected:
 	// 一个专门用于投射物体的移动组件
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	UProjectileMovementComponent* MovementComp;
+
+	// 子弹所属武器的配置
+	struct FProjectileWeaponData WeaponConfig;
+
+	// 存放控制器
+	//TWeakPtr<AController> MyController;    AController是继承Object，所以要用TWeakObjectPtr
+	TWeakObjectPtr<AController> MyController;
 };

@@ -23,10 +23,16 @@ void AShooterWeapon_Projectile::FireWeapon()
 	AShooterProjectile* Projectile = Cast<AShooterProjectile>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, ProjectileConfig.ProjectileClass, SpawnTM));
 	if (Projectile)
 	{
-		Projectile->SetInstigator(GetInstigator());		// 保持统一的Instigator
-		Projectile->SetOwner(this);						// 设置子弹拥有者
-		Projectile->InitVelocity(ShooterDirection);		// 设置子弹速度
+		Projectile->SetInstigator(GetInstigator());						// 保持统一的Instigator
+		Projectile->SetOwner(this);										// 设置子弹拥有者，在计算子弹伤害时会从拥有者身上取属性
+		Projectile->InitVelocity(ShooterDirection);						// 设置子弹速度
 		UGameplayStatics::FinishSpawningActor(Projectile, SpawnTM);		// 对应BeginDeferredActorSpawnFromClass，延迟结束
 	}
 
+}
+
+// 返回武器的子弹配置
+const void AShooterWeapon_Projectile::GetWeaponConfig(FProjectileWeaponData& Data)
+{
+	Data = ProjectileConfig;
 }
