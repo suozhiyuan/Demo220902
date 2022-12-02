@@ -34,6 +34,7 @@ public:
 	// 碰撞绑定，允许actor在所有组件初始化后在c++端初始化自己，仅在GamePlay期间调用
 	void PostInitializeComponents() override;
 
+	// 碰撞后产生的事件
 	void OnImpact(const FHitResult& ImpactResult);
 
 protected:

@@ -59,7 +59,7 @@ void AShooterProjectile::PostInitializeComponents()
 	/*
 	 * 碰撞绑定
 	 * OnProjectileStop：当弹丸已经停止(速度低于模拟阈值，反弹被禁用，或被强制停止)时调用。
-	 * AddDynamic：		将一个UObject实例和一个成员UFUNCTION绑定到一个动态多类型转换委托。参数:UserObjectUObject instanceFuncName指向成员UFUNCTION的函数指针，通常形式为&UClassName::FunctionName
+	 * AddDynamic：		将一个UObject实例和一个成员UFUNCTION绑定到一个动态多类型转换委托。
 	 */
 	MovementComp->OnProjectileStop.AddDynamic(this, &AShooterProjectile::OnImpact);
 	/*
@@ -72,8 +72,8 @@ void AShooterProjectile::PostInitializeComponents()
 	CollisionComp->MoveIgnoreActors.Add(GetInstigator());
 }
 
-void AShooterProjectile::OnImpact(const FHitResult& 
-)
+// 碰撞后产生的事件
+void AShooterProjectile::OnImpact(const FHitResult &ImpactResult)
 {
 	//0
 }
