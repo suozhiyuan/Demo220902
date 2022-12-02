@@ -28,7 +28,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// 初始化速度
 	void InitVelocity(FVector ShooterDirection);
+
+	// 碰撞绑定，允许actor在所有组件初始化后在c++端初始化自己，仅在GamePlay期间调用
+	void PostInitializeComponents() override;
+
+	void OnImpact(const FHitResult& ImpactResult);
 
 protected:
 	// 一个球形碰撞组件

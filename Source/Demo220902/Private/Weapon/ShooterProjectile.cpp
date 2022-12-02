@@ -2,9 +2,9 @@
 
 
 #include "Weapon/ShooterProjectile.h"
-#include "Demo220902.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Demo220902.h"
 
 // Sets default values
 AShooterProjectile::AShooterProjectile()
@@ -46,9 +46,35 @@ void AShooterProjectile::Tick(float DeltaTime)
 
 }
 
+// 初始化速度
 void AShooterProjectile::InitVelocity(FVector ShooterDirection)
 {
 	// Velocity: 更新组件的当前速度
 	MovementComp->Velocity = ShooterDirection * MovementComp->InitialSpeed;
+}
+
+// 碰撞绑定
+void AShooterProjectile::PostInitializeComponents()
+{
+	/*
+	 * 碰撞绑定
+	 * OnProjectileStop：当弹丸已经停止(速度低于模拟阈值，反弹被禁用，或被强制停止)时调用。
+	 * AddDynamic：		将一个UObject实例和一个成员UFUNCTION绑定到一个动态多类型转换委托。参数:UserObjectUObject instanceFuncName指向成员UFUNCTION的函数指针，通常形式为&UClassName::FunctionName
+	 */
+	MovementComp->OnProjectileStop.AddDynamic(this, &AShooterProjectile::OnImpact);
+	/*
+	 * MoveIgnoreActors：动时忽略对象
+	 * 在MoveComponent()中进行组件扫描时要忽略的一组参与者。
+	 * 当组件移动或更新重叠时，这些参与者拥有的所有组件都将被忽略。
+	 * 另一个Actor上的组件在移动时也可能需要被告知进行同样的操作。
+	 * 在模拟物理时不影响该组件的运动。
+	 */
+	CollisionComp->MoveIgnoreActors.Add(GetInstigator());
+}
+
+void AShooterProjectile::OnImpact(const FHitResult& 
+)
+{
+	//0
 }
 
