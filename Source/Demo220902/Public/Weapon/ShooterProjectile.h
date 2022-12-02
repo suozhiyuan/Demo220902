@@ -54,7 +54,6 @@ protected:
 	// 子弹所属武器的配置
 	struct FProjectileWeaponData WeaponConfig;
 
-	// 存放控制器
-	//TWeakPtr<AController> MyController;    AController是继承Object，所以要用TWeakObjectPtr
+	// 存放控制器，AController是继承Object，所以要用TWeakObjectPtr
 	TWeakObjectPtr<AController> MyController;
 };
