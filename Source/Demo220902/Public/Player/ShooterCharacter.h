@@ -61,13 +61,16 @@ public:
 	// 设置瞄准状态
 	void SetIsTargeting(bool NewIsTargeting);
 
+	// 设置速度
+	void SetSpeed(float UpSpeed);
+
 	// 开始加速
 	void OnStartSpeedUp();
 
 	// 结束加速
 	void OnEndSpeedUp();
 
-	// 
+	// 取伤害
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	
 
@@ -104,11 +107,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Speed)
 	float RunSpeed;
 
+	//开镜时移动速度惩罚
+	UPROPERTY(EditAnywhere, Category = Speed)
+	float TargetingSpeed;
+
 	// 加速状态
 	bool IsSpeedUp;
-
-	// 瞄准时行走标记
-	bool IsTargetingWalk;
 
 	// 血量
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attr)

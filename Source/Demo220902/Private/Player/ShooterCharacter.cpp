@@ -84,12 +84,12 @@ AShooterCharacter::AShooterCharacter()
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Ignore);		
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PROJECTILE, ECR_Block);							//  设置胶囊只对弹药阻挡
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PICKUP, ECR_Ignore);
-	
-	WalkSpeed = 250.f;
-	RunSpeed =  500.f;
-	IsSpeedUp = false;										// 初始化没有加速状态
+
+	WalkSpeed = 250.f;										// 行走速度
+	RunSpeed =  200.f;										// 奔跑额外增加速度
+	TargetingSpeed = -170.f;								// 开镜时速度惩罚
+	IsSpeedUp = false;										// 初始化加速状态
 	IsTargeting = false;									// 瞄准状态初始化
-	IsTargetingWalk = false;								// 瞄准行走标记，为True时说明开镜前是跑步的
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;		// 速度初始化
 }
 
@@ -201,11 +201,7 @@ void AShooterCharacter::OnStartTargeting()
 	if (AShooterPlayerController* MyPC = Cast<AShooterPlayerController>(Controller))		// 用控制器区分是角色还是Ai
 	{
 		SetIsTargeting(true);
-		if (IsSpeedUp)				// 开镜时如果有加速则标记，这个标记在关镜时用作加速判断
-		{
-			IsTargetingWalk = true;
-			OnEndSpeedUp();																		// 瞄准时降低速度
-		}
+		SetSpeed(TargetingSpeed);
 	}
 }
 
@@ -213,11 +209,7 @@ void AShooterCharacter::OnStartTargeting()
 void AShooterCharacter::OnEndTargeting()
 {
 	SetIsTargeting(false);
-	if (IsTargetingWalk)
-	{
-		OnStartSpeedUp();
-		IsTargetingWalk = false;
-	}
+	SetSpeed(TargetingSpeed * -1);
 }
 
 // 获取瞄准状态
@@ -232,12 +224,18 @@ void AShooterCharacter::SetIsTargeting(bool NewIsTargeting)
 	IsTargeting = NewIsTargeting;
 }
 
+// 设置速度
+void AShooterCharacter::SetSpeed(float UpSpeed)
+{
+	GetCharacterMovement()->MaxWalkSpeed += UpSpeed;
+}
+
 // 开始加速
 void AShooterCharacter::OnStartSpeedUp()
 {
 	if (!IsSpeedUp)
 	{
-		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+		SetSpeed(RunSpeed);
 		IsSpeedUp = true;
 	}
 	
@@ -248,11 +246,12 @@ void AShooterCharacter::OnEndSpeedUp()
 {
 	if (IsSpeedUp)
 	{
-		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+		SetSpeed(RunSpeed * -1);
 		IsSpeedUp = false;
 	}
 }
 
+// 取伤害
 float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	const float ActuaDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
