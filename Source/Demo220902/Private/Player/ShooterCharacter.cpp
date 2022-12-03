@@ -252,3 +252,13 @@ void AShooterCharacter::OnEndSpeedUp()
 		IsSpeedUp = false;
 	}
 }
+
+float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	const float ActuaDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	if (ActuaDamage > 0.0)
+	{
+		HP -= ActuaDamage;
+	}
+	return ActuaDamage;
+}

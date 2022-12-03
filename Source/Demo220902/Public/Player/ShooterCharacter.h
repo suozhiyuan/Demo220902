@@ -66,7 +66,11 @@ public:
 
 	// 结束加速
 	void OnEndSpeedUp();
+
+	// 
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	
+
 
 
 protected:
@@ -105,5 +109,12 @@ protected:
 
 	// 瞄准时行走标记
 	bool IsTargetingWalk;
-	
+
+	// 血量
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attr)
+	float HP;
+
+
+
+
 };
