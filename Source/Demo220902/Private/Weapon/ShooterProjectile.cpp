@@ -23,7 +23,7 @@ AShooterProjectile::AShooterProjectile()
 	CollisionComp->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);		// 对处于静态类型的物体产生碰撞
 	CollisionComp->SetCollisionResponseToChannel(ECC_WorldDynamic,ECR_Block);		// 对处于动态类型的物体产生碰撞
 	CollisionComp->SetCollisionResponseToChannel(ECC_Pawn,ECR_Block);				// 对Pawn产生碰撞
-	RootComponent = CollisionComp;		// 设置为根组件
+	RootComponent = CollisionComp;			// 设置为根组件
 
 	// 一个专门用于投射物体的移动组件初始化
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));

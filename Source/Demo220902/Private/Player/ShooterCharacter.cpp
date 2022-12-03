@@ -86,8 +86,8 @@ AShooterCharacter::AShooterCharacter()
 	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_PICKUP, ECR_Ignore);
 
 	WalkSpeed = 250.f;										// 行走速度
-	RunSpeed =  200.f;										// 奔跑额外增加速度
-	TargetingSpeed = -170.f;								// 开镜时速度惩罚
+	RunSpeed =  150.f;										// 奔跑额外增加速度
+	TargetingSpeed = -150.f;								// 开镜时速度惩罚
 	IsSpeedUp = false;										// 初始化加速状态
 	IsTargeting = false;									// 瞄准状态初始化
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;		// 速度初始化
