@@ -26,7 +26,7 @@ public:
 	FVector GetAdjustAim();
 
 	// 火焰武器
-	void FireWeapon();
+	virtual void FireWeapon();
 
 	// 获取枪口位置
 	FVector GetMuzzleLocation();

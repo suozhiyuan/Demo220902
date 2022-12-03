@@ -48,6 +48,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	FRotator GetAimOffsets() const;
 
+	// 开火
+	void OnStartFire();
+
+	// 停止开火
+	void OnEndFire();
+
 	// 开始瞄准
 	void OnStartTargeting();
 
@@ -90,6 +96,7 @@ protected:
 	TSubclassOf<AShooterWeapon> ShooterWeaponClass;
 
 	// 当前武器
+	//AShooterWeapon* CurrentWeapon;
 	AShooterWeapon* CurrentWeapon;
 
 	// 武器挂点名称
