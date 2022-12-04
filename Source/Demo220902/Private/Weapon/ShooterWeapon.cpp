@@ -88,7 +88,6 @@ void AShooterWeapon::SimulateWeaponFire()
 	{
 		PlayWeaponSound(FireSound);
 	}
-
 	
 }
 
