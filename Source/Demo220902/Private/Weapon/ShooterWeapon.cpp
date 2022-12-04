@@ -2,6 +2,9 @@
 
 
 #include "Weapon/ShooterWeapon.h"
+
+#include "Components/AudioComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Player/ShooterCharacter.h"
 #include "Player/ShooterPlayerController.h"
 
@@ -21,6 +24,8 @@ AShooterWeapon::AShooterWeapon()
 	RootComponent = WeaponMesh1P;
 	FTransform NewTransform(FRotator(0.0f, 0.0f, -90.0f));
 	WeaponMesh1P->SetRelativeTransform(NewTransform);									//设置网络体的旋转用到的SetRelativeTransform
+
+	FireSound = nullptr;
 }
 
 // 设置武器当前的Pawn
@@ -63,9 +68,41 @@ FVector AShooterWeapon::GetAdjustAim()
 	return FinalAim;
 }
 
+// 开火
+void AShooterWeapon::StartFire()
+{
+	SimulateWeaponFire();
+	FireWeapon();
+}
+
+// 开火时，创建武器子弹以及子弹出现位置和方向
 void AShooterWeapon::FireWeapon()
 {
 	//在子类实现
+}
+
+// 开火时，声音以及粒子特效的处理
+void AShooterWeapon::SimulateWeaponFire()
+{
+	if (FireSound)
+	{
+		PlayWeaponSound(FireSound);
+	}
+
+	
+}
+
+// 播放声音组件
+UAudioComponent* AShooterWeapon::PlayWeaponSound(USoundBase* Sound)
+{
+	UAudioComponent* AC = nullptr;
+
+	if (Sound)
+	{
+		//AC = UGameplayStatics::SpawnSoundAttached(Cast<USoundBase>(Sound), PawnOwner->GetRootComponent());	// USoundCue 报错
+		AC = UGameplayStatics::SpawnSoundAttached(Sound, WeaponMesh1P);		// 播放声音
+	}
+	return AC;
 }
 
 // 获取枪口位置

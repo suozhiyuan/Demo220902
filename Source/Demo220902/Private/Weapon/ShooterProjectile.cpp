@@ -67,10 +67,8 @@ void AShooterProjectile::PostInitializeComponents()
 	MovementComp->OnProjectileStop.AddDynamic(this, &AShooterProjectile::OnImpact);
 	/*
 	 * MoveIgnoreActors：动时忽略对象
-	 * 在MoveComponent()中进行组件扫描时要忽略的一组参与者。
-	 * 当组件移动或更新重叠时，这些参与者拥有的所有组件都将被忽略。
-	 * 另一个Actor上的组件在移动时也可能需要被告知进行同样的操作。
-	 * 在模拟物理时不影响该组件的运动。
+	 * 在MoveComponent()中进行组件扫描时要忽略的一组参与者。当组件移动或更新重叠时，这些参与者拥有的所有组件都将被忽略。
+	 * 另一个Actor上的组件在移动时也可能需要被告知进行同样的操作。在模拟物理时不影响该组件的运动。
 	 */
 	CollisionComp->MoveIgnoreActors.Add(GetInstigator());
 
