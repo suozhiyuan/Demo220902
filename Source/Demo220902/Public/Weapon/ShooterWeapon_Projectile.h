@@ -41,10 +41,11 @@ UCLASS()
 class DEMO220902_API AShooterWeapon_Projectile : public AShooterWeapon		// 继承基础的 AShooterWeapon，引擎中再继承 AShooterWeapon_Projectile 做蓝图类
 {
 	GENERATED_BODY()
+	AShooterWeapon_Projectile();
 
 public:
 	// 火枪
-	void FireWeapon();
+	virtual void FireWeapon() override;
 
 	// 返回武器的子弹配置
 	const void GetWeaponConfig(FProjectileWeaponData &Data);

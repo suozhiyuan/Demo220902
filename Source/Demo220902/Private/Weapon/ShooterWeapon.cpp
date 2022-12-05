@@ -17,8 +17,8 @@ AShooterWeapon::AShooterWeapon()
 	WeaponMesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh1PComponent"));
 	WeaponMesh1P->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;
 	WeaponMesh1P->CastShadow = false;													// 设置网络体组件是否投射阴影
-	WeaponMesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);					// 设置网络体碰撞的启用类型，不启用
-	WeaponMesh1P->SetCollisionObjectType(ECC_WorldDynamic);								// 设置网络体碰撞的对象类型
+	WeaponMesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);			// 设置网络体碰撞的启用类型，不启用
+	WeaponMesh1P->SetCollisionObjectType(ECC_WorldDynamic);						// 设置网络体碰撞的对象类型
 	WeaponMesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);						// 设置网络体对所有碰撞通道的响应为 ECR_Ignore 忽略
 
 	RootComponent = WeaponMesh1P;
@@ -68,7 +68,7 @@ FVector AShooterWeapon::GetAdjustAim()
 	return FinalAim;
 }
 
-// 开火
+// 开火 
 void AShooterWeapon::StartFire()
 {
 	SimulateWeaponFire();
@@ -99,7 +99,8 @@ UAudioComponent* AShooterWeapon::PlayWeaponSound(USoundBase* Sound)
 	if (Sound)
 	{
 		//AC = UGameplayStatics::SpawnSoundAttached(Cast<USoundBase>(Sound), PawnOwner->GetRootComponent());	// USoundCue 报错
-		AC = UGameplayStatics::SpawnSoundAttached(Sound, WeaponMesh1P);		// 播放声音
+		// SpawnSoundAttached: 播放附加在指定组件上的声音。这是一个一次性播放的声音。此时也不处理复制。
+		AC = UGameplayStatics::SpawnSoundAttached(Sound, WeaponMesh1P);	
 	}
 	return AC;
 }

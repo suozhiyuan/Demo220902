@@ -20,9 +20,9 @@ AShooterCharacter::AShooterCharacter()
 	 */
 	Camera1P = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera1P"));						/*CreateDefaultSubobject 创建一个组件或子对象。
 	*/
-	Camera1P->SetupAttachment(GetCapsuleComponent());												/*挂载在根组件，那个胶囊体上
+	Camera1P->SetupAttachment(GetCapsuleComponent());										/*挂载在根组件，那个胶囊体上
 	*/
-	Camera1P->SetRelativeLocation(FVector(0.0f, 0.0f, BaseEyeHeight));								/*设置组件的位置（相对于父组件），BaseEyeHeight为眼睛高度
+	Camera1P->SetRelativeLocation(FVector(0.0f, 0.0f, BaseEyeHeight));					/*设置组件的位置（相对于父组件），BaseEyeHeight为眼睛高度
 	*/
 	Camera1P->bUsePawnControlRotation = true;														/*如果该组件被放置到一个Pawn上，是否使用这个 Pawn 的视角控件旋转 (初始值本来就是True)
 	*/
@@ -40,7 +40,6 @@ AShooterCharacter::AShooterCharacter()
 	*/
 	/* 
 	 * Mesh1P->MeshComponentUpdateFlag = EMeshComponentUpdateFlag::OnlyTickPoseWhenRendered;
-	 *
 	 * MeshComponentUpdateFlag 该方法和枚举在4.21废弃
 	 * MeshComponentUpdateFlag 改为了 VisibilityBasedAnimTickOption
 	 * EMeshComponentUpdateFlag 改为了 EVisibilityBasedAnimTickOption	 */
@@ -49,9 +48,9 @@ AShooterCharacter::AShooterCharacter()
 	Mesh1P->PrimaryComponentTick.TickGroup = TG_EndPhysics;															/*设置该Mesh的更新组， TG_EndPhysics 结束物理模拟的特殊标记组。
 	*/
 	// 由于第三人称 Mesh 有具体的碰撞设置，这里选择关闭第一人称的碰撞
-	Mesh1P->SetCollisionObjectType(ECC_Pawn);																		/*设置 Mesh 的碰撞类型
+	Mesh1P->SetCollisionObjectType(ECC_Pawn);																	/*设置 Mesh 的碰撞类型
 	*/
-	Mesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);													/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠),由于第三人称已经有了这里用 NoCollision
+	Mesh1P->SetCollisionEnabled(ECollisionEnabled::NoCollision);												/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠),由于第三人称已经有了这里用 NoCollision
 	*/
 	Mesh1P->SetCollisionResponseToAllChannels(ECR_Ignore);															/* 更改此原生组件的所有ResponseToChannels容器为传入参数
 	*/
@@ -66,11 +65,11 @@ AShooterCharacter::AShooterCharacter()
 	*/
 	GetMesh()->bReceivesDecals = false;																				/*是否接受贴花（弹孔）
 	*/
-	GetMesh()->SetCollisionObjectType(ECC_Pawn);																	/*设置 Mesh 的碰撞类型
+	GetMesh()->SetCollisionObjectType(ECC_Pawn);																/*设置 Mesh 的碰撞类型
 	*/
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);												/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠)
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);										/*设置 Mesh 的碰撞启用类型，以及可以空间查询(光线投射，扫描，重叠)
 	*/
-	GetMesh()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Block);											/*设置 Mesh 对三个碰撞通道的响应
+	GetMesh()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Block);									/*设置 Mesh 对三个碰撞通道的响应
 	*/
 	GetMesh()->SetCollisionResponseToChannel(COLLISION_PROJECTILE,ECR_Block);
 	GetMesh()->SetCollisionResponseToChannel(COLLISION_PICKUP, ECR_Block);
