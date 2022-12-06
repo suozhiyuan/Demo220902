@@ -3,7 +3,7 @@
 
 #include "Weapon/ShooterWeapon_Projectile.h"
 
-#include "Components/AudioComponent.h"
+
 #include "Kismet/GameplayStatics.h"
 #include "Weapon/ShooterProjectile.h"
 
