@@ -17,7 +17,7 @@ void AShooterWeapon_Projectile::FireWeapon()
 
 	const FVector ShooterDirection = GetAdjustAim();							// 眼睛方向
 	const FVector Origin = GetMuzzleLocation();									// 枪口位置
-	const FTransform SpawnTM(ShooterDirection.Rotation(), Origin);	// 通过参数的引用获取对象的位置和方向
+	const FTransform SpawnTM(ShooterDirection.Rotation(), Origin);		// 通过参数的引用获取对象的位置和方向
 
 	 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	  * BeginDeferredActorSpawnFromClass：为了让参数全部初始化完毕，延迟生成参与者的实例
