@@ -44,7 +44,7 @@ class DEMO220902_API AShooterWeapon_Projectile : public AShooterWeapon		// ¼Ì³Ğ»
 
 public:
 	// »ğÇ¹
-	virtual void FireWeapon() override;
+	void FireWeapon() override;
 
 	// ·µ»ØÎäÆ÷µÄ×Óµ¯ÅäÖÃ
 	const void GetWeaponConfig(FProjectileWeaponData &Data);
