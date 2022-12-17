@@ -27,11 +27,11 @@ AShooterProjectile::AShooterProjectile()
 
 	// 一个专门用于投射物体的移动组件初始化
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
-	MovementComp->UpdatedComponent = CollisionComp;						// 控制哪个Component
-	MovementComp->InitialSpeed = 2000.0f;								// 初始化速度
-	MovementComp->MaxSpeed = 2000.0f;									// 最大速度
-	MovementComp->bRotationFollowsVelocity = true;						// 是否旋转
-	MovementComp->ProjectileGravityScale = 0.0f;						// 重量，影响下坠
+	MovementComp->UpdatedComponent = CollisionComp;									// 控制哪个Component
+	MovementComp->InitialSpeed = 2000.0f;											// 初始化速度
+	MovementComp->MaxSpeed = 2000.0f;												// 最大速度
+	MovementComp->bRotationFollowsVelocity = true;									// 是否旋转
+	MovementComp->ProjectileGravityScale = 0.0f;									// 重量，影响下坠
 }
 
 // Called when the game starts or when spawned
