@@ -37,6 +37,7 @@ public:
 	void PostInitializeComponents() override;
 
 	// 碰撞后产生的事件
+	UFUNCTION()
 	void OnImpact(const FHitResult& ImpactResult);
 
 	// 爆炸效果处理

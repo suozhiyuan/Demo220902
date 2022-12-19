@@ -52,7 +52,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// 设置武器当前的Pawn
-	void SetPawnOwner(AShooterCharacter* PawnOwner);
+	void SetPawnOwner(AShooterCharacter* pawnOwner);
 
 protected:
 	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例，当要创建一个网络体时用到USkeletalMeshComponent。

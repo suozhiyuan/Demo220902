@@ -29,8 +29,8 @@ AShooterProjectile::AShooterProjectile()
 	// 一个专门用于投射物体的移动组件初始化
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	MovementComp->UpdatedComponent = CollisionComp;									// 控制哪个Component
-	MovementComp->InitialSpeed = 2000.0f;											// 初始化速度
-	MovementComp->MaxSpeed = 2000.0f;												// 最大速度
+	MovementComp->InitialSpeed = 10000.0f;											// 初始化速度
+	MovementComp->MaxSpeed = 10000.0f;												// 最大速度
 	MovementComp->bRotationFollowsVelocity = true;									// 是否旋转
 	MovementComp->ProjectileGravityScale = 0.0f;									// 重量，影响下坠
 
@@ -137,6 +137,10 @@ void AShooterProjectile::Explode(const FHitResult& ImpactResult)
 		// NudgedImpactLocation 碰撞时的位置
 		const FTransform SpawnTransform(ImpactResult.ImpactNormal.Rotation(), NudgedImpactLocation);
 		AShooterExplosionEffect* const EffectActor = GetWorld()->SpawnActorDeferred<AShooterExplosionEffect>(ExplosionTemplate, SpawnTransform);
+		if (EffectActor)
+		{
+			UGameplayStatics::FinishSpawningActor(EffectActor, SpawnTransform);
+		}
 	}
 }
 

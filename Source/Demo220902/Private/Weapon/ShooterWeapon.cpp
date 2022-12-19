@@ -29,9 +29,13 @@ AShooterWeapon::AShooterWeapon()
 }
 
 // 设置武器当前的Pawn
-void AShooterWeapon::SetPawnOwner(AShooterCharacter* PawnOwner1)
+void AShooterWeapon::SetPawnOwner(AShooterCharacter* pawnOwner)
 {
-	PawnOwner = PawnOwner1;
+	if (PawnOwner != pawnOwner)
+	{
+		SetInstigator(pawnOwner);
+		PawnOwner = pawnOwner;
+	}
 }
 
 // 创建Mesh到Pawn，设置创建后的状态
