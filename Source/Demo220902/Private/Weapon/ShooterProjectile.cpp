@@ -130,7 +130,13 @@ void AShooterProjectile::Explode(const FHitResult& ImpactResult)
 		UGameplayStatics::ApplyRadialDamage(this, WeaponConfig.ExplosionDmg, NudgedImpactLocation, WeaponConfig.ExplosionRad, WeaponConfig.DmgType, TArray<AActor*>(), this, MyController.Get());
 	}
 
-
 	// 生成爆炸效果
+	if (ExplosionTemplate)
+	{
+		// ImpactResult.ImpactNormal.Rotation() 碰撞时的位置旋转
+		// NudgedImpactLocation 碰撞时的位置
+		const FTransform SpawnTransform(ImpactResult.ImpactNormal.Rotation(), NudgedImpactLocation);
+		AShooterExplosionEffect* const EffectActor = GetWorld()->SpawnActorDeferred<AShooterExplosionEffect>(ExplosionTemplate, SpawnTransform);
+	}
 }
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ShooterWeapon_Projectile.h"
+#include "Effects/ShooterExplosionEffect.h"
 #include "GameFramework/Actor.h"
 #include "ShooterProjectile.generated.h"
 
@@ -61,5 +62,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	UParticleSystemComponent* ParticleComp;
 
+	// ±¬Õ¨ÌØÐ§
+	UPROPERTY(EditDefaultsOnly, Category = Effect)
+	TSubclassOf<AShooterExplosionEffect> ExplosionTemplate;
 
 };
