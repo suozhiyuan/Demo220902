@@ -56,4 +56,10 @@ protected:
 
 	// 存放控制器，AController是继承Object，所以要用TWeakObjectPtr
 	TWeakObjectPtr<AController> MyController;
+
+	// UParticleSystemComponent 粒子发射器
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	UParticleSystemComponent* ParticleComp;
+
+
 };

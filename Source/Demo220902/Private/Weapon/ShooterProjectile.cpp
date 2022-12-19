@@ -6,6 +6,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Demo220902.h"
 #include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystemComponent.h"
 
 
 // Sets default values
@@ -32,6 +33,13 @@ AShooterProjectile::AShooterProjectile()
 	MovementComp->MaxSpeed = 2000.0f;												// 最大速度
 	MovementComp->bRotationFollowsVelocity = true;									// 是否旋转
 	MovementComp->ProjectileGravityScale = 0.0f;									// 重量，影响下坠
+
+	// 创建粒子发射器
+	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComp"));
+	ParticleComp->bAutoActivate = true;								// bAutoActivate: 组件是在创建时激活还是必须显式激活。true为创建时就激活播放
+	ParticleComp->bAutoDestroy = false;								// bAutoDestroy: 是否自动销毁
+	ParticleComp->SetupAttachment(RootComponent);					// 发射器组件挂载位置
+
 }
 
 // Called when the game starts or when spawned
@@ -91,6 +99,12 @@ void AShooterProjectile::OnImpact(const FHitResult &ImpactResult)
 // 爆炸效果处理
 void AShooterProjectile::Explode(const FHitResult& ImpactResult)
 {
+	// 创建一个粒子
+	if (ParticleComp)
+	{
+		ParticleComp->Deactivate();
+	}
+
 	/*爆炸位置
 	 *ImpactPoint：轨迹形状与受影响对象在世界空间中的实际接触位置，如果初始就已经接触则会返回当前对象位置
 	 *
@@ -115,6 +129,8 @@ void AShooterProjectile::Explode(const FHitResult& ImpactResult)
 		*/
 		UGameplayStatics::ApplyRadialDamage(this, WeaponConfig.ExplosionDmg, NudgedImpactLocation, WeaponConfig.ExplosionRad, WeaponConfig.DmgType, TArray<AActor*>(), this, MyController.Get());
 	}
-	
+
+
+	// 生成爆炸效果
 }
 
