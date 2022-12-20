@@ -38,5 +38,9 @@ public:
 	FCanvasIcon Crosshair[5];
 
 	float ScaleUI;
+
+	// 默认瞄准像素精度
+	UPROPERTY(EditDefaultsOnly, Category = Crosshair)
+	float AimArr;
 	
 };
