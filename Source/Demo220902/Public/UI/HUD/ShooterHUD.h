@@ -28,7 +28,15 @@ class DEMO220902_API AShooterHUD : public AHUD
 public:
 	AShooterHUD();
 
+	// 绘制HUD
+	virtual void DrawHUD() override;
+
+	// 绘制十字准星
+	void DrawCrosshair();
+
 	UPROPERTY()
 	FCanvasIcon Crosshair[5];
+
+	float ScaleUI;
 	
 };
