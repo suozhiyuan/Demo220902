@@ -99,7 +99,7 @@ void AShooterProjectile::OnImpact(const FHitResult &ImpactResult)
 // 爆炸效果处理
 void AShooterProjectile::Explode(const FHitResult& ImpactResult)
 {
-	// 创建一个粒子
+	// 移除飞行粒子
 	if (ParticleComp)
 	{
 		ParticleComp->Deactivate();
