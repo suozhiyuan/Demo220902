@@ -78,8 +78,12 @@ public:
 
 	// 取伤害
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
-	
 
+	// 设置显示瞄准十字状态
+	void SetIsShowDrawCrosshair(bool ToSet);
+
+	// 获取显示瞄准十字状态
+	bool GetIsShowDrawCrosshair();
 
 
 protected:
@@ -125,6 +129,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attr)
 	float HP;
 
+	//是否显示瞄准十字HUD
+	bool IsShowDrawCrosshair;
 
 
 

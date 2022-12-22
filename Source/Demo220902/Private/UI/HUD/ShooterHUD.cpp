@@ -3,6 +3,7 @@
 
 #include "UI/HUD/ShooterHUD.h"
 
+#include "Player/ShooterCharacter.h"
 #include "Player/ShooterPlayerController.h"
 
 AShooterHUD::AShooterHUD()
@@ -23,7 +24,10 @@ void AShooterHUD::DrawHUD()
 {
 	Super::DrawHUD();
 	ScaleUI = Canvas->ClipY / 1080.0f;		// 整体的缩放比例
-	DrawCrosshair();
+	if (AShooterCharacter::GetIsShowDrawCrosshair())
+	{
+		DrawCrosshair();
+	}
 
 }
 

@@ -91,6 +91,7 @@ AShooterCharacter::AShooterCharacter()
 	IsTargeting = false;									// 瞄准状态初始化
 	HP = 100.0f;											// 初始化血量
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;		// 速度初始化
+	IsShowDrawCrosshair = true;								// 默认显示
 
 }
 
@@ -222,6 +223,7 @@ void AShooterCharacter::OnStartTargeting()
 	{
 		SetIsTargeting(true);
 		SetSpeed(TargetingSpeed);
+		SetIsShowDrawCrosshair(false);
 	}
 }
 
@@ -230,6 +232,7 @@ void AShooterCharacter::OnEndTargeting()
 {
 	SetIsTargeting(false);
 	SetSpeed(TargetingSpeed * -1);
+	SetIsShowDrawCrosshair(true);
 }
 
 // 获取瞄准状态
@@ -280,4 +283,14 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 		HP -= ActuaDamage;
 	}
 	return ActuaDamage;
+}
+
+void AShooterCharacter::SetIsShowDrawCrosshair(bool ToSet)
+{
+	IsShowDrawCrosshair = ToSet;
+}
+
+bool AShooterCharacter::GetIsShowDrawCrosshair()
+{
+	return IsShowDrawCrosshair;
 }
