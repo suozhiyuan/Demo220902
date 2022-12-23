@@ -223,7 +223,6 @@ void AShooterCharacter::OnStartTargeting()
 	{
 		SetIsTargeting(true);
 		SetSpeed(TargetingSpeed);
-		SetIsShowDrawCrosshair(false);
 	}
 }
 
@@ -232,7 +231,6 @@ void AShooterCharacter::OnEndTargeting()
 {
 	SetIsTargeting(false);
 	SetSpeed(TargetingSpeed * -1);
-	SetIsShowDrawCrosshair(true);
 }
 
 // »ñÈ¡Ãé×¼×´Ì¬
@@ -283,14 +281,4 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 		HP -= ActuaDamage;
 	}
 	return ActuaDamage;
-}
-
-void AShooterCharacter::SetIsShowDrawCrosshair(bool ToSet)
-{
-	IsShowDrawCrosshair = ToSet;
-}
-
-bool AShooterCharacter::GetIsShowDrawCrosshair()
-{
-	return IsShowDrawCrosshair;
 }
