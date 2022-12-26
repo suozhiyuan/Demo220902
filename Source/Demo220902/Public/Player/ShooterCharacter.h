@@ -113,7 +113,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Speed)
 	float RunSpeed;
 
-	//开镜时移动速度惩罚
+	// 开镜时移动速度惩罚
 	UPROPERTY(EditAnywhere, Category = Speed)
 	float TargetingSpeed;
 
