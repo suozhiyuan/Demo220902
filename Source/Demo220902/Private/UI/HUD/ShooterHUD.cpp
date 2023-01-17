@@ -25,6 +25,9 @@ void AShooterHUD::DrawHUD()
 	Super::DrawHUD();
 	ScaleUI = Canvas->ClipY / 1080.0f;		// 整体的缩放比例
 
+	DrawCrosshair();
+
+
 }
 
 
