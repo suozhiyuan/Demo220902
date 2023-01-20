@@ -80,7 +80,6 @@ public:
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 
-
 protected:
 	// ÉãÏñ»ú
 	UPROPERTY(EditAnywhere, Category = Camera)
@@ -123,7 +122,5 @@ protected:
 	// ÑªÁ¿
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attr)
 	float HP;
-	
-
 
 };
