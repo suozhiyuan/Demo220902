@@ -66,5 +66,4 @@ protected:
 	// ±¬Õ¨ÌØÐ§
 	UPROPERTY(EditDefaultsOnly, Category = Effect)
 	TSubclassOf<AShooterExplosionEffect> ExplosionTemplate;
-
 };
