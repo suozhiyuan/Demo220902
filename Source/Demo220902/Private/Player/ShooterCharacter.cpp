@@ -258,7 +258,6 @@ void AShooterCharacter::OnStartSpeedUp()
 		SetSpeed(RunSpeed);
 		IsSpeedUp = true;
 	}
-	
 }
 
 // ½áÊø¼ÓËÙ
