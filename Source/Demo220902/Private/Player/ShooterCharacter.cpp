@@ -91,7 +91,6 @@ AShooterCharacter::AShooterCharacter()
 	IsTargeting = false;									// 瞄准状态初始化
 	HP = 100.0f;											// 初始化血量
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;		// 速度初始化
-
 }
 
 // Called when the game starts or when spawned
