@@ -167,7 +167,6 @@ void AShooterCharacter::MoveRight(float Value)
 		//FRotator Rotation = bLimitRotation ? GetActorRotation() : Controller->GetControlRotation();
 		//FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
 		//AddMovementInput(Direction, Value);
-
 		FVector Direction = FRotationMatrix(GetActorRotation()).GetScaledAxis(EAxis::Y);
 		AddMovementInput(Direction, Value);
 	}
