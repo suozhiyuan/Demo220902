@@ -24,8 +24,6 @@ void AShooterExplosionEffect::BeginPlay()
 		// 在给定的位置和旋转上播放指定的效果，播放和删除。当效果完成时，系统将消失。不复制
 		UGameplayStatics::SpawnEmitterAtLocation(this, ExplosionFX, GetActorLocation(), GetActorRotation());
 	}
-
-
 }
 
 // Called every frame
