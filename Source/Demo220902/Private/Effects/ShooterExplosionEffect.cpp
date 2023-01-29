@@ -30,6 +30,5 @@ void AShooterExplosionEffect::BeginPlay()
 void AShooterExplosionEffect::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
