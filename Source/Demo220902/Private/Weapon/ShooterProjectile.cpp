@@ -53,7 +53,6 @@ void AShooterProjectile::BeginPlay()
 void AShooterProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // 初始化速度
