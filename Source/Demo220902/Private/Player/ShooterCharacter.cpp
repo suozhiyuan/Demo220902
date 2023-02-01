@@ -24,7 +24,7 @@ AShooterCharacter::AShooterCharacter()
 	//Camera1P->bUsePawnControlRotation = true;											/*如果该组件被放置到一个Pawn上，是否使用这个 Pawn 的视角控件旋转 (初始值本来就是True)*/
 
 
-	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PawnMesh1P"));
+	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PawnMesh1P"));					// 创建组件
 	//Mesh1P->SetupAttachment(Camera1P);															/*挂载位置*/
 	Mesh1P->SetupAttachment(GetCapsuleComponent());											/*挂载位置*/
 	Mesh1P->bOnlyOwnerSee = true;																	/*bOnlyOwnerSee 如果为True，只对组件所有者的视图可见。
@@ -136,9 +136,36 @@ void AShooterCharacter::PostInitializeComponents()
 	}
 }
 
+// 根据摄像机的角度变换 去 同步 Mesh 的角度变换
 void AShooterCharacter::OnCanmeraUpdate(const FVector& CameraLocation, const FRotator& CameraRotation)
 {
+	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。
+	USkeletalMeshComponent* DefMesh1P = Cast<USkeletalMeshComponent>(GetClass()->GetDefaultSubobjectByName(TEXT("PawnMesh1P")));
 
+	// 第一人称Mesh相对于根组件的矩阵，并赋值第一人称手臂在局部空间的位置信息
+	const FMatrix DefMeshLS = FRotationTranslationMatrix(DefMesh1P->GetRelativeRotation(), DefMesh1P->GetRelativeLocation());
+
+	// 根组件相对于世界空间的矩阵
+	const FMatrix LocalToWorld = ActorToWorld().ToMatrixWithScale();
+
+	// 相机的 Yaw 和 Pitch
+	const FRotator RotCameraYaw(0.0f, CameraRotation.Yaw, 0.0f);
+	const FRotator RotCameraPitch(CameraRotation.Pitch, 0.0f, 0.0f);
+
+	// 相机相对于根组件的，左右旋转变化，Inverse 取反
+	const FMatrix LeveledCameraLS = FRotationTranslationMatrix(RotCameraYaw, CameraLocation) * LocalToWorld.Inverse();
+
+	// Mesh 相对于相机矩阵
+	const FMatrix MeshRelativeToCamera = DefMeshLS * LeveledCameraLS.Inverse();
+
+	// 利用相机相对于根组件的上下旋转变化，得出 Mesh1P 到根组件的上下旋转变换
+	const FMatrix PitchedCameraLS = FRotationMatrix(RotCameraPitch) * LeveledCameraLS;
+
+	// 计算出 Mesh1P 相对于根组件的矩阵
+	const FMatrix PitchedMesh = MeshRelativeToCamera * PitchedCameraLS;
+
+	// 设置相对于根组件的位置以及旋转，GetOrigin 会返回矩阵的0点
+	Mesh1P->SetRelativeLocationAndRotation(PitchedMesh.GetOrigin(), PitchedMesh.Rotator());
 }
 
 

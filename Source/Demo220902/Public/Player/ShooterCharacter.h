@@ -33,7 +33,7 @@ public:
 	// 构建组件初始化
 	virtual void PostInitializeComponents() override;
 
-	// 初始化摄像机
+	// 根据摄像机的角度变换 去 同步 Mesh 的角度变换
 	void OnCanmeraUpdate(const FVector& CameraLocation, const FRotator& CameraRotation);
 
 	// 前后移动

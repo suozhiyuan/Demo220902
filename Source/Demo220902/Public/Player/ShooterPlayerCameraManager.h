@@ -15,5 +15,8 @@ class DEMO220902_API AShooterPlayerCameraManager : public APlayerCameraManager
 	GENERATED_BODY()
 
 	AShooterPlayerCameraManager();
+
+public:
+	virtual void UpdateCamera(float DeltaTime) override;
 	
 };
