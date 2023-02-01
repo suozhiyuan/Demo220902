@@ -81,9 +81,11 @@ public:
 
 
 protected:
-	// 摄像机
-	UPROPERTY(EditAnywhere, Category = Camera)
-	UCameraComponent* Camera1P;
+
+	//// 摄像机（2023/02/01 考虑到AI调用该类，摄像机有些多余，摄像机将会放置到相机管理器中）
+	//UPROPERTY(EditAnywhere, Category = Camera)
+	//UCameraComponent* Camera1P;
+
 
 	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。
 	UPROPERTY(EditAnywhere, Category = Mesh)
