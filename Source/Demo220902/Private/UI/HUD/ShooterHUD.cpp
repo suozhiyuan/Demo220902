@@ -28,7 +28,6 @@ void AShooterHUD::DrawHUD()
 	DrawCrosshair();
 }
 
-
 // »æÖÆÊ®×Ö×¼ÐÇ
 void AShooterHUD::DrawCrosshair()
 {
