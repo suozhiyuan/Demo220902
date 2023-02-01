@@ -136,6 +136,12 @@ void AShooterCharacter::PostInitializeComponents()
 	}
 }
 
+void AShooterCharacter::OnCanmeraUpdate(const FVector& CameraLocation, const FRotator& CameraRotation)
+{
+
+}
+
+
 // «∞∫Û“∆∂Ø
 void AShooterCharacter::MoveForward(float Value)
 {

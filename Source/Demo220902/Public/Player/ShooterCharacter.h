@@ -29,12 +29,19 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	// 构建组件初始化
 	virtual void PostInitializeComponents() override;
+
+	// 初始化摄像机
+	void OnCanmeraUpdate(const FVector& CameraLocation, const FRotator& CameraRotation);
+
 	// 前后移动
 	void MoveForward(float Value);
+
 	// 左右移动
 	void MoveRight(float Value);
+
 	// 加速
 	void SpeedUp(float Value);
 
