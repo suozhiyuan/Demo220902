@@ -3,3 +3,9 @@
 
 #include "Bots/ShooteBot.h"
 
+#include "Bots/ShooterAIController.h"
+
+AShooteBot::AShooteBot()
+{
+	AIControllerClass = AShooterAIController::StaticClass();
+}

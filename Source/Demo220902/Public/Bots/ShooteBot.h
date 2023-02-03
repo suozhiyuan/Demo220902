@@ -13,5 +13,8 @@ UCLASS()
 class DEMO220902_API AShooteBot : public AShooterCharacter
 {
 	GENERATED_BODY()
+
+public:
+	AShooteBot();
 	
 };
