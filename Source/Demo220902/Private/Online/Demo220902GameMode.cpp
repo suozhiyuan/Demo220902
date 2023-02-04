@@ -46,3 +46,13 @@ ADemo220902GameMode::ADemo220902GameMode()
 	 */
 	HUDClass = AShooterHUD::StaticClass();
 }
+
+void ADemo220902GameMode::StartPlay()
+{
+	Super::StartPlay();
+}
+
+AShooterAIController* ADemo220902GameMode::CreateBotController()
+{
+
+}
