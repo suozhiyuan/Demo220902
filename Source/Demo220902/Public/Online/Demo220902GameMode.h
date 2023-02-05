@@ -21,6 +21,10 @@ public:
 	// 游戏开始运行 GameMode 时调用的
 	void StartPlay() override;
 
+	// 创建机器人控制器
 	AShooterAIController* CreateBotController();
+
+	// 开始创建机器人，利用AGameModeBase::RestartPlayer (…)接口
+	void StartBots();
 
 };
