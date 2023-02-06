@@ -26,5 +26,4 @@ public:
 
 	// 开始创建机器人，利用AGameModeBase::RestartPlayer (…)接口
 	void StartBots();
-
 };
