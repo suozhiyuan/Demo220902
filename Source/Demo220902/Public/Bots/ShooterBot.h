@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Player/ShooterCharacter.h"
-#include "ShooteBot.generated.h"
+#include "ShooterBot.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class DEMO220902_API AShooteBot : public AShooterCharacter
+class DEMO220902_API AShooterBot : public AShooterCharacter
 {
 	GENERATED_BODY()
 
 public:
-	AShooteBot();
-	
+	AShooterBot();
+
 };

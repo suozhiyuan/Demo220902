@@ -16,15 +16,23 @@ class DEMO220902_API AShooterAIController : public AAIController
 	GENERATED_BODY()
 
 public:
+	AShooterAIController();
+
+	//virtual void Possess(APawn* InPawn) override;		// Possess 是旧名字
+	virtual void OnPossess(APawn* InPawn) override;
+	virtual void OnUnPossess() override;;
+
 	// 找到可见的，并且是最近的敌人  （LOS：Line of Sight 视线）
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void FindRecentEnemyLOS(AShooterCharacter* ExcludeEnemy);
 
-	// 视线方向是否有敌人 （LOS：Line of Sight 视线）
-	bool HasLOSToEnemy(AActor* InEnemyActor, bool bAnyEnemy) const;
+	// 视线方向的敌人是否可见 （LOS：Line of Sight 视线）
+	bool HasLOSToEnemy(AActor* InEnemyActor, const bool bAnyEnemy) const;
 
+private:
+	UBlackboardComponent* BlackboardComp;		// 黑板数据
+	UBehaviorTree* BehaviorComp;				// 行为树
 
-
-
+	int32 EnemyKeyID;							// 敌人ID
 	
 };
