@@ -47,6 +47,6 @@ void AShooterAIController::FindRecentEnemyLOS(AShooterCharacter* ExcludeEnemy)
 bool AShooterAIController::HasLOSToEnemy(AActor* InEnemyActor, bool bAnyEnemy) const
 {
 	// LineTraceSingleByChannel 从机器人位置，发射特定的通道跟踪光线，并返回第一个阻塞命中
-	GetWorld()->LineTraceSingleByChannel();
+	//GetWorld()->LineTraceSingleByChannel();
 	return true;
 }
