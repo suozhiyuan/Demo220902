@@ -64,7 +64,6 @@ void AShooterAIController::FindRecentEnemyLOS(AShooterCharacter* ExcludeEnemy)
 		{
 			// to do
 		}
-
 	}
 }
 
