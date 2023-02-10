@@ -56,5 +56,5 @@ void AShooterHUD::DrawCrosshair()
 		Canvas->DrawIcon(Crosshair[EShooterCrosshairDirection::Down],
 			CenterX - Crosshair[EShooterCrosshairDirection::Down].UL * ScaleUI / 2,
 			CenterY + Crosshair[EShooterCrosshairDirection::Center].UL * ScaleUI / 2 + AimArr * ScaleUI, ScaleUI);
-	
+	}
 }
