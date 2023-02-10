@@ -17,4 +17,7 @@ class DEMO220902_API AShooterBot : public AShooterCharacter
 public:
 	AShooterBot();
 
+	UPROPERTY(EditDefaultsOnly, Category = Behavior)
+	class UBehaviorTree* BotBehavior;
+
 };

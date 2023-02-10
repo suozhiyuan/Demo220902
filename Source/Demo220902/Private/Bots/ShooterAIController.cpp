@@ -76,7 +76,7 @@ bool AShooterAIController::HasLOSToEnemy(AActor* InEnemyActor, bool bAnyEnemy) c
 	/**
 	 *  碰撞函数的查询参数
 	 *  @param  InTraceTag          射线碰撞查询名称
-	 *  @param  InTraceComplex      是否进行精确的碰撞查询
+	 *  @param  InTraceComplex      是否进行精确复杂的碰撞查询
 	 *  @param  InignoreActor		忽略的目标
 	 */
 	FCollisionQueryParams TraceParams(LosTag, true, GetPawn());
