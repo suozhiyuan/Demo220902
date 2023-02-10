@@ -13,7 +13,7 @@
 AShooterAIController::AShooterAIController()
 {
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
-	BehaviorComp = CreateDefaultSubobject<UBehaviorTree>(TEXT("BehaviorComp"));
+	BehaviorComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorComp"));
 
 	EnemyKeyID = 0;
 }
@@ -21,7 +21,16 @@ AShooterAIController::AShooterAIController()
 void AShooterAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-	// to do...
+	AShooterBot* Bot = Cast<AShooterBot>(InPawn);
+	if (Bot && Bot->BotBehavior)					// BotBehavior 行为树
+	{
+		if (Bot->BotBehavior->BlackboardAsset)		// BlackboardAsset 黑板数据
+		{
+			BlackboardComp->InitializeBlackboard(*Bot->BotBehavior->BlackboardAsset);
+		}
+		EnemyKeyID = BlackboardComp->GetKeyID(("Enemy"));
+		BehaviorComp->StartTree(*Bot->BotBehavior);
+	}
 }
 
 void AShooterAIController::OnUnPossess()
