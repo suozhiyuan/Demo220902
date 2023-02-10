@@ -28,5 +28,4 @@ public:
 	 *	一旦使用Cascade创建，就可以将ParticleSystem插入到关卡中或在脚本中创建。*/
 	UPROPERTY(EditDefaultsOnly, Category = Effect)
 	UParticleSystem* ExplosionFX;
-
 };
