@@ -52,7 +52,11 @@ ADemo220902GameMode::ADemo220902GameMode()
 void ADemo220902GameMode::StartPlay()
 {
 	Super::StartPlay();
-	CreateBotController();
+	CreateBotController();				// 创建机器人控制器
+	CreateBotController();				// 创建机器人控制器
+	CreateBotController();				// 创建机器人控制器
+	CreateBotController();				// 创建机器人控制器
+	CreateBotController();				// 创建机器人控制器
 	StartBots();
 }
 
@@ -63,9 +67,11 @@ AShooterAIController* ADemo220902GameMode::CreateBotController()
 	FActorSpawnParameters SpawnInfo;
 
 	SpawnInfo.Instigator = nullptr;
-	// msuucttacuispowiraialeleis 方法解决碰撞时的 Spawn 类型。未定义意味着没有覆盖，使用参与者的设置。赋值永远不会被使用
-	// ESpawnActorCollisionHandlingMethod 定义可用的策略，用于处理以穿透阻塞碰撞的方式生成参与者的情况。
-	// AlwaysSpawn Actor将在期望的位置生成，无论是否发生碰撞。
+	/*
+	 *	msuucttacuispowiraialeleis 方法解决碰撞时的 Spawn 类型。未定义意味着没有覆盖，使用参与者的设置。赋值永远不会被使用
+	 *	ESpawnActorCollisionHandlingMethod 定义可用的策略，用于处理以穿透阻塞碰撞的方式生成参与者的情况。
+	 *	AlwaysSpawn Actor将在期望的位置生成，无论是否发生碰撞。
+	*/
 	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	// 生成Actor的ULevel，即Actor的外部。如果为NULL，则使用Outer of Owner。如果Owner为NULL，则使用 persistent level（不太理解）

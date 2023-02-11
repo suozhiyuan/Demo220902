@@ -22,11 +22,11 @@ void AShooterAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 	AShooterBot* Bot = Cast<AShooterBot>(InPawn);
-	if (Bot && Bot->BotBehavior)					// BotBehavior 行为树
+	if (Bot && Bot->BotBehavior)								// BotBehavior 行为树
 	{
-		if (Bot->BotBehavior->BlackboardAsset)		// BlackboardAsset 黑板数据
+		if (Bot->BotBehavior->BlackboardAsset)					// BlackboardAsset 黑板数据
 		{
-			BlackboardComp->InitializeBlackboard(*Bot->BotBehavior->BlackboardAsset);
+			BlackboardComp->InitializeBlackboard(*Bot->BotBehavior->BlackboardAsset);			// 用于使用给定数据的设置黑板，如果指定的数据正确初始化，则返回true
 		}
 		EnemyKeyID = BlackboardComp->GetKeyID(("Enemy"));
 		BehaviorComp->StartTree(*Bot->BotBehavior);
@@ -36,7 +36,7 @@ void AShooterAIController::OnPossess(APawn* InPawn)
 void AShooterAIController::OnUnPossess()
 {
 	Super::OnUnPossess();
-	// to do...
+	BehaviorComp->StopTree();
 }
 
 // 找到可见的，并且是最近的敌人  （LOS：Line of Sight 视线）
