@@ -14,7 +14,6 @@ AShooterAIController::AShooterAIController()
 {
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 	BehaviorComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorComp"));
-
 	EnemyKeyID = 0;
 }
 
