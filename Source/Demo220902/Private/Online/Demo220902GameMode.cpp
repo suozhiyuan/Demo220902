@@ -53,10 +53,6 @@ void ADemo220902GameMode::StartPlay()
 {
 	Super::StartPlay();
 	CreateBotController();				// 创建机器人控制器
-	CreateBotController();				// 创建机器人控制器
-	CreateBotController();				// 创建机器人控制器
-	CreateBotController();				// 创建机器人控制器
-	CreateBotController();				// 创建机器人控制器
 	StartBots();
 }
 
