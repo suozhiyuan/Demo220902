@@ -6,6 +6,7 @@
 #include "Demo220902.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/Blackboard/BlackboardKeyType_Object.h"
 #include "Bots/ShooterBot.h"
 #include "Player/ShooterCharacter.h"
 #include "Weapon/ShooterWeapon.h"
@@ -71,7 +72,7 @@ void AShooterAIController::FindRecentEnemyLOS(AShooterCharacter* ExcludeEnemy)
 		// 记录到黑板数据
 		if (BestPawn)
 		{
-			// to do
+			SetEnemy(BestPawn);
 		}
 	}
 }
@@ -162,5 +163,18 @@ void AShooterAIController::ShootEnemy()
 // 获取敌人
 AShooterCharacter* AShooterAIController::GetEnemy()
 {
+	if (BlackboardComp)
+	{
+		return  Cast<AShooterCharacter>(BlackboardComp->GetValue<UBlackboardKeyType_Object>(EnemyKeyID));
+	}
+	return nullptr;
+}
 
+// 匹配敌人
+void AShooterAIController::SetEnemy(APawn* InPawn)
+{
+	if (BlackboardComp)
+	{
+		BlackboardComp->SetValue<UBlackboardKeyType_Object>(EnemyKeyID, InPawn);
+	}
 }

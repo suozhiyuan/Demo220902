@@ -36,6 +36,9 @@ public:
 
 	// 获取敌人
 	AShooterCharacter* GetEnemy();
+
+	// 匹配敌人
+	void SetEnemy(APawn* InPawn);
 	
 
 private:
