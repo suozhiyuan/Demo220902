@@ -32,9 +32,7 @@ public:
 
 private:
 	UBlackboardComponent* BlackboardComp;		// 黑板数据
-	//UBehaviorTree* BehaviorComp;				// 行为树
 	UBehaviorTreeComponent* BehaviorComp;		// 行为树
-
 	int32 EnemyKeyID;							// 敌人ID
 	
 };
