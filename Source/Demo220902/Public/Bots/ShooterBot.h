@@ -19,5 +19,4 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Behavior)
 	class UBehaviorTree* BotBehavior;
-
 };
