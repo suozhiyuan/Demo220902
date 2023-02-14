@@ -8,6 +8,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Bots/ShooterBot.h"
 #include "Player/ShooterCharacter.h"
+#include "Weapon/ShooterWeapon.h"
 
 
 AShooterAIController::AShooterAIController()
@@ -122,4 +123,44 @@ bool AShooterAIController::HasLOSToEnemy(AActor* InEnemyActor, bool bAnyEnemy) c
 		}
 	}
 	return bHasLOS;
+}
+
+void AShooterAIController::ShootEnemy()
+{
+	AShooterBot* MyBot = Cast<AShooterBot>(GetPawn());
+	if (!MyBot)
+	{
+		return;
+	}
+
+	bool bCanShoot = false;
+	AShooterCharacter* Enemy = GetEnemy();
+	if (Enemy)
+	{
+		if (LineOfSightTo(Enemy, MyBot->GetActorLocation()))
+		{
+			bCanShoot = true;
+		}
+	}
+
+	AShooterWeapon* Weapon = MyBot->GetCurrentWeapon();
+	if (Weapon)
+	{
+		return;
+	}
+
+	if (bCanShoot)
+	{
+		MyBot->OnStartFire();
+	}
+	else
+	{
+		MyBot->OnEndFire();
+	}
+}
+
+// ªÒ»°µ–»À
+AShooterCharacter* AShooterAIController::GetEnemy()
+{
+
 }

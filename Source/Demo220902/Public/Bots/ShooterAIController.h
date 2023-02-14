@@ -30,6 +30,14 @@ public:
 	// 视线方向的敌人是否可见 （LOS：Line of Sight 视线）
 	bool HasLOSToEnemy(AActor* InEnemyActor, const bool bAnyEnemy) const;
 
+	// AI射击敌人
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void ShootEnemy();
+
+	// 获取敌人
+	AShooterCharacter* GetEnemy();
+	
+
 private:
 	UBlackboardComponent* BlackboardComp;		// 黑板数据
 	UBehaviorTreeComponent* BehaviorComp;		// 行为树

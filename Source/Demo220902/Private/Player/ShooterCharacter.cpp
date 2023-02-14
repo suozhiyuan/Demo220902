@@ -305,3 +305,9 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	}
 	return ActuaDamage;
 }
+
+// »ñÈ¡¹ÒÔØµÄÎäÆ÷
+AShooterWeapon* AShooterCharacter::GetCurrentWeapon()
+{
+	return CurrentWeapon;
+}

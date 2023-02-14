@@ -86,6 +86,8 @@ public:
 	// 取伤害
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	// 获取挂载的武器
+	AShooterWeapon* GetCurrentWeapon();
 
 protected:
 
