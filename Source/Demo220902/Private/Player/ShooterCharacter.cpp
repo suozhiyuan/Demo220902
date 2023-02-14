@@ -25,7 +25,6 @@ AShooterCharacter::AShooterCharacter()
 
 
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PawnMesh1P"));					// 创建组件
-	//Mesh1P->SetupAttachment(Camera1P);															/*挂载位置*/
 	Mesh1P->SetupAttachment(GetCapsuleComponent());											/*挂载位置*/
 	Mesh1P->bOnlyOwnerSee = true;																	/*bOnlyOwnerSee 如果为True，只对组件所有者的视图可见。
 	*/
@@ -124,7 +123,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 // 构建组件初始化
 void AShooterCharacter::PostInitializeComponents()
 {
-	Super::PostInitializeComponents();						// 重写父类虚函数时，先用Super调用父类该方法，否则父类的初始化会出问题
+	Super::PostInitializeComponents();
 
 	FActorSpawnParameters SpawnInfo;						// FActorSpawnParameters是一个传递给SpawnActor函数的可选参数的结构，用于指定创建时的各项参数
 	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;				// AlwaysSpawn: Actor将在所需的位置生成，无论碰撞与否

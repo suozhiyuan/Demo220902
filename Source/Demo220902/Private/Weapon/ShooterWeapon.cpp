@@ -43,7 +43,6 @@ void AShooterWeapon::AttachMeshToPawn()
 {
 	if (PawnOwner)
 	{
-		//USkeletalMeshComponent* PawnMesh1P = PawnOwner->GetMesh1P();
 		FName AttachPoint = PawnOwner->GetWeaponAttachPoint();
 		if (PawnOwner->GetMesh1P())
 		{

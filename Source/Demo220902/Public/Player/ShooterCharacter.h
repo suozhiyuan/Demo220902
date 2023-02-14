@@ -49,7 +49,7 @@ public:
 	USkeletalMeshComponent* GetMesh1P();
 
 	// 获取武器挂点
-	FName GetWeaponAttachPoint() const;
+	virtual FName GetWeaponAttachPoint() const;
 
 	// 获取瞄准方向
 	UFUNCTION(BlueprintCallable, Category = Weapon)
@@ -103,7 +103,6 @@ protected:
 	TSubclassOf<AShooterWeapon> ShooterWeaponClass;
 
 	// 当前武器
-	//AShooterWeapon* CurrentWeapon;
 	AShooterWeapon* CurrentWeapon;
 
 	// 武器挂点名称
