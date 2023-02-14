@@ -121,6 +121,5 @@ bool AShooterAIController::HasLOSToEnemy(AActor* InEnemyActor, bool bAnyEnemy) c
 			}
 		}
 	}
-
 	return bHasLOS;
 }
