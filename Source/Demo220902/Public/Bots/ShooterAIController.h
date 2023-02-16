@@ -39,11 +39,9 @@ public:
 
 	// 匹配敌人
 	void SetEnemy(APawn* InPawn);
-	
 
 private:
 	UBlackboardComponent* BlackboardComp;		// 黑板数据
 	UBehaviorTreeComponent* BehaviorComp;		// 行为树
 	int32 EnemyKeyID;							// 敌人ID
-	
 };
