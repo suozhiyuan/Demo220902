@@ -53,6 +53,7 @@ void AShooterAIController::FindRecentEnemyLOS(AShooterCharacter* ExcludeEnemy)
 		 * 模仿迭代器类，当TArray<TWeakObjectPtr<APawn>>::Iterator 被定义时，试图提供FConstPawnIterator之前所做的基本接口，
 		 * 一般来说，你不应该使用这个迭代器，而应该使用TActorIterator<APawn>,或TActorRange<APawn> (或所需的派生类型)。在未来的版本中，这个迭代器可能会被弃用。
 		 */
+		//for (FConstPawnIterator It = TActorIterator<AShooterCharacter>; It++)
 		for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; It++)
 		{
 			AShooterCharacter* TestPawn = Cast<AShooterCharacter>(*It);			// 遍历获取一个目标
