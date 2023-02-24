@@ -13,5 +13,4 @@ UCLASS()
 class DEMO220902_API UBTTask_FindNearEnemy : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
-	
 };
