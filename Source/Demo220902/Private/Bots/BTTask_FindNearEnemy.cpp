@@ -27,7 +27,7 @@ EBTNodeResult::Type UBTTask_FindNearEnemy::ExecuteTask(UBehaviorTreeComponent& O
 	{
 		// 避免搜寻的贴到脸上，机器人与目标路径上的一点，被减的是起始点，距离起点600个单位的一点
 		const FVector SearchOrigin = Enemy->GetActorLocation() + 400.0f + (MyBot->GetActorLocation() - Enemy->GetActorLocation()).GetSafeNormal();
-		const float SearchRadius = 100.0f;		// 搜寻半径
+		const float SearchRadius = 300.0f;		// 搜寻半径
 
 		// 利用 UNavigationSystemV1::GetRandomReachablePointInRadius 接口求取随机的附近点
 		const FVector Loc = UNavigationSystemV1::GetRandomReachablePointInRadius(MyController->GetPawn(), SearchOrigin, SearchRadius);
