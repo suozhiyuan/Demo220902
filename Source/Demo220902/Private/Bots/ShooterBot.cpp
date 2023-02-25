@@ -8,6 +8,9 @@
 AShooterBot::AShooterBot()
 {
 	AIControllerClass = AShooterAIController::StaticClass();
+
+	WalkSpeed = 450.f;								// 行走速度
+	TargetingSpeed = 0;								// 开镜时速度惩罚
 }
 
 
