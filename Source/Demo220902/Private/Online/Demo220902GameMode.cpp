@@ -59,9 +59,10 @@ void ADemo220902GameMode::StartPlay()
 	StartBots();
 }
 
+// 获取 Pawn 类的默认 Controller
 UClass* ADemo220902GameMode::GetDefaultPawnClassForController_Implementation(AController* InController)
 {
-	if (InController->IsA<AShooterAIController>())		// 判断是否为 AI 控制器
+	if (InController->IsA<AShooterAIController>())		// 判断当前是否为 AI 控制器
 	{
 		return BotPawnClass;
 	}

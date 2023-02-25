@@ -21,7 +21,7 @@ public:
 	// 游戏开始运行 GameMode 时调用的
 	void StartPlay() override;
 
-	//
+	// 获取 Pawn 类的默认 Controller
 	virtual UClass* GetDefaultPawnClassForController_Implementation(AController* InController) override;
 
 	// 创建机器人控制器
@@ -30,7 +30,7 @@ public:
 	// 开始创建机器人，利用AGameModeBase::RestartPlayer (…)接口
 	void StartBots();
 
-	//
+	// 电脑 Pawn 类
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameMode)
 	TSubclassOf<APawn> BotPawnClass;
 
