@@ -17,5 +17,4 @@ class DEMO220902_API UBTTask_FindNearEnemy : public UBTTask_BlackboardBase
 public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
-
 };

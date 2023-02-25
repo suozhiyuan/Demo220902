@@ -3,6 +3,7 @@
 
 #include "Weapon/ShooterWeapon.h"
 
+#include "Bots/ShooterAIController.h"
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/ShooterCharacter.h"
@@ -68,6 +69,19 @@ FVector AShooterWeapon::GetAdjustAim()
 		PlayerController->GetPlayerViewPoint(CamerLocation, CamerRotator);		// 获取眼睛方向和位置
 		FinalAim = CamerRotator.Vector();
 	}
+	else if (GetInstigator())
+	{
+		AShooterAIController* AIController = PawnOwner ? Cast<AShooterAIController>(PawnOwner->GetController()) : nullptr;
+		if (AIController)
+		{
+			FinalAim = AIController->GetControlRotation().Vector();
+		}
+		else
+		{
+			FinalAim = GetInstigator()->GetBaseAimRotation().Vector();
+		}
+	}
+
 	return FinalAim;
 }
 

@@ -127,6 +127,7 @@ bool AShooterAIController::HasLOSToEnemy(AActor* InEnemyActor, bool bAnyEnemy) c
 	return bHasLOS;
 }
 
+// 射击敌人
 void AShooterAIController::ShootEnemy()
 {
 	AShooterBot* MyBot = Cast<AShooterBot>(GetPawn());
@@ -135,18 +136,18 @@ void AShooterAIController::ShootEnemy()
 		return;
 	}
 
-	bool bCanShoot = false;
+	bool bCanShoot = false;						// 是否能射击
 	AShooterCharacter* Enemy = GetEnemy();
 	if (Enemy)
 	{
-		if (LineOfSightTo(Enemy, MyBot->GetActorLocation()))
+		if (LineOfSightTo(Enemy, MyBot->GetActorLocation()))		// 检查是否可以射击到
 		{
 			bCanShoot = true;
 		}
 	}
 
 	AShooterWeapon* Weapon = MyBot->GetCurrentWeapon();
-	if (Weapon)
+	if (!Weapon)
 	{
 		return;
 	}
@@ -177,5 +178,6 @@ void AShooterAIController::SetEnemy(APawn* InPawn)
 	if (BlackboardComp)
 	{
 		BlackboardComp->SetValue<UBlackboardKeyType_Object>(EnemyKeyID, InPawn);
+		SetFocus(InPawn);				// 让这个Ai锁定目标，不随意切换
 	}
 }

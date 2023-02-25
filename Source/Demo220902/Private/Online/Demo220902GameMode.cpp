@@ -21,7 +21,10 @@ ADemo220902GameMode::ADemo220902GameMode()
 	/*
 	 *配置 Pawn，获取到 AShooterCharater 类型的 Pawn, 并且将获取到的 Pawn（通过反射生成的对象） 给到项目设置中的 DefaultPawnClass*/ 
 	static ConstructorHelpers::FClassFinder<AShooterCharacter> PlayerPawnObject(TEXT("/Game/Blueprints/Pawns/PlayerPawn"));
-	DefaultPawnClass = PlayerPawnObject.Class;
+	DefaultPawnClass = PlayerPawnObject.Class;		// 赋值 PlayerPawn 的反射信息对象
+	
+	static ConstructorHelpers::FClassFinder<AShooterCharacter> BotPawnObject(TEXT("/Game/Blueprints/Pawns/BotPawn"));
+	BotPawnClass = BotPawnObject.Class;
 
 	/*
 	 * 配置 Controller，配置控制器到 GameMode
@@ -54,6 +57,15 @@ void ADemo220902GameMode::StartPlay()
 	Super::StartPlay();
 	CreateBotController();				// 创建机器人控制器
 	StartBots();
+}
+
+UClass* ADemo220902GameMode::GetDefaultPawnClassForController_Implementation(AController* InController)
+{
+	if (InController->IsA<AShooterAIController>())		// 判断是否为 AI 控制器
+	{
+		return BotPawnClass;
+	}
+	return Super::GetDefaultPawnClassForController_Implementation(InController);
 }
 
 // 创建机器人控制器
