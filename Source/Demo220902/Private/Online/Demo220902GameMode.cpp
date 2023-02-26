@@ -27,28 +27,23 @@ ADemo220902GameMode::ADemo220902GameMode()
 	BotPawnClass = BotPawnObject.Class;
 
 	/*
-	 * 配置 Controller，配置控制器到 GameMode
-	 */
+	 * 配置 Controller，配置控制器到 GameMode	 */
 	PlayerControllerClass =	AShooterPlayerController::StaticClass();
 
 	/*
-	 * 配置 PlayerState 到 GameMode
-	 */
+	 * 配置 PlayerState 到 GameMode	 */
 	PlayerStateClass = AShooterPlayerState::StaticClass();
 
 	/*
-	 *配置 SpectatorPawn 到 GameMode
-	 */
+	 *配置 SpectatorPawn 到 GameMode	 */
 	SpectatorClass = AShooterSpectatorPawn::StaticClass();
 
 	/*
-	 * 配置 GameState 到 GameMode
-	 */
+	 * 配置 GameState 到 GameMode	 */
 	GameStateClass = AShooterGameState::StaticClass();
 
 	/*
-	 * 配置 HUD 到 GameMode
-	 */
+	 * 配置 HUD 到 GameMode	 */
 	HUDClass = AShooterHUD::StaticClass();
 }
 
@@ -59,7 +54,7 @@ void ADemo220902GameMode::StartPlay()
 	StartBots();
 }
 
-// 获取 Pawn 类的默认 Controller
+// 获取 Pawn 类的默认 Controller（没理解）
 UClass* ADemo220902GameMode::GetDefaultPawnClassForController_Implementation(AController* InController)
 {
 	if (InController->IsA<AShooterAIController>())		// 判断当前是否为 AI 控制器
