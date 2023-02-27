@@ -51,6 +51,5 @@ protected:
 	// 每局时间
 	UPROPERTY(Config)	// (虚幻引擎反射说明符，属性将是可配置的。当前值可以保存到与类关联的ini文件中（DefaultGame.ini），并在创建时加载。不能在默认属性中给定值。如同 BlueprintReadOnly
 	int32 RoundTime;
-
-
+	
 };
