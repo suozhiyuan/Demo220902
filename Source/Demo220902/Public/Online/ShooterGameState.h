@@ -14,6 +14,11 @@ class DEMO220902_API AShooterGameState : public AGameState
 {
 	GENERATED_BODY()
 
+public:
 	AShooterGameState();
+
+	//  £”‡ ±º‰£¨Transient ¡Ÿ ±
+	UPROPERTY(Transient)
+	int32 RemainingTime;
 	
 };

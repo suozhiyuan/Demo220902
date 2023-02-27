@@ -102,3 +102,43 @@ void ADemo220902GameMode::StartBots()
 		}
 	}
 }
+
+// 预初始化组件
+void ADemo220902GameMode::PreInitializeComponents()
+{
+	Super::PreInitializeComponents();
+
+	/*
+	 * InOutHandle		如果传入的句柄引用了一个现有的计时器，那么在添加新计时器之前，它将被清除。在这两种情况下，都会返回新计时器的新句柄。对象调用定时器函数。
+	 * InObj			对象调用定时器函数。
+	 * InTimerMethod	在计时器触发时调用的方法。
+	 * InRate			设置和触发之间的时间量(秒)。如果<= 0.f，清除现有定时器。
+	 * Inbloop			true表示以速率间隔继续射击，false表示只触发一次，默认值false。
+	 * InFirstDelay		循环计时器第一次迭代的时间(秒)，默认值-1
+	 */
+	GetWorldTimerManager().SetTimer(TimerHandle_DefaultTimer, this, &ADemo220902GameMode::DefaultTimer, 1.0f, true);
+}
+
+// 当状态转换为 InProgress 时调用
+void ADemo220902GameMode::HandleMatchHasStarted()
+{
+	Super::HandleMatchHasStarted();
+	AShooterGameState* const MyGameState = Cast<AShooterGameState>(GameState);
+	if (MyGameState)
+	{
+		MyGameState->RemainingTime = RoundTime;
+	}
+}
+
+void ADemo220902GameMode::DefaultTimer()
+{
+	AShooterGameState* const MyGameState = Cast<AShooterGameState>(GameState);
+	if (MyGameState && MyGameState->RemainingTime > 0)
+	{
+		MyGameState->RemainingTime--;
+		if (MyGameState->RemainingTime <= 0)
+		{
+			RestartGame();			// 重启游戏，默认移动到当前地图
+		}
+	}
+}

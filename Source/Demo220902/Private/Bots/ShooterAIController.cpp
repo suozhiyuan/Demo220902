@@ -181,3 +181,4 @@ void AShooterAIController::SetEnemy(APawn* InPawn)
 		SetFocus(InPawn);				// 让这个Ai锁定目标，不随意切换
 	}
 }
+
