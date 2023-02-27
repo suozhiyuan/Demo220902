@@ -34,13 +34,32 @@ public:
 	// 绘制十字准星
 	void DrawCrosshair();
 
+	// 绘制血条
+	void DrawHpUI();
+
+
+	void MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint16 u, uint16 v, uint16 UI, uint16 VL);
+
+
 	UPROPERTY()
 	FCanvasIcon Crosshair[5];
 
+	// UI缩放比例值
 	float ScaleUI;
 
 	// 默认瞄准像素精度
 	UPROPERTY(EditDefaultsOnly, Category = Crosshair)
 	float AimArr;
-	
+
+	// 血条背景
+	UPROPERTY()
+	FCanvasIcon HpUIBg;
+
+	// 血条
+	UPROPERTY()
+	FCanvasIcon HpUI;
+
+	// 血符号
+	UPROPERTY()
+	FCanvasIcon HpIcon;
 };

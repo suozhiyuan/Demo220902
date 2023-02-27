@@ -311,3 +311,14 @@ AShooterWeapon* AShooterCharacter::GetCurrentWeapon()
 {
 	return CurrentWeapon;
 }
+
+int32 AShooterCharacter::GetHp() const
+{
+	return HP;
+}
+
+int32 AShooterCharacter::GetMaxHp() const
+{
+	// GetClass()->GetDefaultObject<AShooterCharacter>()->HP;    // 通过 GetDefaultObject 获取到Hp的最初值
+	return HPMax;
+}

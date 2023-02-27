@@ -89,6 +89,12 @@ public:
 	// 获取挂载的武器
 	AShooterWeapon* GetCurrentWeapon();
 
+	// 获取当前血量
+	int32 GetHp() const;
+
+	// 获取最大血量
+	int32 GetMaxHp() const;
+
 protected:
 
 	//// 摄像机（2023/02/01 考虑到AI调用该类，摄像机有些多余，摄像机将会放置到相机管理器中）
@@ -129,8 +135,11 @@ protected:
 	// 加速状态
 	bool IsSpeedUp;
 
-	// 血量
+	// 最大血量
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attr)
+	float HPMax;
+
+	// 当前血量
 	float HP;
 
 };
