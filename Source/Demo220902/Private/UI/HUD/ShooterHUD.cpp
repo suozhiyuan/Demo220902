@@ -23,6 +23,7 @@ AShooterHUD::AShooterHUD()
 	HpUI		= UCanvas::MakeIcon(HUDAssets02Ob.Object, 67, 212, 372, 50);
 	HpIcon		= UCanvas::MakeIcon(HUDAssets02Ob.Object, 76, 262, 28, 28);
 
+	Offset = 20.f;
 }
 
 // 绘制HUD
@@ -32,6 +33,7 @@ void AShooterHUD::DrawHUD()
 	ScaleUI = Canvas->ClipY / 1080.0f;		// 整体的缩放比例
 
 	DrawCrosshair();
+	DrawHpUI();
 }
 
 // 绘制十字准星
@@ -69,24 +71,41 @@ void AShooterHUD::DrawHpUI()
 {
 	Canvas->SetDrawColor(FColor::White);									// 调整颜色混合
 
-	// 画布右下角剪辑区域
+	// 右下角剪辑区域
 	const float HpUIPosX = (Canvas->ClipX - HpUIBg.UL * ScaleUI) / 2;		// 血条的横向坐标
 	const float HpUIPosY = Canvas->ClipY - HpUIBg.VL * ScaleUI;				// 血条的纵向坐标
 	Canvas->DrawIcon(HpUIBg, HpUIPosX, HpUIPosY, ScaleUI);
 
+	// 血条
 	AShooterCharacter* MyPawn = Cast<AShooterCharacter>(GetOwningPawn());
 	const float HpAmount = FMath::Min(1.0f, (float)MyPawn->GetHp() / (float)MyPawn->GetMaxHp());			// FMath::Min  返回最低的值，让返回的值不大于1
-	//FCanvasTextItem TileItem(FVector2D(HpUIPosX, HpUIPosY), HpUI.Texture, FVector2D(HpUI.UL * HpAmount * ScaleUI, HpUI.VL * ScaleUI), FLinearColor::White);
-
 	FCanvasTileItem TileItem(FVector2D(HpUIPosX, HpUIPosY), HpUI.Texture->Resource, FVector2D(HpUI.UL * HpAmount * ScaleUI, HpUI.VL * ScaleUI), FLinearColor::White);
-	Canvas->DrawIcon(HpUI, HpUIPosX, HpUIPosY, ScaleUI);
+	MakeUV(HpUI, TileItem.UV0, TileItem.UV1, HpUI.U, HpUI.V, HpUI.UL * HpAmount, HpUI.VL);
+	TileItem.BlendMode = SE_BLEND_Translucent;
+	Canvas->DrawItem(TileItem);
 
-
-	Canvas->DrawIcon(HpIcon, HpUIPosX, HpUIPosY, ScaleUI);
-	
+	Canvas->DrawIcon(HpIcon, HpUIPosX + Offset * ScaleUI, HpUIPosY + (HpUI.VL - HpIcon.VL) * ScaleUI / 2, ScaleUI);
+	//Canvas->DrawIcon(HpIcon, HpUIPosX, HpUIPosY, ScaleUI);
 }
 
-void AShooterHUD::MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint16 u, uint16 v, uint16 UI, uint16 VL)
+/**
+ * @brief			
+ * @param Icon		FCanvasIcon 的 UI资源
+ * @param UV0		UV 坐标 0 (Left/Top)
+ * @param UV1		UV 坐标 0 (Right/Bottom)
+ * @param U			UI的起始位置横坐标
+ * @param V			UI的其实位置高坐标
+ * @param UL		UI的宽度
+ * @param VL		UI的高度
+ */
+void AShooterHUD::MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint16 U, uint16 V, uint16 UL, uint16 VL)
 {
+	if (Icon.Texture)
+	{
+		float Width = Icon.Texture->GetSurfaceWidth();
+		float Height = Icon.Texture->GetSurfaceHeight();
 
+		UV0 = FVector2D(U / Width, V / Height);
+		UV1 = FVector2D((U + UL) / Width, (V + VL) / Height);
+	}
 }

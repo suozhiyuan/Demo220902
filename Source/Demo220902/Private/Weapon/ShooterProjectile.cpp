@@ -85,7 +85,6 @@ void AShooterProjectile::PostInitializeComponents()
 	{
 		OwnerWeapon->GetWeaponConfig(WeaponConfig);
 	}
-
 	MyController = GetInstigatorController();
 }
 

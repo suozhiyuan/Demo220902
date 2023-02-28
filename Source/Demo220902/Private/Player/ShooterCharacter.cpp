@@ -85,7 +85,8 @@ AShooterCharacter::AShooterCharacter()
 	TargetingSpeed = -160.f;								// 开镜时速度惩罚
 	IsSpeedUp = false;										// 初始化加速状态
 	IsTargeting = false;									// 瞄准状态初始化
-	HP = 100.0f;											// 初始化血量
+	HPMax = 100.0f;											// 最大血量
+	HP = HPMax;												// 当前血量
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;		// 速度初始化
 }
 

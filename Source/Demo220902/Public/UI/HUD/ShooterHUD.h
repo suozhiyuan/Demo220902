@@ -36,9 +36,8 @@ public:
 
 	// »æÖÆÑªÌõ
 	void DrawHpUI();
-
-
-	void MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint16 u, uint16 v, uint16 UI, uint16 VL);
+	
+	void MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint16 U, uint16 V, uint16 UL, uint16 VL);
 
 
 	UPROPERTY()
@@ -62,4 +61,8 @@ public:
 	// Ñª·ûºÅ
 	UPROPERTY()
 	FCanvasIcon HpIcon;
+
+	// ¹Ì¶¨Æ«ÒÆ
+	float Offset;
+
 };
