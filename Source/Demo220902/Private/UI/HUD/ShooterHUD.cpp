@@ -132,5 +132,6 @@ void AShooterHUD::DrawMatchTimerAndPosition()
 		Canvas->DrawIcon(TimerIcon, TimerPosX + Offset * ScaleUI, TimerPosY + (TimerBg.VL - TimerIcon.VL) * ScaleUI / 2, ScaleUI);
 
 		FCanvasTextItem TextItem(FVector2D::ZeroVector, FText::GetEmpty(), BigFont, HUDDark);
+		TextItem.EnableShadow(FLinearColor::Black);					// 设置阴影偏移量和颜色。
 	}
 }
