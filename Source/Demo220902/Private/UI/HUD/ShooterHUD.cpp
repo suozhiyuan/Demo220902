@@ -7,6 +7,7 @@
 #include "Online/ShooterGameState.h"
 #include "Player/ShooterCharacter.h"
 #include "Player/ShooterPlayerController.h"
+#include "Weapon/ShooterWeapon.h"
 
 AShooterHUD::AShooterHUD()
 {
@@ -154,7 +155,46 @@ void AShooterHUD::DrawMatchTimerAndPosition()
 
 void AShooterHUD::DrawWeaponHUD()
 {
+	// 拿到武器对象
+	AShooterCharacter* MyPawn = Cast<AShooterCharacter>(GetOwningPawn());
+	AShooterWeapon* MyWeapon = MyPawn->GetCurrentWeapon();
 
+	if (MyPawn && MyWeapon)
+	{
+		const float PriWeaponOffsetY = 65;
+		const float PriWeaponBoxWidth = 150;
+		const float PrimaryClipIconOffset = 25;
+		const float AmmoIconsCount = 4.0f;
+
+		const float PrimaryWeaponBgPoxY = Canvas->ClipY - Canvas->OrgY - (Offset + PriWeaponOffsetY + WeaponBg_1.VL) * ScaleUI;						// 主武器背景 Y 方向位置
+		const float PriWeaponPosX = Canvas->ClipX - Canvas->OrgX - (2 * Offset + (WeaponIcon_1.UL + PriWeaponBoxWidth) / 2) * ScaleUI;				// 主武器图标 X 位置
+		const float PriWeaponPosY = Canvas->ClipY - Canvas->OrgY - (Offset + PriWeaponOffsetY + (WeaponBg_1.VL + WeaponIcon_1.VL) / 2) * ScaleUI;	// 主武器图标 Y 位置
+
+		const float ClipWidth = AmmoClipIcon_1.UL + PrimaryClipIconOffset * (AmmoIconsCount - 1);
+		const float BoxWidth = 65.0f;
+		const float PriClipPosX = PriWeaponPosX - (BoxWidth + ClipWidth) * ScaleUI;																	// 弹夹图标 X 位置
+		const float PriClipPosY = Canvas->ClipY - Canvas->OrgY - (Offset + PriWeaponOffsetY + (WeaponBg_1.VL + AmmoClipIcon_1.VL) / 2) * ScaleUI;	// 弹夹图标 Y 位置
+
+		// 绘制三角部分
+		const float LeftCornerWidth = 60.0f;
+		FCanvasTileItem TiltItem(FVector2D(PriClipPosX - Offset * ScaleUI, PrimaryWeaponBgPoxY), WeaponBg_1.Texture->Resource, FVector2D(LeftCornerWidth * ScaleUI, WeaponBg_1.VL), FLinearColor::White);
+		MakeUV(WeaponBg_1, TiltItem.UV0, TiltItem.UV1, WeaponBg_1.U, WeaponBg_1.VL, LeftCornerWidth, WeaponBg_1.VL);
+		TiltItem.BlendMode = SE_BLEND_Translucent;
+		Canvas->DrawItem(TiltItem);
+
+		// 绘制背景矩形部分
+		const float RestWidth = Canvas->ClipX - PriClipPosX - (LeftCornerWidth - Offset - 2 * Offset) * ScaleUI;
+		TiltItem.Position = FVector2D(PriClipPosX + (LeftCornerWidth - Offset), PrimaryWeaponBgPoxY);
+		TiltItem.Size = FVector2D(RestWidth, WeaponBg_1.VL * ScaleUI);
+		MakeUV(WeaponBg_1, TiltItem.UV0, TiltItem.UV1, WeaponBg_1.U + (WeaponBg_1.UL - RestWidth / ScaleUI), WeaponBg_1.VL, RestWidth / ScaleUI, WeaponBg_1.VL);
+
+		// 绘制武器图标部分
+		Canvas->DrawIcon(WeaponIcon_1, PriWeaponPosX, PriWeaponPosY, ScaleUI);
+
+		// 绘制当前剩余子弹数量
+
+
+	}
 }
 
 FString AShooterHUD::GetTimeString(float TimeSeconds)
