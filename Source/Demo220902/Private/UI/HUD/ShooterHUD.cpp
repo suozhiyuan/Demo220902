@@ -28,6 +28,10 @@ AShooterHUD::AShooterHUD()
 	TimerIcon = UCanvas::MakeIcon(HUDMainTextureOb.Object, 381, 93, 24, 24);
 
 	Offset = 20.f;
+
+	static ConstructorHelpers::FObjectFinder<UFont> BigFontOb(TEXT("/Game/UI/HUD/Roboto51"));
+	BigFont = BigFontOb.Object;
+	ShadowedFont.bEnableShadow = true;
 }
 
 // »æÖÆHUD
@@ -126,7 +130,7 @@ void AShooterHUD::DrawMatchTimerAndPosition()
 		Canvas->DrawIcon(TimerBg, TimerPosX, TimerPosY, ScaleUI);
 		Canvas->DrawIcon(TimerIcon, TimerPosX + Offset * ScaleUI, TimerPosY + (TimerBg.VL - TimerIcon.VL) * ScaleUI / 2, ScaleUI);
 
-		//  to do...
+		FCanvasTextItem TextItem(FVector2D::ZeroVector, FText::GetEmpty(), BigFont, FLinearColor::White);
 	}
 
 }
