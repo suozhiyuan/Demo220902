@@ -16,23 +16,24 @@ AShooterHUD::AShooterHUD()
 	Crosshair[EShooterCrosshairDirection::Up] = UCanvas::MakeIcon(HUDMainTextureOb.Object, 74, 371, 9, 25);
 	Crosshair[EShooterCrosshairDirection::Down] = UCanvas::MakeIcon(HUDMainTextureOb.Object, 74, 415, 9, 25);
 	Crosshair[EShooterCrosshairDirection::Center] = UCanvas::MakeIcon(HUDMainTextureOb.Object, 73, 403, 7, 7);
-
-	AimArr = 5.0f;		// 默认瞄准像素精度
+	AimArr = 5.0f;													// 默认瞄准像素精度
 
 	static ConstructorHelpers::FObjectFinder<UTexture2D> HUDAssets02Ob(TEXT("/Game/UI/HUD/HUDAssets02"));
-	HpUIBg		= UCanvas::MakeIcon(HUDAssets02Ob.Object, 67, 162, 372, 50);
-	HpUI		= UCanvas::MakeIcon(HUDAssets02Ob.Object, 67, 212, 372, 50);
-	HpIcon		= UCanvas::MakeIcon(HUDAssets02Ob.Object, 76, 262, 28, 28);
+	HpUIBg			= UCanvas::MakeIcon(HUDAssets02Ob.Object, 67, 162, 372, 50);
+	HpUI			= UCanvas::MakeIcon(HUDAssets02Ob.Object, 67, 212, 372, 50);
+	HpIcon			= UCanvas::MakeIcon(HUDAssets02Ob.Object, 76, 262, 28, 28);
 
-	TimerBg = UCanvas::MakeIcon(HUDMainTextureOb.Object, 262, 16, 255, 62);
-	TimerIcon = UCanvas::MakeIcon(HUDMainTextureOb.Object, 381, 93, 24, 24);
-
+	TimerBg			= UCanvas::MakeIcon(HUDMainTextureOb.Object, 262, 16, 255, 62);
+	TimerIcon		= UCanvas::MakeIcon(HUDMainTextureOb.Object, 381, 93, 24, 24);
 	Offset = 20.f;
-
 	static ConstructorHelpers::FObjectFinder<UFont> BigFontOb(TEXT("/Game/UI/HUD/Roboto51"));
 	BigFont = BigFontOb.Object;
-	ShadowedFont.bEnableShadow = true;				// 是否开启阴影
+	ShadowedFont.bEnableShadow = true;								// 是否开启阴影
 	HUDDark = FColor(110, 124, 131, 255);
+
+	WeaponBg_1		= UCanvas::MakeIcon(HUDMainTextureOb.Object, 543, 17, 441, 81);
+	WeaponIcon_1	= UCanvas::MakeIcon(HUDMainTextureOb.Object, 282, 389, 147, 67);
+	AmmoClipIcon_1	= UCanvas::MakeIcon(HUDMainTextureOb.Object, 148, 151, 62, 51);
 }
 
 // 绘制HUD
@@ -149,6 +150,11 @@ void AShooterHUD::DrawMatchTimerAndPosition()
 		TextItem.Position = FVector2D(TimerPosX + Offset * 1.5 + TimerIcon.UL, TimerPosY + (TimerBg.VL - SizeY * TextScale) * ScaleUI / 2);
 		Canvas->DrawItem(TextItem);
 	}
+}
+
+void AShooterHUD::DrawWeaponHUD()
+{
+
 }
 
 FString AShooterHUD::GetTimeString(float TimeSeconds)
