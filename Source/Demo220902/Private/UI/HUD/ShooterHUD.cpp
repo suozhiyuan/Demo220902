@@ -138,11 +138,11 @@ void AShooterHUD::DrawMatchTimerAndPosition()
 		TextItem.EnableShadow(FLinearColor::Black);									// 设置阴影偏移量和颜色。
 
 		float SizeX, SizeY;
-		const float TextScale = 0.57f;
+		const float TextScale = 0.57f;												// 文本规格
 		TextItem.FontRenderInfo = ShadowedFont;										// 自定义字体渲染信息。开启阴影
 		TextItem.Scale = FVector2D(TextScale * ScaleUI, TextScale * ScaleUI);		// 文字的尺度
 		FString Text = GetTimeString(MyGameState->RemainingTime);					// 获取剩余时间字符串
-		Canvas->StrLen(BigFont, Text, SizeX, SizeY);
+		Canvas->StrLen(BigFont, Text, SizeX, SizeY);								// 计算字符串的长度，考虑到文本换行。
 
 		TextItem.SetColor(HUDDark);
 		TextItem.Text = FText::FromString(Text);
