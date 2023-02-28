@@ -39,6 +39,9 @@ public:
 	
 	void MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint16 U, uint16 V, uint16 UL, uint16 VL);
 
+	// 绘制匹配定时器和位置
+	void DrawMatchTimerAndPosition();
+
 
 	UPROPERTY()
 	FCanvasIcon Crosshair[5];
@@ -64,5 +67,10 @@ public:
 
 	// 固定偏移
 	float Offset;
+
+	//
+	FCanvasIcon TimerBg;
+
+	FCanvasIcon TimerIcon;
 
 };

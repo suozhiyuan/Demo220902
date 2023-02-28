@@ -4,6 +4,7 @@
 #include "UI/HUD/ShooterHUD.h"
 #include <ddraw.h>
 
+#include "Online/ShooterGameState.h"
 #include "Player/ShooterCharacter.h"
 #include "Player/ShooterPlayerController.h"
 
@@ -22,6 +23,9 @@ AShooterHUD::AShooterHUD()
 	HpUIBg		= UCanvas::MakeIcon(HUDAssets02Ob.Object, 67, 162, 372, 50);
 	HpUI		= UCanvas::MakeIcon(HUDAssets02Ob.Object, 67, 212, 372, 50);
 	HpIcon		= UCanvas::MakeIcon(HUDAssets02Ob.Object, 76, 262, 28, 28);
+
+	TimerBg = UCanvas::MakeIcon(HUDMainTextureOb.Object, 262, 16, 255, 62);
+	TimerIcon = UCanvas::MakeIcon(HUDMainTextureOb.Object, 381, 93, 24, 24);
 
 	Offset = 20.f;
 }
@@ -108,4 +112,14 @@ void AShooterHUD::MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint
 		UV0 = FVector2D(U / Width, V / Height);
 		UV1 = FVector2D((U + UL) / Width, (V + VL) / Height);
 	}
+}
+
+void AShooterHUD::DrawMatchTimerAndPosition()
+{
+	AShooterGameState* const MyGameState =  GetWorld()->GetGameState<AShooterGameState>();
+	const float TimerPosX = Canvas->ClipX - (TimerBg.UL + Offset) * ScaleUI;
+	const float TimerPosY = Canvas->OrgY + Offset * ScaleUI;
+
+	Canvas->DrawIcon(TimerBg, TimerPosX, TimerPosY, ScaleUI);
+	Canvas->DrawIcon(TimerIcon, TimerPosX + Offset * ScaleUI, TimerPosY + (TimerBg.VL - TimerIcon.VL) * ScaleUI / 2, ScaleUI);
 }
