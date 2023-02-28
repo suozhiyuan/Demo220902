@@ -117,9 +117,16 @@ void AShooterHUD::MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint
 void AShooterHUD::DrawMatchTimerAndPosition()
 {
 	AShooterGameState* const MyGameState =  GetWorld()->GetGameState<AShooterGameState>();
-	const float TimerPosX = Canvas->ClipX - (TimerBg.UL + Offset) * ScaleUI;
-	const float TimerPosY = Canvas->OrgY + Offset * ScaleUI;
 
-	Canvas->DrawIcon(TimerBg, TimerPosX, TimerPosY, ScaleUI);
-	Canvas->DrawIcon(TimerIcon, TimerPosX + Offset * ScaleUI, TimerPosY + (TimerBg.VL - TimerIcon.VL) * ScaleUI / 2, ScaleUI);
+	if (MyGameState && MyGameState->RemainingTime)
+	{
+		const float TimerPosX = Canvas->ClipX - (TimerBg.UL + Offset) * ScaleUI;
+		const float TimerPosY = Canvas->OrgY + Offset * ScaleUI;
+
+		Canvas->DrawIcon(TimerBg, TimerPosX, TimerPosY, ScaleUI);
+		Canvas->DrawIcon(TimerIcon, TimerPosX + Offset * ScaleUI, TimerPosY + (TimerBg.VL - TimerIcon.VL) * ScaleUI / 2, ScaleUI);
+
+		//  to do...
+	}
+
 }
