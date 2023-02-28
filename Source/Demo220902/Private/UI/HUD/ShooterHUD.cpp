@@ -31,7 +31,7 @@ AShooterHUD::AShooterHUD()
 
 	static ConstructorHelpers::FObjectFinder<UFont> BigFontOb(TEXT("/Game/UI/HUD/Roboto51"));
 	BigFont = BigFontOb.Object;
-	ShadowedFont.bEnableShadow = true;
+	ShadowedFont.bEnableShadow = true;				// 是否开启阴影
 	HUDDark = FColor(110, 124, 131, 255);
 }
 
@@ -43,6 +43,7 @@ void AShooterHUD::DrawHUD()
 
 	DrawCrosshair();
 	DrawHpUI();
+	DrawMatchTimerAndPosition();
 }
 
 // 绘制十字准星
@@ -76,6 +77,7 @@ void AShooterHUD::DrawCrosshair()
 	}
 }
 
+// 绘制血条
 void AShooterHUD::DrawHpUI()
 {
 	Canvas->SetDrawColor(FColor::White);									// 调整颜色混合
@@ -119,9 +121,10 @@ void AShooterHUD::MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint
 	}
 }
 
+// 绘制定时器
 void AShooterHUD::DrawMatchTimerAndPosition()
 {
-	AShooterGameState* const MyGameState =  GetWorld()->GetGameState<AShooterGameState>();
+	const AShooterGameState* const MyGameState =  GetWorld()->GetGameState<AShooterGameState>();
 
 	if (MyGameState && MyGameState->RemainingTime)
 	{
@@ -132,6 +135,28 @@ void AShooterHUD::DrawMatchTimerAndPosition()
 		Canvas->DrawIcon(TimerIcon, TimerPosX + Offset * ScaleUI, TimerPosY + (TimerBg.VL - TimerIcon.VL) * ScaleUI / 2, ScaleUI);
 
 		FCanvasTextItem TextItem(FVector2D::ZeroVector, FText::GetEmpty(), BigFont, HUDDark);
-		TextItem.EnableShadow(FLinearColor::Black);					// 设置阴影偏移量和颜色。
+		TextItem.EnableShadow(FLinearColor::Black);									// 设置阴影偏移量和颜色。
+
+		float SizeX, SizeY;
+		const float TextScale = 0.57f;
+		TextItem.FontRenderInfo = ShadowedFont;										// 自定义字体渲染信息。开启阴影
+		TextItem.Scale = FVector2D(TextScale * ScaleUI, TextScale * ScaleUI);		// 文字的尺度
+		FString Text = GetTimeString(MyGameState->RemainingTime);					// 获取剩余时间字符串
+		Canvas->StrLen(BigFont, Text, SizeX, SizeY);
+
+		TextItem.SetColor(HUDDark);
+		TextItem.Text = FText::FromString(Text);
+		TextItem.Position = FVector2D(TimerPosX + Offset * 1.5 + TimerIcon.UL, TimerPosY + (TimerBg.VL - SizeY * TextScale) * ScaleUI / 2);
+		Canvas->DrawItem(TextItem);
 	}
+}
+
+FString AShooterHUD::GetTimeString(float TimeSeconds)
+{
+	const int32 TotalSeconds = FMath::Max(0, FMath::TruncToInt(TimeSeconds) % 3600);	// 总秒数
+	const int32 NumMinute = TotalSeconds / 60;		// 分
+	const int32 NumSeconds = TotalSeconds % 60;		// 秒
+	const FString TimeSec = FString::Printf(TEXT("%02d:%02d"), NumMinute, NumSeconds);
+
+	return  TimeSec;
 }

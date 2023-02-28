@@ -42,6 +42,8 @@ public:
 	// 绘制匹配定时器和位置
 	void DrawMatchTimerAndPosition();
 
+	FString GetTimeString(float TimeSeconds);
+
 
 	UPROPERTY()
 		FCanvasIcon Crosshair[5];
