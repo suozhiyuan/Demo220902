@@ -131,6 +131,16 @@ FVector AShooterWeapon::GetMuzzleLocation()
 	return FVector::ZeroVector;
 }
 
+int AShooterWeapon::GetAmmoCount()
+{
+	return AmmoCount;
+}
+
+int AShooterWeapon::GetAmmoCountMax()
+{
+	return AmmoCountMax;
+}
+
 // Called when the game starts or when spawned
 void AShooterWeapon::BeginPlay()
 {

@@ -41,6 +41,13 @@ public:
 	// 获取枪口位置
 	FVector GetMuzzleLocation();
 
+	// 获取当前子弹数量
+	int GetAmmoCount();
+
+	// 获取最大子弹数量
+	int GetAmmoCountMax();
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -70,5 +77,8 @@ protected:
 
 private:
 	AShooterCharacter* PawnOwner;
+
+	int AmmoCount;
+	int AmmoCountMax;
 
 };

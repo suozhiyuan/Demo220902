@@ -192,8 +192,20 @@ void AShooterHUD::DrawWeaponHUD()
 		Canvas->DrawIcon(WeaponIcon_1, PriWeaponPosX, PriWeaponPosY, ScaleUI);
 
 		// 绘制当前剩余子弹数量
+		float SizeX, SizeY;
+		FString Text = FString::FromInt(MyWeapon->GetAmmoCount());
+		Canvas->StrLen(BigFont, Text, SizeX, SizeY);
 
-
+		FCanvasTextItem TextItem(FVector2D::ZeroVector, FText::GetEmpty(), BigFont, HUDDark);
+		TextItem.EnableShadow(FLinearColor::Black);
+		const float TextOffset = 12;
+		const float TopTextScale = 0.73f;
+		const float TopTextPosX = Canvas->ClipX - Canvas->OrgX - (2 * Offset + PriWeaponBoxWidth + (BoxWidth + SizeX * TopTextScale) / 2) * ScaleUI;
+		const float TopTextPosY = Canvas->ClipX - Canvas->OrgY - (Offset + PriWeaponOffsetY + (Offset - TextOffset) / 2.0f) * ScaleUI;
+		TextItem.Text = FText::FromString(Text);
+		TextItem.Scale = FVector2D(TopTextScale * ScaleUI, TopTextScale * ScaleUI);
+		TextItem.FontRenderInfo = ShadowedFont;
+		Canvas->DrawItem(TextItem, TopTextPosX, TopTextPosY);
 	}
 }
 
