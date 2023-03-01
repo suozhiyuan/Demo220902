@@ -135,11 +135,12 @@ protected:
 	// 加速状态
 	bool IsSpeedUp;
 
-	// 最大血量
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attr)
-	float HPMax;
-
 	// 当前血量
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attr)
 	float HP;
+
+	// 最大血量
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attr)
+	float HPMax;
 
 };
