@@ -46,6 +46,7 @@ void AShooterHUD::DrawHUD()
 	DrawCrosshair();
 	DrawHpUI();
 	DrawMatchTimerAndPosition();
+	DrawWeaponHUD();
 }
 
 // »æÖÆÊ®×Ö×¼ÐÇ
