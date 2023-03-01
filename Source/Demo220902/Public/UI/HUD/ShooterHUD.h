@@ -73,7 +73,7 @@ public:
 	// ¹Ì¶¨Æ«ÒÆ
 	float Offset;
 
-	FCanvasIcon TimerBg;
+	FCanvasIcon TimerPlaceBg;
 
 	FCanvasIcon TimerIcon;
 

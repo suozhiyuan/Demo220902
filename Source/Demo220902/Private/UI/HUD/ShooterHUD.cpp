@@ -24,7 +24,7 @@ AShooterHUD::AShooterHUD()
 	HpUI			= UCanvas::MakeIcon(HUDAssets02Ob.Object, 67, 212, 372, 50);
 	HpIcon			= UCanvas::MakeIcon(HUDAssets02Ob.Object, 76, 262, 28, 28);
 
-	TimerBg			= UCanvas::MakeIcon(HUDMainTextureOb.Object, 262, 16, 255, 62);
+	TimerPlaceBg			= UCanvas::MakeIcon(HUDMainTextureOb.Object, 262, 16, 255, 62);
 	TimerIcon		= UCanvas::MakeIcon(HUDMainTextureOb.Object, 381, 93, 24, 24);
 	Offset = 20.f;
 	static ConstructorHelpers::FObjectFinder<UFont> BigFontOb(TEXT("/Game/UI/HUD/Roboto51"));
@@ -127,21 +127,21 @@ void AShooterHUD::MakeUV(FCanvasIcon& Icon, FVector2D& UV0, FVector2D& UV1, uint
 // 绘制定时器
 void AShooterHUD::DrawMatchTimerAndPosition()
 {
-	const AShooterGameState* const MyGameState =  GetWorld()->GetGameState<AShooterGameState>();
+	AShooterGameState* const MyGameState =  GetWorld()->GetGameState<AShooterGameState>();
 
 	if (MyGameState && MyGameState->RemainingTime)
 	{
-		const float TimerPosX = Canvas->ClipX - (TimerBg.UL + Offset) * ScaleUI;
+		const float TimerPosX = Canvas->ClipX - (TimerPlaceBg.UL + Offset) * ScaleUI;
 		const float TimerPosY = Canvas->OrgY + Offset * ScaleUI;
 
-		Canvas->DrawIcon(TimerBg, TimerPosX, TimerPosY, ScaleUI);
-		Canvas->DrawIcon(TimerIcon, TimerPosX + Offset * ScaleUI, TimerPosY + (TimerBg.VL - TimerIcon.VL) * ScaleUI / 2, ScaleUI);
+		Canvas->DrawIcon(TimerPlaceBg, TimerPosX, TimerPosY, ScaleUI);
+		Canvas->DrawIcon(TimerIcon, TimerPosX + Offset * ScaleUI, TimerPosY + (TimerPlaceBg.VL - TimerIcon.VL) * ScaleUI / 2, ScaleUI);
 
 		FCanvasTextItem TextItem(FVector2D::ZeroVector, FText::GetEmpty(), BigFont, HUDDark);
 		TextItem.EnableShadow(FLinearColor::Black);									// 设置阴影偏移量和颜色。
 
 		float SizeX, SizeY;
-		const float TextScale = 0.57f;												// 文本规格
+		float TextScale = 0.57f;												// 文本规格
 		TextItem.FontRenderInfo = ShadowedFont;										// 自定义字体渲染信息。开启阴影
 		TextItem.Scale = FVector2D(TextScale * ScaleUI, TextScale * ScaleUI);		// 文字的尺度
 		FString Text = GetTimeString(MyGameState->RemainingTime);					// 获取剩余时间字符串
@@ -149,7 +149,7 @@ void AShooterHUD::DrawMatchTimerAndPosition()
 
 		TextItem.SetColor(HUDDark);
 		TextItem.Text = FText::FromString(Text);
-		TextItem.Position = FVector2D(TimerPosX + Offset * 1.5 + TimerIcon.UL, TimerPosY + (TimerBg.VL - SizeY * TextScale) * ScaleUI / 2);
+		TextItem.Position = FVector2D(TimerPosX + Offset * 1.5 * ScaleUI + TimerIcon.UL * ScaleUI, TimerPosY + (TimerPlaceBg.VL - SizeY * TextScale) * ScaleUI / 2);
 		Canvas->DrawItem(TextItem);
 	}
 }
@@ -167,7 +167,7 @@ void AShooterHUD::DrawWeaponHUD()
 		const float PrimaryClipIconOffset = 25;
 		const float AmmoIconsCount = 4.0f;
 
-		const float PrimaryWeaponBgPoxY = Canvas->ClipY - Canvas->OrgY - (Offset + PriWeaponOffsetY + WeaponBg_1.VL) * ScaleUI;						// 主武器背景 Y 方向位置
+		const float PrimaryWeaponBgPosY = Canvas->ClipY - Canvas->OrgY - (Offset + PriWeaponOffsetY + WeaponBg_1.VL) * ScaleUI;						// 主武器背景 Y 方向位置
 		const float PriWeaponPosX = Canvas->ClipX - Canvas->OrgX - (2 * Offset + (WeaponIcon_1.UL + PriWeaponBoxWidth) / 2) * ScaleUI;				// 主武器图标 X 位置
 		const float PriWeaponPosY = Canvas->ClipY - Canvas->OrgY - (Offset + PriWeaponOffsetY + (WeaponBg_1.VL + WeaponIcon_1.VL) / 2) * ScaleUI;	// 主武器图标 Y 位置
 
@@ -178,16 +178,18 @@ void AShooterHUD::DrawWeaponHUD()
 
 		// 绘制三角部分
 		const float LeftCornerWidth = 60.0f;
-		FCanvasTileItem TiltItem(FVector2D(PriClipPosX - Offset * ScaleUI, PrimaryWeaponBgPoxY), WeaponBg_1.Texture->Resource, FVector2D(LeftCornerWidth * ScaleUI, WeaponBg_1.VL), FLinearColor::White);
-		MakeUV(WeaponBg_1, TiltItem.UV0, TiltItem.UV1, WeaponBg_1.U, WeaponBg_1.VL, LeftCornerWidth, WeaponBg_1.VL);
+		FCanvasTileItem TiltItem(FVector2D(PriClipPosX - Offset * ScaleUI, PrimaryWeaponBgPosY), WeaponBg_1.Texture->Resource, 
+			FVector2D(LeftCornerWidth * ScaleUI, WeaponBg_1.VL * ScaleUI), FLinearColor::White);
+		MakeUV(WeaponBg_1, TiltItem.UV0, TiltItem.UV1, WeaponBg_1.U, WeaponBg_1.V, LeftCornerWidth, WeaponBg_1.VL);
 		TiltItem.BlendMode = SE_BLEND_Translucent;
 		Canvas->DrawItem(TiltItem);
 
 		// 绘制背景矩形部分
 		const float RestWidth = Canvas->ClipX - PriClipPosX - (LeftCornerWidth - Offset - 2 * Offset) * ScaleUI;
-		TiltItem.Position = FVector2D(PriClipPosX + (LeftCornerWidth - Offset), PrimaryWeaponBgPoxY);
+		TiltItem.Position = FVector2D(PriClipPosX + (LeftCornerWidth - Offset) * ScaleUI, PrimaryWeaponBgPosY);
 		TiltItem.Size = FVector2D(RestWidth, WeaponBg_1.VL * ScaleUI);
-		MakeUV(WeaponBg_1, TiltItem.UV0, TiltItem.UV1, WeaponBg_1.U + (WeaponBg_1.UL - RestWidth / ScaleUI), WeaponBg_1.VL, RestWidth / ScaleUI, WeaponBg_1.VL);
+		MakeUV(WeaponBg_1, TiltItem.UV0, TiltItem.UV1, WeaponBg_1.U + (WeaponBg_1.UL - RestWidth / ScaleUI), WeaponBg_1.V, RestWidth / ScaleUI, WeaponBg_1.VL);
+		Canvas->DrawItem(TiltItem);
 
 		// 绘制武器图标部分
 		Canvas->DrawIcon(WeaponIcon_1, PriWeaponPosX, PriWeaponPosY, ScaleUI);
@@ -202,13 +204,13 @@ void AShooterHUD::DrawWeaponHUD()
 		const float TextOffset = 12;
 		const float TopTextScale = 0.73f;
 		const float TopTextPosX = Canvas->ClipX - Canvas->OrgX - (2 * Offset + PriWeaponBoxWidth + (BoxWidth + SizeX * TopTextScale) / 2) * ScaleUI;
-		const float TopTextPosY = Canvas->ClipX - Canvas->OrgY - (Offset + PriWeaponOffsetY + (Offset - TextOffset) / 2.0f) * ScaleUI;
+		const float TopTextPosY = Canvas->ClipX - Canvas->OrgY - (Offset + PriWeaponOffsetY + WeaponBg_1.VL - TextOffset / 2.0f) * ScaleUI;
 		TextItem.Text = FText::FromString(Text);
 		TextItem.Scale = FVector2D(TopTextScale * ScaleUI, TopTextScale * ScaleUI);
 		TextItem.FontRenderInfo = ShadowedFont;
 		Canvas->DrawItem(TextItem, TopTextPosX, TopTextPosY);
 
-		// 检测下半部分文字
+		// 绘制剩余子弹文字
 		float TopTextHeight;
 		TopTextHeight = SizeY * TopTextScale;
 		Text = FString::FromInt(MyWeapon->GetAmmoCountMax());
