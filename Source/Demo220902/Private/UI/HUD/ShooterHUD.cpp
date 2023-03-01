@@ -85,7 +85,6 @@ void AShooterHUD::DrawHpUI()
 {
 	Canvas->SetDrawColor(FColor::White);									// 调整颜色混合
 
-	// 右下角剪辑区域
 	const float HpUIPosX = (Canvas->ClipX - HpUIBg.UL * ScaleUI) / 2;		// 血条的横向坐标
 	const float HpUIPosY = Canvas->ClipY - HpUIBg.VL * ScaleUI;				// 血条的纵向坐标
 	Canvas->DrawIcon(HpUIBg, HpUIPosX, HpUIPosY, ScaleUI);
