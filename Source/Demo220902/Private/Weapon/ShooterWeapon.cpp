@@ -27,6 +27,8 @@ AShooterWeapon::AShooterWeapon()
 	WeaponMesh1P->SetRelativeTransform(NewTransform);									//设置网络体的旋转用到的SetRelativeTransform
 
 	FireSound = nullptr;
+	AmmoCountMax = 50;
+	AmmoCount = AmmoCountMax;
 }
 
 // 设置武器当前的Pawn

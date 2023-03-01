@@ -206,6 +206,40 @@ void AShooterHUD::DrawWeaponHUD()
 		TextItem.Scale = FVector2D(TopTextScale * ScaleUI, TopTextScale * ScaleUI);
 		TextItem.FontRenderInfo = ShadowedFont;
 		Canvas->DrawItem(TextItem, TopTextPosX, TopTextPosY);
+
+		// 检测下半部分文字
+		float TopTextHeight;
+		TopTextHeight = SizeY * TopTextScale;
+		Text = FString::FromInt(MyWeapon->GetAmmoCountMax());
+		Canvas->StrLen(BigFont, Text, SizeX, SizeY);
+
+		const float BottomTextScale = 0.49f;
+		const float BottomTextPosX = Canvas->ClipX - Canvas->OrgX - (PriWeaponBoxWidth + Offset * 2 + (BoxWidth + SizeX * BottomTextScale) / 2.0f) * ScaleUI;
+		const float BottomTextPosY = TopTextPosY + (TopTextHeight - 0.8f * TextOffset) * ScaleUI;
+		TextItem.Text = FText::FromString(Text);
+		TextItem.Scale = FVector2D(BottomTextScale * ScaleUI, BottomTextScale * ScaleUI);
+		TextItem.FontRenderInfo = ShadowedFont;
+		Canvas->DrawItem(TextItem, BottomTextPosX, BottomTextPosY);
+
+		// 绘制子弹进度条
+		const float AmmoPerIcon = MyWeapon->GetAmmoCountMax() / AmmoIconsCount;
+		for (int32 i = 0; i < AmmoPerIcon; i++)
+		{
+			if (((i+1) * AmmoPerIcon > MyWeapon->GetAmmoCount()))
+			{
+				const float UsedPerIcon = (i + 1) * AmmoPerIcon - MyWeapon->GetAmmoCount();
+				float PercentLeftInIcon = 0;
+				if (UsedPerIcon < AmmoPerIcon)
+				{
+					PercentLeftInIcon = (AmmoPerIcon - UsedPerIcon) / AmmoPerIcon;
+				}
+				const int32 Color = 128 + 128 * PercentLeftInIcon;
+				Canvas->SetDrawColor(Color, Color, Color, Color);
+			}
+			const float ClipOffset = PrimaryClipIconOffset * i * ScaleUI;
+			Canvas->DrawIcon(AmmoClipIcon_1, PriClipPosX + ClipOffset, PriClipPosY, ScaleUI);
+		}
+		Canvas->SetDrawColor(HUDDark);
 	}
 }
 

@@ -74,11 +74,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
 	USoundBase* FireSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = Ammo)
+	int AmmoCountMax;
+
+	int AmmoCount;
 
 private:
 	AShooterCharacter* PawnOwner;
-
-	int AmmoCount;
-	int AmmoCountMax;
-
 };
