@@ -204,7 +204,7 @@ void AShooterHUD::DrawWeaponHUD()
 		const float TextOffset = 12;
 		const float TopTextScale = 0.73f;
 		const float TopTextPosX = Canvas->ClipX - Canvas->OrgX - (2 * Offset + PriWeaponBoxWidth + (BoxWidth + SizeX * TopTextScale) / 2) * ScaleUI;
-		const float TopTextPosY = Canvas->ClipX - Canvas->OrgY - (Offset + PriWeaponOffsetY + WeaponBg_1.VL - TextOffset / 2.0f) * ScaleUI;
+		const float TopTextPosY = Canvas->ClipY - Canvas->OrgY - (Offset + PriWeaponOffsetY + WeaponBg_1.VL - TextOffset / 2.0f) * ScaleUI;
 		TextItem.Text = FText::FromString(Text);
 		TextItem.Scale = FVector2D(TopTextScale * ScaleUI, TopTextScale * ScaleUI);
 		TextItem.FontRenderInfo = ShadowedFont;
@@ -226,7 +226,7 @@ void AShooterHUD::DrawWeaponHUD()
 
 		// 绘制子弹进度条
 		const float AmmoPerIcon = MyWeapon->GetAmmoCountMax() / AmmoIconsCount;
-		for (int32 i = 0; i < AmmoPerIcon; i++)
+		for (int32 i = 0; i < AmmoIconsCount; i++)
 		{
 			if (((i+1) * AmmoPerIcon > MyWeapon->GetAmmoCount()))
 			{
