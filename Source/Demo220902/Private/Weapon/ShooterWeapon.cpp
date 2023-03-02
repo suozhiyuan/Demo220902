@@ -146,25 +146,53 @@ int AShooterWeapon::GetAmmoCountMax()
 void AShooterWeapon::WeaponState()
 {
 	EWeaponState::Type NewState = EWeaponState::Idle;
-	if (bIsEquip)
+
+	if (bIsEquipWeapon)
 	{
 		if (bIsReload)
 		{
-			
+			if (CanReload())
+			{
+				NewState = EWeaponState::Reloading;
+			}
 		}
 		else
 		{
-			if (true)
+			if (bIsFire && CanFire())
 			{
-				
+				NewState = EWeaponState::Firing;
+			}
+			else
+			{
+				NewState = State;
 			}
 		}
 	}
+	else
+	{
+		if (bIsExchangeWeapon)
+		{
+			NewState = EWeaponState::Equiping;
+		}
+	}
+	SetWeaponState(NewState);
 }
 
 bool AShooterWeapon::CanFire() const
 {
 	// to do
+}
+
+bool AShooterWeapon::CanReload() const
+{
+	//判断子弹数量，当前是否满弹药，以及备用弹药大于0
+	return true;
+}
+
+void AShooterWeapon::SetWeaponState(EWeaponState::Type NewState)
+{
+	OldState = State;
+	State = NewState;
 }
 
 // Called when the game starts or when spawned

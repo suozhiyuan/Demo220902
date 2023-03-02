@@ -18,7 +18,7 @@ namespace EWeaponState
 		Idle,			// 闲置
 		Firing,			// 发射
 		Reloading,		// 重新装填
-		Equiping		// 装备
+		Equiping		// 装备武器
 	};
 }
 
@@ -64,6 +64,11 @@ public:
 	// 是否可以开火
 	bool CanFire() const;
 
+	// 是否可以换弹
+	bool CanReload() const;
+
+	// 设置武器状态
+	void SetWeaponState(EWeaponState::Type NewState);
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -98,15 +103,21 @@ private:
 	AShooterCharacter* PawnOwner;
 
 	// 是否装备武器
-	bool bIsEquip;
+	bool bIsEquipWeapon;
 
-	// 是否装子弹
+	// 是否进行装弹
 	bool bIsReload;
 
-	// 是否开火
+	// 是否进行开火
 	bool bIsFire;
 
-	// 是否换武器
+	// 是否进行换武器
 	bool bIsExchangeWeapon;
+
+	// 当前状态
+	EWeaponState::Type State;
+
+	// 之前状态
+	EWeaponState::Type OldState;
 
 };
