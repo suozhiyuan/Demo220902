@@ -187,7 +187,8 @@ bool AShooterWeapon::CanFire() const
 
 bool AShooterWeapon::CanReload() const
 {
-	//判断子弹数量，当前是否满弹药，以及备用弹药大于0
+	// to do ...
+	// 判断子弹数量，当前是否满弹药，以及备用弹药大于0
 	return true;
 }
 
@@ -195,6 +196,31 @@ void AShooterWeapon::SetWeaponState(EWeaponState::Type NewState)
 {
 	OldState = State;
 	State = NewState;
+}
+
+void AShooterWeapon::HandleCurrentState()
+{
+	if (OldState == EWeaponState::Idle && State == EWeaponState::Firing)
+	{
+		// 处理开火
+		HandleStartFireState();
+	}
+	else if (OldState == EWeaponState::Firing && (State == EWeaponState::Idle || State == EWeaponState::Reloading))
+	{
+		// 处理停火
+		HandleEndFireState();
+	}
+
+}
+
+void AShooterWeapon::HandleStartFireState()
+{
+	//to do ...
+}
+
+void AShooterWeapon::HandleEndFireState()
+{
+	//to do ...
 }
 
 // Called when the game starts or when spawned

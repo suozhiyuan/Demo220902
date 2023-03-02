@@ -18,7 +18,7 @@ namespace EWeaponState
 		Idle,			// 闲置
 		Firing,			// 发射
 		Reloading,		// 重新装填
-		Equiping		// 装备武器
+		Equiping		// 更换武器
 	};
 }
 
@@ -69,6 +69,15 @@ public:
 
 	// 设置武器状态
 	void SetWeaponState(EWeaponState::Type NewState);
+
+	// 根据当前的状态处理事件
+	void HandleCurrentState();
+
+	// 处理开始开火状态
+	void HandleStartFireState();
+
+	// 处理结束开火状态
+	void HandleEndFireState();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
