@@ -200,17 +200,40 @@ void AShooterWeapon::SetWeaponState(EWeaponState::Type NewState)
 
 void AShooterWeapon::HandleCurrentState()
 {
-	if (OldState == EWeaponState::Idle && State == EWeaponState::Firing)
+	using namespace  EWeaponState;
+
+	if (OldState == Idle && State == Firing)
 	{
 		// 处理开火
 		HandleStartFireState();
 	}
-	else if (OldState == EWeaponState::Firing && (State == EWeaponState::Idle || State == EWeaponState::Reloading))
+	else if (OldState == Firing && (State == Idle || State == Reloading))
 	{
-		// 处理停火
+		// 处理结束开火
 		HandleEndFireState();
 	}
 
+	if ((OldState == Idle || OldState == Firing) && State == Reloading)
+	{
+		// 处理装弹
+		HandleStartReloadState();
+	}
+	else if (OldState == Reloading && State == Idle)
+	{
+		// 处理停止装弹
+		HandleEndReloadState();
+	}
+
+	if (OldState == Idle && State == Equiping)
+	{
+		// 处理换武器
+		HandleStartEquipState();
+	}
+	else if (OldState == Equiping && State == Idle)
+	{
+		// 处理停止换武器
+		HandleEndEquipState();
+	}
 }
 
 void AShooterWeapon::HandleStartFireState()
@@ -221,6 +244,24 @@ void AShooterWeapon::HandleStartFireState()
 void AShooterWeapon::HandleEndFireState()
 {
 	//to do ...
+}
+
+void AShooterWeapon::HandleStartReloadState()
+{
+	//to do ...
+}
+
+void AShooterWeapon::HandleEndReloadState()
+{
+	//to do ...
+}
+
+void AShooterWeapon::HandleStartEquipState()
+{
+}
+
+void AShooterWeapon::HandleEndEquipState()
+{
 }
 
 // Called when the game starts or when spawned

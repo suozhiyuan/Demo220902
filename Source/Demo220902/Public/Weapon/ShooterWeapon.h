@@ -79,6 +79,18 @@ public:
 	// 处理结束开火状态
 	void HandleEndFireState();
 
+	// 处理装弹状态
+	void HandleStartReloadState();
+
+	// 处理结束装弹状态
+	void HandleEndReloadState();
+
+	// 处理装弹状态
+	void HandleStartEquipState();
+
+	// 处理结束装弹状态
+	void HandleEndEquipState();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
