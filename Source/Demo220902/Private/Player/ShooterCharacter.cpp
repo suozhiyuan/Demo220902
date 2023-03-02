@@ -324,3 +324,15 @@ int32 AShooterCharacter::GetMaxHp() const
 	// GetClass()->GetDefaultObject<AShooterCharacter>()->HP;    // 通过 GetDefaultObject 获取到Hp的最初值
 	return HPMax;
 }
+
+bool AShooterCharacter::CanFire() const
+{
+	bool bCanFire = IsAlive();
+
+	return true;
+}
+
+bool AShooterCharacter::IsAlive() const
+{
+	return HP > 0;
+}

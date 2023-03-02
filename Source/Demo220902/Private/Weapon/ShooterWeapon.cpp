@@ -180,7 +180,9 @@ void AShooterWeapon::WeaponState()
 
 bool AShooterWeapon::CanFire() const
 {
-	// to do
+	bool bCanFire = PawnOwner && PawnOwner->CanFire();
+
+	return bCanFire;
 }
 
 bool AShooterWeapon::CanReload() const
