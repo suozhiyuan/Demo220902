@@ -143,6 +143,30 @@ int AShooterWeapon::GetAmmoCountMax()
 	return AmmoCountMax;
 }
 
+void AShooterWeapon::WeaponState()
+{
+	EWeaponState::Type NewState = EWeaponState::Idle;
+	if (bIsEquip)
+	{
+		if (bIsReload)
+		{
+			
+		}
+		else
+		{
+			if (true)
+			{
+				
+			}
+		}
+	}
+}
+
+bool AShooterWeapon::CanFire() const
+{
+	// to do
+}
+
 // Called when the game starts or when spawned
 void AShooterWeapon::BeginPlay()
 {

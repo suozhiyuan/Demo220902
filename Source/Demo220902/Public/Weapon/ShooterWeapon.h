@@ -11,6 +11,17 @@
 class USoundCue;
 class AShooterCharacter;
 
+namespace EWeaponState
+{
+	enum Type
+	{
+		Idle,			// 闲置
+		Firing,			// 发射
+		Reloading,		// 重新装填
+		Equiping		// 装备
+	};
+}
+
 UCLASS()
 class DEMO220902_API AShooterWeapon : public AActor
 {
@@ -47,19 +58,23 @@ public:
 	// 获取最大子弹数量
 	int GetAmmoCountMax();
 
+	// 确定武器状态
+	void WeaponState();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	// 是否可以开火
+	bool CanFire() const;
 
 
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// 设置武器当前的Pawn
 	void SetPawnOwner(AShooterCharacter* pawnOwner);
+	
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 
 protected:
 	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例，当要创建一个网络体时用到USkeletalMeshComponent。
@@ -81,4 +96,17 @@ protected:
 
 private:
 	AShooterCharacter* PawnOwner;
+
+	// 是否装备武器
+	bool bIsEquip;
+
+	// 是否装子弹
+	bool bIsReload;
+
+	// 是否开火
+	bool bIsFire;
+
+	// 是否换武器
+	bool bIsExchangeWeapon;
+
 };
