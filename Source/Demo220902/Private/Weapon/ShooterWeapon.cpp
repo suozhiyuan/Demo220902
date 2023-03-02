@@ -176,6 +176,7 @@ void AShooterWeapon::WeaponState()
 		}
 	}
 	SetWeaponState(NewState);
+	HandleCurrentState();
 }
 
 bool AShooterWeapon::CanFire() const
