@@ -31,6 +31,9 @@ public:
 	// Sets default values for this actor's properties
 	AShooterWeapon();
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 	// 创建 Mesh 到 Pawn
 	void AttachMeshToPawn();
 
@@ -91,8 +94,8 @@ public:
 	// 处理结束装弹状态
 	void HandleEndEquipState();
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	// 响应更换装备
+	void OnEquip(const AShooterWeapon* _LastWeapon);
 
 	// 设置武器当前的Pawn
 	void SetPawnOwner(AShooterCharacter* pawnOwner);
@@ -100,6 +103,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// 响应装备完成
+	void OnEquipFinish();
 
 
 protected:
@@ -114,6 +120,10 @@ protected:
 	//开火音效
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
 	USoundBase* FireSound;
+
+	// 换装备音效
+	UPROPERTY(EditDefaultsOnly, Category = Sound)
+	USoundBase* EquipSound;
 
 	UPROPERTY(EditDefaultsOnly, Category = Ammo)
 	int AmmoCountMax;
@@ -141,4 +151,9 @@ private:
 	// 之前状态
 	EWeaponState::Type OldState;
 
+	// 
+	AShooterWeapon* LastWeapon;
+
+	// 换武器定时器
+	FTimerHandle TimerHanler_OnEquipFinish;
 };

@@ -133,7 +133,8 @@ void AShooterCharacter::PostInitializeComponents()
 	if (CurrentWeapon)
 	{
 		CurrentWeapon->SetPawnOwner(this);		// 设置组件创建时的Pawn
-		CurrentWeapon->AttachMeshToPawn();		// 创建 Mesh 到 Pawn
+		//CurrentWeapon->AttachMeshToPawn();		// 创建 Mesh 到 Pawn
+		CurrentWeapon->OnEquip(nullptr);
 	}
 }
 

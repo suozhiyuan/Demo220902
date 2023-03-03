@@ -31,6 +31,18 @@ AShooterWeapon::AShooterWeapon()
 	AmmoCount = AmmoCountMax;
 }
 
+// Called when the game starts or when spawned
+void AShooterWeapon::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+// Called every frame
+void AShooterWeapon::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
 // 设置武器当前的Pawn
 void AShooterWeapon::SetPawnOwner(AShooterCharacter* pawnOwner)
 {
@@ -176,7 +188,6 @@ void AShooterWeapon::WeaponState()
 		}
 	}
 	SetWeaponState(NewState);
-	HandleCurrentState();
 }
 
 bool AShooterWeapon::CanFire() const
@@ -259,22 +270,61 @@ void AShooterWeapon::HandleEndReloadState()
 
 void AShooterWeapon::HandleStartEquipState()
 {
+	AttachMeshToPawn();
+
+	if (LastWeapon != nullptr)		// 换枪
+	{
+		// 播放换枪动画
+		float EquipTime = 2.0f;		// 换枪时间
+		GetWorldTimerManager().SetTimer(TimerHanler_OnEquipFinish, this, &AShooterWeapon::OnEquipFinish, EquipTime, false);
+	}
+	else							//角色开始创建的情形
+	{
+		OnEquipFinish();
+	}
+
+	if (PawnOwner && EquipSound)
+	{
+		PlayWeaponSound(EquipSound);
+	}
+
+	bIsExchangeWeapon = true;
 }
 
 void AShooterWeapon::HandleEndEquipState()
 {
+	GetWorldTimerManager().ClearTimer(TimerHanler_OnEquipFinish);
+
+	// 停止武器动画的播放
+	// to do...
 }
 
-// Called when the game starts or when spawned
-void AShooterWeapon::BeginPlay()
+
+
+// 响应更换装备
+void AShooterWeapon::OnEquip(const AShooterWeapon* _LastWeapon)
 {
-	Super::BeginPlay();
+	LastWeapon = (AShooterWeapon*)_LastWeapon;
+	if (!bIsExchangeWeapon)
+	{
+		bIsExchangeWeapon = true;
+		WeaponState();			// 确定武器状态
+		HandleCurrentState();	// 根据当前状态处理事件
+	}
 }
 
-// Called every frame
-void AShooterWeapon::Tick(float DeltaTime)
+// 响应装备完成
+void AShooterWeapon::OnEquipFinish()
 {
-	Super::Tick(DeltaTime);
+	if (bIsEquipWeapon)
+	{
+		bIsEquipWeapon = true;
+	}
+
+	if (!bIsExchangeWeapon)
+	{
+		bIsExchangeWeapon = false;
+	}
+	WeaponState();			// 确定武器状态
+	HandleCurrentState();	// 根据当前状态处理事件
 }
-
-
