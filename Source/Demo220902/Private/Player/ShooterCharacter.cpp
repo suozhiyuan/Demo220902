@@ -127,12 +127,12 @@ void AShooterCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	FActorSpawnParameters SpawnInfo;						// FActorSpawnParameters是一个传递给SpawnActor函数的可选参数的结构，用于指定创建时的各项参数
+	FActorSpawnParameters SpawnInfo;				// FActorSpawnParameters 是一个传递给 SpawnActor 函数的可选参数的结构，用于指定创建时的各项参数
 	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;				// AlwaysSpawn: Actor将在所需的位置生成，无论碰撞与否
 	CurrentWeapon = GetWorld()->SpawnActor<AShooterWeapon>(ShooterWeaponClass, SpawnInfo);					// 在GetWorld调用SpawnActor方法创建Actor，模板指定其创建类型，SpawnActor的参数为指定的类和创建的方式
 	if (CurrentWeapon)
 	{
-		CurrentWeapon->SetPawnOwner(this);		// 设置组件创建时的Pawn
+		CurrentWeapon->SetPawnOwner(this);			// 设置组件创建时的Pawn
 		//CurrentWeapon->AttachMeshToPawn();		// 创建 Mesh 到 Pawn
 		CurrentWeapon->OnEquip(nullptr);
 	}

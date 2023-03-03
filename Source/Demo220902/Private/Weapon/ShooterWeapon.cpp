@@ -61,7 +61,7 @@ void AShooterWeapon::AttachMeshToPawn()
 		FName AttachPoint = PawnOwner->GetWeaponAttachPoint();
 		if (PawnOwner->GetMesh1P())
 		{
-			// 更改HiddenlnGame的值,是否在游戏中隐藏
+			// 更改 HiddenlnGame 的值,是否在游戏中隐藏
 			WeaponMesh1P->SetHiddenInGame(false);
 			// 在组件上创建组件，参数1:父组件Mesh   参数2:附加规则  参数3:要创建在父组件的节点
 			WeaponMesh1P->AttachToComponent(PawnOwner->GetMesh1P(), FAttachmentTransformRules::KeepRelativeTransform, AttachPoint);
@@ -157,37 +157,37 @@ int AShooterWeapon::GetAmmoCountMax()
 
 void AShooterWeapon::WeaponState()
 {
-	EWeaponState::Type NewState = EWeaponState::Idle;
+	EWeaponState::Type _NewState = EWeaponState::Idle;
 
-	if (bIsEquipWeapon)
+	if (bIsEquipWeapon)		// 是否装备了武器
 	{
-		if (bIsReload)
+		if (bIsReload)		// 是否进行装弹
 		{
 			if (CanReload())
 			{
-				NewState = EWeaponState::Reloading;
+				_NewState = EWeaponState::Reloading;
 			}
 		}
 		else
 		{
-			if (bIsFire && CanFire())
+			if (bIsFire && CanFire())	
 			{
-				NewState = EWeaponState::Firing;
+				_NewState = EWeaponState::Firing;
 			}
 			else
 			{
-				NewState = State;
+				_NewState = NewState;
 			}
 		}
 	}
 	else
 	{
-		if (bIsExchangeWeapon)
+		if (bIsExchangeWeapon)	// 是否更换武器
 		{
-			NewState = EWeaponState::Equiping;
+			_NewState = EWeaponState::Equiping;
 		}
 	}
-	SetWeaponState(NewState);
+	SetWeaponState(_NewState);
 }
 
 bool AShooterWeapon::CanFire() const
@@ -204,44 +204,44 @@ bool AShooterWeapon::CanReload() const
 	return true;
 }
 
-void AShooterWeapon::SetWeaponState(EWeaponState::Type NewState)
+void AShooterWeapon::SetWeaponState(EWeaponState::Type _NewState)
 {
-	OldState = State;
 	State = NewState;
+	NewState = _NewState;
 }
 
 void AShooterWeapon::HandleCurrentState()
 {
 	using namespace  EWeaponState;
 
-	if (OldState == Idle && State == Firing)
+	if (State == Idle && NewState == Firing)
 	{
 		// 处理开火
 		HandleStartFireState();
 	}
-	else if (OldState == Firing && (State == Idle || State == Reloading))
+	else if (State == Firing && (NewState == Idle || NewState == Reloading))
 	{
 		// 处理结束开火
 		HandleEndFireState();
 	}
 
-	if ((OldState == Idle || OldState == Firing) && State == Reloading)
+	if ((State == Idle || State == Firing) && NewState == Reloading)
 	{
 		// 处理装弹
 		HandleStartReloadState();
 	}
-	else if (OldState == Reloading && State == Idle)
+	else if (State == Reloading && NewState == Idle)
 	{
 		// 处理停止装弹
 		HandleEndReloadState();
 	}
 
-	if (OldState == Idle && State == Equiping)
+	if (State == Idle && NewState == Equiping)
 	{
 		// 处理换武器
 		HandleStartEquipState();
 	}
-	else if (OldState == Equiping && State == Idle)
+	else if (State == Equiping && NewState == Idle)
 	{
 		// 处理停止换武器
 		HandleEndEquipState();
@@ -268,6 +268,7 @@ void AShooterWeapon::HandleEndReloadState()
 	//to do ...
 }
 
+// 处理换武器
 void AShooterWeapon::HandleStartEquipState()
 {
 	AttachMeshToPawn();
@@ -276,6 +277,14 @@ void AShooterWeapon::HandleStartEquipState()
 	{
 		// 播放换枪动画
 		float EquipTime = 2.0f;		// 换枪时间
+		/*
+		 * InOutHandle		如果传入的句柄引用了一个现有的计时器，那么在添加新计时器之前，它将被清除。在这两种情况下，都会返回新计时器的新句柄。对象调用定时器函数。
+		 * InObj			对象调用定时器函数。
+		 * InTimerMethod	在计时器触发时调用的方法。
+		 * InRate			设置和触发之间的时间量(秒)。如果<= 0.f，清除现有定时器。
+		 * Inbloop		 true表示以速率间隔继续射击，false表示只触发一次，默认值false。
+		 * InFirstDelay		循环计时器第一次迭代的时间(秒)，默认值-1
+		 */
 		GetWorldTimerManager().SetTimer(TimerHanler_OnEquipFinish, this, &AShooterWeapon::OnEquipFinish, EquipTime, false);
 	}
 	else							//角色开始创建的情形
@@ -293,13 +302,11 @@ void AShooterWeapon::HandleStartEquipState()
 
 void AShooterWeapon::HandleEndEquipState()
 {
-	GetWorldTimerManager().ClearTimer(TimerHanler_OnEquipFinish);
+	GetWorldTimerManager().ClearTimer(TimerHanler_OnEquipFinish);		// 清除计时器
 
 	// 停止武器动画的播放
 	// to do...
 }
-
-
 
 // 响应更换装备
 void AShooterWeapon::OnEquip(const AShooterWeapon* _LastWeapon)
@@ -316,7 +323,7 @@ void AShooterWeapon::OnEquip(const AShooterWeapon* _LastWeapon)
 // 响应装备完成
 void AShooterWeapon::OnEquipFinish()
 {
-	if (bIsEquipWeapon)
+	if (!bIsEquipWeapon)
 	{
 		bIsEquipWeapon = true;
 	}

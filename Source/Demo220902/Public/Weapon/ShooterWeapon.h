@@ -73,7 +73,7 @@ public:
 	// 设置武器状态
 	void SetWeaponState(EWeaponState::Type NewState);
 
-	// 根据当前的状态处理事件
+	// 根据武器状态处理响应事件
 	void HandleCurrentState();
 
 	// 处理开始开火状态
@@ -88,10 +88,10 @@ public:
 	// 处理结束装弹状态
 	void HandleEndReloadState();
 
-	// 处理装弹状态
+	// 处理换装备状态
 	void HandleStartEquipState();
 
-	// 处理结束装弹状态
+	// 处理结束换装备状态
 	void HandleEndEquipState();
 
 	// 响应更换装备
@@ -145,13 +145,13 @@ private:
 	// 是否进行换武器
 	bool bIsExchangeWeapon;
 
+	// 新状态
+	EWeaponState::Type NewState;
+
 	// 当前状态
 	EWeaponState::Type State;
 
-	// 之前状态
-	EWeaponState::Type OldState;
-
-	// 
+	// 当前武器
 	AShooterWeapon* LastWeapon;
 
 	// 换武器定时器
