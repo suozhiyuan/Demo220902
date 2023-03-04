@@ -122,7 +122,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Released, this, &AShooterCharacter::OnEndSpeedUp);			// 放开还原
 
 
-	PlayerInputComponent->BindAction(TEXT("Relode"), IE_Pressed, this, &AShooterCharacter::OnReload);		// 换弹
+	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AShooterCharacter::OnReload);		// 换弹
 	//PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Pressed, this, &AShooterCharacter::OnReload);		// 换枪
 }
 

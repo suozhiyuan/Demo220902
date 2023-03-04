@@ -29,6 +29,13 @@ AShooterWeapon::AShooterWeapon()
 	FireSound = nullptr;
 	AmmoCountMax = 5;
 	AmmoCount = AmmoCountMax;
+	
+	NewState = EWeaponState::Idle;
+	State = EWeaponState::Idle;
+	bIsExchangeWeapon = false;
+	bIsEquipWeapon = false;
+	bIsReload = false;
+	bIsFire = false;
 }
 
 // Called when the game starts or when spawned
@@ -177,7 +184,7 @@ void AShooterWeapon::WeaponState()
 			}
 			else
 			{
-				_NewState = NewState;
+				_NewState = EWeaponState::Idle;
 			}
 		}
 	}
