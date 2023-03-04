@@ -31,11 +31,10 @@ public:
 	// Sets default values for this actor's properties
 	AShooterWeapon();
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	// 创建 Mesh 到 Pawn
 	void AttachMeshToPawn();
+
 
 	// 获取眼睛方向
 	FVector GetAdjustAim();
@@ -67,7 +66,7 @@ public:
 	// 是否可以开火
 	bool CanFire() const;
 
-	// 是否可以换弹
+	// 是否可以换弹，判断子弹数量，弹匣当前是否满弹药，以及备用弹药大于0
 	bool CanReload() const;
 
 	// 设置武器状态
@@ -99,14 +98,28 @@ public:
 
 	// 设置武器当前的Pawn
 	void SetPawnOwner(AShooterCharacter* pawnOwner);
-	
+
+	// 装弹
+	void StartReload();
+
+	// 停止装弹
+	void StopReload();
+
+	// 武器更新子弹
+	void ReloadWeapon();
+
+
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	// 响应装备完成
 	void OnEquipFinish();
-
 
 protected:
 	// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例，当要创建一个网络体时用到USkeletalMeshComponent。
@@ -155,5 +168,11 @@ private:
 	AShooterWeapon* LastWeapon;
 
 	// 换武器定时器
-	FTimerHandle TimerHanler_OnEquipFinish;
+	FTimerHandle TimerHandler_OnEquipFinish;
+
+	// 换弹匣,子弹更新定时器
+	FTimerHandle TimerHandler_ReloadWeapon;
+
+	// 停止换弹定时器
+	FTimerHandle TimerHandler_StopReload;
 };

@@ -155,6 +155,7 @@ int AShooterWeapon::GetAmmoCountMax()
 	return AmmoCountMax;
 }
 
+// 确定武器状态
 void AShooterWeapon::WeaponState()
 {
 	EWeaponState::Type _NewState = EWeaponState::Idle;
@@ -260,7 +261,18 @@ void AShooterWeapon::HandleEndFireState()
 
 void AShooterWeapon::HandleStartReloadState()
 {
+	// 播放装子弹的动画
+	// 播放装子弹的声音
 	//to do ...
+
+	float AnimTime = 0.0f;
+	if (AnimTime <= 0.0f)
+	{
+		AnimTime = 0.5f;
+	}
+	GetWorldTimerManager().SetTimer(TimerHandler_StopReload, this, &AShooterWeapon::StopReload, AnimTime, false);
+	GetWorldTimerManager().SetTimer(TimerHandler_ReloadWeapon, this, &AShooterWeapon::ReloadWeapon, FMath::Max(0.1f, AnimTime - 0.1f), false);
+
 }
 
 void AShooterWeapon::HandleEndReloadState()
@@ -285,7 +297,7 @@ void AShooterWeapon::HandleStartEquipState()
 		 * Inbloop		 true表示以速率间隔继续射击，false表示只触发一次，默认值false。
 		 * InFirstDelay		循环计时器第一次迭代的时间(秒)，默认值-1
 		 */
-		GetWorldTimerManager().SetTimer(TimerHanler_OnEquipFinish, this, &AShooterWeapon::OnEquipFinish, EquipTime, false);
+		GetWorldTimerManager().SetTimer(TimerHandler_OnEquipFinish, this, &AShooterWeapon::OnEquipFinish, EquipTime, false);
 	}
 	else							//角色开始创建的情形
 	{
@@ -302,7 +314,7 @@ void AShooterWeapon::HandleStartEquipState()
 
 void AShooterWeapon::HandleEndEquipState()
 {
-	GetWorldTimerManager().ClearTimer(TimerHanler_OnEquipFinish);		// 清除计时器
+	GetWorldTimerManager().ClearTimer(TimerHandler_OnEquipFinish);		// 清除计时器
 
 	// 停止武器动画的播放
 	// to do...
@@ -334,4 +346,24 @@ void AShooterWeapon::OnEquipFinish()
 	}
 	WeaponState();			// 确定武器状态
 	HandleCurrentState();	// 根据当前状态处理事件
+}
+
+void AShooterWeapon::StartReload()
+{
+	if (!bIsReload && CanReload())
+	{
+		bIsReload = true;
+		WeaponState();			// 确定武器状态
+		HandleCurrentState();	// 根据当前状态处理事件
+	}
+}
+
+void AShooterWeapon::StopReload()
+{
+
+}
+
+void AShooterWeapon::ReloadWeapon()
+{
+
 }
