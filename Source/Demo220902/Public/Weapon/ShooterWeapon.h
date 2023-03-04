@@ -42,11 +42,17 @@ public:
 	// 开火
 	void StartFire();
 
+	// 停火
+	void StopFire();
+
 	// 开火，创建武器子弹以及子弹出现位置和方向
 	virtual void FireWeapon();
 
-	//模拟开火
+	// 模拟开火
 	void SimulateWeaponFire();
+
+	// 停止模拟开火
+	void StopSimulateWeaponFire();
 
 	//音效组件
 	UAudioComponent* PlayWeaponSound(USoundBase* Sound);
@@ -108,7 +114,8 @@ public:
 	// 武器更新子弹
 	void ReloadWeapon();
 
-
+	// 处理开火状态
+	void HandleFiring();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -142,9 +149,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
 	USoundBase* ReloadSound;
 
-
+	// 最大子弹数量
 	UPROPERTY(EditDefaultsOnly, Category = Ammo)
 	int AmmoCountMax;
+
+	// 当前子弹数量
 	int AmmoCount;
 
 private:

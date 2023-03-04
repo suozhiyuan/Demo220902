@@ -109,8 +109,24 @@ FVector AShooterWeapon::GetAdjustAim()
 // 开火 
 void AShooterWeapon::StartFire()
 {
-	SimulateWeaponFire();
-	FireWeapon();
+	if (!bIsFire)
+	{
+		bIsFire = true;
+		WeaponState();
+		HandleCurrentState();
+	}
+	//SimulateWeaponFire();
+	//FireWeapon();
+}
+
+void AShooterWeapon::StopFire()
+{
+	if (bIsFire)
+	{
+		bIsFire = false;
+		WeaponState();
+		HandleCurrentState();
+	}
 }
 
 // 开火时，创建武器子弹以及子弹出现位置和方向
@@ -122,10 +138,19 @@ void AShooterWeapon::FireWeapon()
 // 开火时，声音以及粒子特效的处理
 void AShooterWeapon::SimulateWeaponFire()
 {
+	// 播放开火动画
+	// to do ...
+
 	if (FireSound)
 	{
 		PlayWeaponSound(FireSound);
 	}
+}
+
+void AShooterWeapon::StopSimulateWeaponFire()
+{
+	// 停止播放开火动画
+	// to do ...
 }
 
 // 播放声音组件
@@ -258,12 +283,12 @@ void AShooterWeapon::HandleCurrentState()
 
 void AShooterWeapon::HandleStartFireState()
 {
-	//to do ...
+	HandleFiring();
 }
 
 void AShooterWeapon::HandleEndFireState()
 {
-	//to do ...
+	StopSimulateWeaponFire();
 }
 
 void AShooterWeapon::HandleStartReloadState()
@@ -386,4 +411,18 @@ void AShooterWeapon::StopReload()
 void AShooterWeapon::ReloadWeapon()
 {
 	//to do ...
+}
+
+void AShooterWeapon::HandleFiring()
+{
+	if (AmmoCount <0)
+	{
+		// to do  提示子弹数量不够
+	}
+	else
+	{
+		SimulateWeaponFire();			// 开火时，声音以及粒子特效的处理
+		FireWeapon();					// 开火时，创建武器子弹以及子弹出现位置和方向，在子类中实现
+		// to do...  更新子弹数量
+	}
 }
