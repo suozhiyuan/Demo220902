@@ -134,13 +134,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
 	USoundBase* FireSound;
 
-	// 换装备音效
+	// 换枪音效
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
 	USoundBase* EquipSound;
 
+	// 换弹音效
+	UPROPERTY(EditDefaultsOnly, Category = Sound)
+	USoundBase* ReloadSound;
+
+
 	UPROPERTY(EditDefaultsOnly, Category = Ammo)
 	int AmmoCountMax;
-
 	int AmmoCount;
 
 private:

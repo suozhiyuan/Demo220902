@@ -273,11 +273,18 @@ void AShooterWeapon::HandleStartReloadState()
 	GetWorldTimerManager().SetTimer(TimerHandler_StopReload, this, &AShooterWeapon::StopReload, AnimTime, false);
 	GetWorldTimerManager().SetTimer(TimerHandler_ReloadWeapon, this, &AShooterWeapon::ReloadWeapon, FMath::Max(0.1f, AnimTime - 0.1f), false);
 
+	if (PawnOwner)
+	{
+		PlayWeaponSound(ReloadSound);
+	}
 }
 
 void AShooterWeapon::HandleEndReloadState()
 {
-	//to do ...
+	//停止播放换子弹的动画
+	// to do ...
+	GetWorldTimerManager().ClearTimer(TimerHandler_StopReload);
+	GetWorldTimerManager().ClearTimer(TimerHandler_ReloadWeapon);
 }
 
 // 处理换武器
@@ -360,10 +367,15 @@ void AShooterWeapon::StartReload()
 
 void AShooterWeapon::StopReload()
 {
-
+	if (bIsReload)
+	{
+		bIsReload = false;
+		WeaponState();			// 确定武器状态
+		HandleCurrentState();	// 根据当前状态处理事件
+	}
 }
 
 void AShooterWeapon::ReloadWeapon()
 {
-
+	//to do ...
 }
