@@ -118,7 +118,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("Target"), IE_Pressed, this, &AShooterCharacter::OnStartTargeting);		// 按下右键瞄准
 	PlayerInputComponent->BindAction(TEXT("Target"), IE_Released, this, &AShooterCharacter::OnEndTargeting);		// 放开右键瞄准
 
-	PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Pressed, this, &AShooterCharacter::OnStartSpeedUp);		// 按下加速
+	PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Pressed, this, &AShooterCharacter::OnStartSpeedUp);			// 按下加速
 	PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Released, this, &AShooterCharacter::OnEndSpeedUp);			// 放开还原
 
 
@@ -243,7 +243,10 @@ void AShooterCharacter::OnStartFire()
 // 停止开火
 void AShooterCharacter::OnEndFire()
 {
-
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->StopFire();
+	}
 }
 
 
@@ -334,7 +337,7 @@ bool AShooterCharacter::CanFire() const
 {
 	bool bCanFire = IsAlive();
 
-	return true;
+	return bCanFire;
 }
 
 bool AShooterCharacter::IsAlive() const

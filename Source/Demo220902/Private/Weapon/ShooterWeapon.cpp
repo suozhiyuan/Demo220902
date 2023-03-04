@@ -415,9 +415,9 @@ void AShooterWeapon::ReloadWeapon()
 
 void AShooterWeapon::HandleFiring()
 {
-	if (AmmoCount <0)
+	if (AmmoCount <= 0)
 	{
-		// to do  提示子弹数量不够
+		// to do  提示子弹数量不够，调用击针空击的音效
 	}
 	else
 	{
