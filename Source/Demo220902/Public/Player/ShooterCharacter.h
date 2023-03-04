@@ -101,6 +101,9 @@ public:
 	// 是否存活
 	bool IsAlive() const;
 
+	// 操作换弹
+	void OnReload();
+
 protected:
 
 	//// 摄像机（2023/02/01 考虑到AI调用该类，摄像机有些多余，摄像机将会放置到相机管理器中）

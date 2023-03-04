@@ -120,6 +120,10 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Pressed, this, &AShooterCharacter::OnStartSpeedUp);		// 按下加速
 	PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Released, this, &AShooterCharacter::OnEndSpeedUp);			// 放开还原
+
+
+	PlayerInputComponent->BindAction(TEXT("Relode"), IE_Pressed, this, &AShooterCharacter::OnReload);		// 换弹
+	//PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Pressed, this, &AShooterCharacter::OnReload);		// 换枪
 }
 
 // 构建组件初始化
@@ -336,4 +340,16 @@ bool AShooterCharacter::CanFire() const
 bool AShooterCharacter::IsAlive() const
 {
 	return HP > 0;
+}
+
+void AShooterCharacter::OnReload()
+{
+	
+	if (AShooterPlayerController* MyPC = Cast<AShooterPlayerController>(Controller))
+	{
+		if (CurrentWeapon)
+		{
+			CurrentWeapon->StartReload();
+		}
+	}
 }

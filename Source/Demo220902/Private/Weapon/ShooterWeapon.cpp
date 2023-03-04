@@ -277,6 +277,7 @@ void AShooterWeapon::HandleStartReloadState()
 	{
 		PlayWeaponSound(ReloadSound);
 	}
+	
 }
 
 void AShooterWeapon::HandleEndReloadState()
