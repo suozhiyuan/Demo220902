@@ -430,9 +430,9 @@ void AShooterWeapon::HandleFiring()
 		// to do...  更新子弹数量
 	}
 
-	bRefiring = (State == EWeaponState::Firing) && WeaponConfig.TimeBetweenShots > 0.0f;
+	bRefiring = (NewState == EWeaponState::Firing) && WeaponConfig.TimeBetweenShots > 0.0f;
 	if (bRefiring)
 	{
-		GetWorldTimerManager().SetTimer(TimerHandler_HandleFiring, this, &AShooterWeapon::HandleFiring, false);
+		GetWorldTimerManager().SetTimer(TimerHandler_HandleFiring, this, &AShooterWeapon::HandleFiring, WeaponConfig.TimeBetweenShots, false);
 	}
 }
