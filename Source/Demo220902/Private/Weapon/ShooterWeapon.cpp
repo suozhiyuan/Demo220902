@@ -36,6 +36,7 @@ AShooterWeapon::AShooterWeapon()
 	bIsEquipWeapon = false;
 	bIsReload = false;
 	bIsFire = false;
+	bRefiring = false;
 }
 
 // Called when the game starts or when spawned
@@ -288,6 +289,9 @@ void AShooterWeapon::HandleStartFireState()
 
 void AShooterWeapon::HandleEndFireState()
 {
+	GetWorldTimerManager().ClearTimer(TimerHandler_HandleFiring);
+	bRefiring = false;
+
 	StopSimulateWeaponFire();
 }
 
@@ -424,5 +428,11 @@ void AShooterWeapon::HandleFiring()
 		SimulateWeaponFire();			// 开火时，声音以及粒子特效的处理
 		FireWeapon();					// 开火时，创建武器子弹以及子弹出现位置和方向，在子类中实现
 		// to do...  更新子弹数量
+	}
+
+	bRefiring = (State == EWeaponState::Firing) && WeaponConfig.TimeBetweenShots > 0.0f;
+	if (bRefiring)
+	{
+		GetWorldTimerManager().SetTimer(TimerHandler_HandleFiring, this, &AShooterWeapon::HandleFiring, false);
 	}
 }

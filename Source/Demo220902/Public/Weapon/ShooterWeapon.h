@@ -22,6 +22,22 @@ namespace EWeaponState
 	};
 }
 
+USTRUCT()
+struct FWeaponData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, Category = WeaponState)
+	float TimeBetweenShots;				// 单发间隔时间
+
+	FWeaponData()
+	{
+		TimeBetweenShots = 1.0f;
+	}
+};
+
+
+
 UCLASS()
 class DEMO220902_API AShooterWeapon : public AActor
 {
@@ -156,6 +172,11 @@ protected:
 	// 当前子弹数量
 	int AmmoCount;
 
+	// 武器属性数据
+	UPROPERTY(EditDefaultsOnly, Category = Config)
+	FWeaponData WeaponConfig;
+
+
 private:
 	AShooterCharacter* PawnOwner;
 
@@ -188,4 +209,10 @@ private:
 
 	// 停止换弹定时器
 	FTimerHandle TimerHandler_StopReload;
+
+	// 连发射击间隔定时器
+	FTimerHandle TimerHandler_HandleFiring;
+
+	// 连发时用来判断再次射击
+	bool bRefiring;
 };
