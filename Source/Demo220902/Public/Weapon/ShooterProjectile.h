@@ -43,7 +43,6 @@ public:
 	// 爆炸效果处理
 	void Explode(const FHitResult& ImpactResult);
 
-
 protected:
 	// 一个球形碰撞组件
 	UPROPERTY(EditDefaultsOnly,Category = Projectile)

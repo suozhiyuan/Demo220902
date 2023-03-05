@@ -44,8 +44,6 @@ struct FWeaponData
 	}
 };
 
-
-
 UCLASS()
 class DEMO220902_API AShooterWeapon : public AActor
 {
@@ -78,7 +76,7 @@ public:
 	// 停止模拟开火
 	void StopSimulateWeaponFire();
 
-	//音效组件
+	// 音效组件
 	UAudioComponent* PlayWeaponSound(USoundBase* Sound);
 
 	// 获取枪口位置
@@ -156,6 +154,9 @@ public:
 	// 弹匣子弹数量 总子弹数量更新
 	void UseAmmo();
 
+	// 返回伤害对象
+	FHitResult WeaponTrace(const FVector& TraceFrom, const FVector& TraceTo) const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -203,8 +204,9 @@ protected:
 	UPROPERTY(Transient)
 	int32 CurrentAmmoClip;
 
-private:
 	AShooterCharacter* PawnOwner;
+
+private:
 
 	// 是否装备武器
 	bool bIsEquipWeapon;

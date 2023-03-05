@@ -33,7 +33,6 @@ void AShooterWeapon_Projectile::FireWeapon()
 		Projectile->InitVelocity(ShooterDirection);								// 设置子弹速度，传进去的是方向角度，和速度有啥关系
 		UGameplayStatics::FinishSpawningActor(Projectile, SpawnTM);				// 对应BeginDeferredActorSpawnFromClass，延迟结束
 	}
-
 }
 
 // 返回武器的子弹配置

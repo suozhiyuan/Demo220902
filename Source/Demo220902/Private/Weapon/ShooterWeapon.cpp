@@ -3,6 +3,7 @@
 
 #include "Weapon/ShooterWeapon.h"
 
+#include "Demo220902.h"
 #include "Bots/ShooterAIController.h"
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -79,6 +80,28 @@ void AShooterWeapon::UseAmmo()
 {
 	CurrentAmmoClip--;
 	CurrentAmmo--;
+}
+
+FHitResult AShooterWeapon::WeaponTrace(const FVector& TraceFrom, const FVector& TraceTo) const
+{
+	// 追踪通道的名字
+	static FName WeaponFireTag = FName(TEXT("WeaponTrace"));
+
+	// 追踪查询参数
+	FCollisionQueryParams TraceParams(WeaponFireTag, true, GetInstigator());
+
+	// 是否应该在异步场景中执行跟踪, 4.26 已经没有这个参数了
+	//TraceParams.bTraceAsyncScene = true;
+
+	// 追踪物理材质的内容
+	TraceParams.bReturnPhysicalMaterial = true;
+
+	FHitResult Hit(ForceInit);							// 一个包含撞击信息的结构
+
+	// 使用特定的通道跟踪光线，并返回第一个阻塞命中
+	GetWorld()->LineTraceSingleByChannel(Hit, TraceFrom, TraceTo, COLLISION_WEAPON, TraceParams);
+
+	return Hit;
 }
 
 // 设置武器当前的Pawn
