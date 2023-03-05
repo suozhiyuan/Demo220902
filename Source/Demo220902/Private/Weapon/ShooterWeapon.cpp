@@ -465,20 +465,14 @@ void AShooterWeapon::HandleFiring()
 		// to do  提示子弹数量不够，调用击针空击的音效
 		return;
 	}
-	else
-	{
-		if (CurrentAmmoClip <= 0)
-		{
-			StartReload();
-		}
-		else
-		{
-			SimulateWeaponFire();			// 开火时，声音以及粒子特效的处理
-			FireWeapon();					// 开火时，创建武器子弹以及子弹出现位置和方向，在子类中实现
-			// to do...  更新子弹数量
-			UseAmmo();
-		}
 
+	SimulateWeaponFire();			// 开火时，声音以及粒子特效的处理
+	FireWeapon();					// 开火时，创建武器子弹以及子弹出现位置和方向，在子类中实现
+	UseAmmo();						// 弹匣子弹数量 总子弹数量更新
+
+	if (CurrentAmmoClip <= 0)
+	{
+		StartReload();
 	}
 
 	bRefiring = (NewState == EWeaponState::Firing) && WeaponConfig.TimeBetweenShots > 0.0f;
