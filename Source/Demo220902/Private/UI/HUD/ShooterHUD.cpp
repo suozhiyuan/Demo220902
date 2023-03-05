@@ -195,7 +195,7 @@ void AShooterHUD::DrawWeaponHUD()
 
 		// 绘制当前剩余子弹数量
 		float SizeX, SizeY;
-		FString Text = FString::FromInt(MyWeapon->GetAmmoCount());
+		FString Text = FString::FromInt(MyWeapon->GetCurrentAmmoClip());
 		Canvas->StrLen(BigFont, Text, SizeX, SizeY);
 
 		FCanvasTextItem TextItem(FVector2D::ZeroVector, FText::GetEmpty(), BigFont, HUDDark);
@@ -212,7 +212,7 @@ void AShooterHUD::DrawWeaponHUD()
 		// 绘制剩余子弹文字
 		float TopTextHeight;
 		TopTextHeight = SizeY * TopTextScale;
-		Text = FString::FromInt(MyWeapon->GetAmmoCountMax());
+		Text = FString::FromInt(MyWeapon->GetCurrentAmmo() - MyWeapon->GetCurrentAmmoClip());
 		Canvas->StrLen(BigFont, Text, SizeX, SizeY);
 
 		const float BottomTextScale = 0.49f;
@@ -224,12 +224,12 @@ void AShooterHUD::DrawWeaponHUD()
 		Canvas->DrawItem(TextItem, BottomTextPosX, BottomTextPosY);
 
 		// 绘制子弹进度条
-		const float AmmoPerIcon = MyWeapon->GetAmmoCountMax() / AmmoIconsCount;
+		const float AmmoPerIcon = MyWeapon->GetAmmoPerClip() / AmmoIconsCount;
 		for (int32 i = 0; i < AmmoIconsCount; i++)
 		{
-			if (((i+1) * AmmoPerIcon > MyWeapon->GetAmmoCount()))
+			if (((i+1) * AmmoPerIcon > MyWeapon->GetCurrentAmmoClip()))
 			{
-				const float UsedPerIcon = (i + 1) * AmmoPerIcon - MyWeapon->GetAmmoCount();
+				const float UsedPerIcon = (i + 1) * AmmoPerIcon - MyWeapon->GetCurrentAmmoClip();
 				float PercentLeftInIcon = 0;
 				if (UsedPerIcon < AmmoPerIcon)
 				{

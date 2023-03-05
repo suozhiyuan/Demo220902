@@ -38,9 +38,9 @@ struct FWeaponData
 
 	FWeaponData()
 	{
-		AmmoPerClip = 5;
-		InitalClip = 20;
-		TimeBetweenShots = 1.0f;
+		AmmoPerClip = 30;
+		InitalClip = 4;
+		TimeBetweenShots = 0.1f;
 	}
 };
 
@@ -195,7 +195,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Config)
 	FWeaponData WeaponConfig;
 
-	// 当前可用子弹数
+	// 当前可用子弹数（未使用的 + 弹匣里剩下的）
 	UPROPERTY(Transient)
 	int32 CurrentAmmo;
 

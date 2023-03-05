@@ -263,8 +263,10 @@ bool AShooterWeapon::CanFire() const
 
 bool AShooterWeapon::CanReload() const
 {
-	bool bGotAmmo = (CurrentAmmoClip < WeaponConfig.AmmoPerClip) && (CurrentAmmo - CurrentAmmoClip > 0);			//  (CurrentAmmo - CurrentAmmoClip > 0) 这个判断很谜
-	return true;
+	bool bGotAmmo = (CurrentAmmoClip < WeaponConfig.AmmoPerClip) && (CurrentAmmo - CurrentAmmoClip > 0);
+	bool bStateOKToReload = (NewState == EWeaponState::Idle) || (NewState == EWeaponState::Firing);
+
+	return bGotAmmo && bStateOKToReload;
 }
 
 void AShooterWeapon::SetWeaponState(EWeaponState::Type _NewState)
@@ -349,8 +351,13 @@ void AShooterWeapon::HandleEndReloadState()
 {
 	//停止播放换子弹的动画
 	// to do ...
+
+	if (bIsReload)
+	{
+		bIsReload = false;
+	}
 	GetWorldTimerManager().ClearTimer(TimerHandler_StopReload);
-	GetWorldTimerManager().ClearTimer(TimerHandler_ReloadWeapon);
+	//GetWorldTimerManager().ClearTimer(TimerHandler_ReloadWeapon);
 }
 
 // 处理换武器
@@ -443,7 +450,12 @@ void AShooterWeapon::StopReload()
 
 void AShooterWeapon::ReloadWeapon()
 {
-	//to do ...
+	int32 ClipDelta = FMath::Min(WeaponConfig.AmmoPerClip - CurrentAmmoClip, CurrentAmmo - CurrentAmmoClip);
+	if (ClipDelta > 0)
+	{
+		CurrentAmmoClip += ClipDelta;
+	}
+	CurrentAmmo = FMath::Max(CurrentAmmo, CurrentAmmoClip);
 }
 
 void AShooterWeapon::HandleFiring()
@@ -451,6 +463,7 @@ void AShooterWeapon::HandleFiring()
 	if (CurrentAmmo <= 0)
 	{
 		// to do  提示子弹数量不够，调用击针空击的音效
+		return;
 	}
 	else
 	{
