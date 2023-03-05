@@ -27,8 +27,8 @@ AShooterWeapon::AShooterWeapon()
 	WeaponMesh1P->SetRelativeTransform(NewTransform);									//设置网络体的旋转用到的SetRelativeTransform
 
 	FireSound = nullptr;
-	AmmoCountMax = 5;
-	AmmoCount = AmmoCountMax;
+	//AmmoCountMax = 5;
+	//AmmoCount = AmmoCountMax;
 	
 	NewState = EWeaponState::Idle;
 	State = EWeaponState::Idle;
@@ -37,18 +37,48 @@ AShooterWeapon::AShooterWeapon()
 	bIsReload = false;
 	bIsFire = false;
 	bRefiring = false;
+
+	CurrentAmmo = 0;
+	CurrentAmmoClip = 0;
 }
 
 // Called when the game starts or when spawned
 void AShooterWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (WeaponConfig.InitalClip > 0)
+	{
+		CurrentAmmoClip = WeaponConfig.AmmoPerClip;
+		CurrentAmmo = WeaponConfig.AmmoPerClip * WeaponConfig.InitalClip;
+	}
 }
 
 // Called every frame
 void AShooterWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+int32 AShooterWeapon::GetCurrentAmmo() const
+{
+	return CurrentAmmo;
+}
+
+int32 AShooterWeapon::GetCurrentAmmoClip() const
+{
+	return CurrentAmmoClip;
+}
+
+int32 AShooterWeapon::GetAmmoPerClip() const
+{
+	return WeaponConfig.AmmoPerClip;
+}
+
+void AShooterWeapon::UseAmmo()
+{
+	CurrentAmmoClip--;
+	CurrentAmmo--;
 }
 
 // 设置武器当前的Pawn
@@ -178,15 +208,15 @@ FVector AShooterWeapon::GetMuzzleLocation()
 	return FVector::ZeroVector;
 }
 
-int AShooterWeapon::GetAmmoCount()
-{
-	return AmmoCount;
-}
-
-int AShooterWeapon::GetAmmoCountMax()
-{
-	return AmmoCountMax;
-}
+//int AShooterWeapon::GetAmmoCount()
+//{
+//	return AmmoCount;
+//}
+//
+//int AShooterWeapon::GetAmmoCountMax()
+//{
+//	return AmmoCountMax;
+//}
 
 // 确定武器状态
 void AShooterWeapon::WeaponState()
@@ -233,8 +263,7 @@ bool AShooterWeapon::CanFire() const
 
 bool AShooterWeapon::CanReload() const
 {
-	// to do ...
-	// 判断子弹数量，当前是否满弹药，以及备用弹药大于0
+	bool bGotAmmo = (CurrentAmmoClip < WeaponConfig.AmmoPerClip) && (CurrentAmmo - CurrentAmmoClip > 0);			//  (CurrentAmmo - CurrentAmmoClip > 0) 这个判断很谜
 	return true;
 }
 
@@ -419,15 +448,24 @@ void AShooterWeapon::ReloadWeapon()
 
 void AShooterWeapon::HandleFiring()
 {
-	if (AmmoCount <= 0)
+	if (CurrentAmmo <= 0)
 	{
 		// to do  提示子弹数量不够，调用击针空击的音效
 	}
 	else
 	{
-		SimulateWeaponFire();			// 开火时，声音以及粒子特效的处理
-		FireWeapon();					// 开火时，创建武器子弹以及子弹出现位置和方向，在子类中实现
-		// to do...  更新子弹数量
+		if (CurrentAmmoClip <= 0)
+		{
+			StartReload();
+		}
+		else
+		{
+			SimulateWeaponFire();			// 开火时，声音以及粒子特效的处理
+			FireWeapon();					// 开火时，创建武器子弹以及子弹出现位置和方向，在子类中实现
+			// to do...  更新子弹数量
+			UseAmmo();
+		}
+
 	}
 
 	bRefiring = (NewState == EWeaponState::Firing) && WeaponConfig.TimeBetweenShots > 0.0f;

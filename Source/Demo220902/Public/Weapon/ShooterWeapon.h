@@ -27,11 +27,19 @@ struct FWeaponData
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditDefaultsOnly, Category = Ammo)
+	int32 AmmoPerClip;					// 弹匣容量
+
+	UPROPERTY(EditDefaultsOnly, Category = Ammo)
+	int32 InitalClip;					// 弹匣数量
+
 	UPROPERTY(EditDefaultsOnly, Category = WeaponState)
 	float TimeBetweenShots;				// 单发间隔时间
 
 	FWeaponData()
 	{
+		AmmoPerClip = 5;
+		InitalClip = 20;
 		TimeBetweenShots = 1.0f;
 	}
 };
@@ -76,11 +84,11 @@ public:
 	// 获取枪口位置
 	FVector GetMuzzleLocation();
 
-	// 获取当前子弹数量
-	int GetAmmoCount();
+	//// 获取当前子弹数量
+	//int GetAmmoCount();
 
-	// 获取最大子弹数量
-	int GetAmmoCountMax();
+	//// 获取最大子弹数量
+	//int GetAmmoCountMax();
 
 	// 确定武器状态
 	void WeaponState();
@@ -136,6 +144,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// 获取当前子弹数量
+	int32 GetCurrentAmmo() const;
+
+	// 获取弹匣当前子弹数量
+	int32 GetCurrentAmmoClip() const;
+
+	// 获取弹匣容量
+	int32 GetAmmoPerClip() const;
+
+	// 弹匣子弹数量 总子弹数量更新
+	void UseAmmo();
 
 protected:
 	// Called when the game starts or when spawned
@@ -165,17 +184,24 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
 	USoundBase* ReloadSound;
 
-	// 最大子弹数量
-	UPROPERTY(EditDefaultsOnly, Category = Ammo)
-	int AmmoCountMax;
+	//// 最大子弹数量
+	//UPROPERTY(EditDefaultsOnly, Category = Ammo)
+	//int AmmoCountMax;
 
-	// 当前子弹数量
-	int AmmoCount;
+	//// 当前子弹数量
+	//int AmmoCount;
 
 	// 武器属性数据
 	UPROPERTY(EditDefaultsOnly, Category = Config)
 	FWeaponData WeaponConfig;
 
+	// 当前可用子弹数
+	UPROPERTY(Transient)
+	int32 CurrentAmmo;
+
+	// 当前弹匣可用子弹数量
+	UPROPERTY(Transient)
+	int32 CurrentAmmoClip;
 
 private:
 	AShooterCharacter* PawnOwner;
@@ -215,4 +241,6 @@ private:
 
 	// 连发时用来判断再次射击
 	bool bRefiring;
+
+	// 
 };
