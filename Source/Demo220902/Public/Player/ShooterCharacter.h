@@ -113,6 +113,15 @@ public:
 	// 响应背包中的武器切换
 	void OnNextWeapon();
 
+	// 播放蒙太奇动画，返回蒙太奇的长度
+	virtual float PlayAnimMontage(class UAnimMontage* AnimMontage, float InPlayRate = 1.0f, FName StartSectionName = NAME_None) override;
+
+	// 停止蒙太奇动画
+	virtual void StopAnimMontage(UAnimMontage* AnimMontage) override;
+
+	// 获取骨骼Mesh
+	USkeletalMeshComponent* GetPawnMesh();
+
 protected:
 	// 装备武器
 	void EquipWeapon(AShooterWeapon* Weapon);

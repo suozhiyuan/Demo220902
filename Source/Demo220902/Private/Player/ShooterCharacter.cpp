@@ -251,6 +251,7 @@ void AShooterCharacter::OnEndFire()
 	}
 }
 
+
 // 开始瞄准
 void AShooterCharacter::OnStartTargeting()
 {
@@ -403,6 +404,34 @@ void AShooterCharacter::OnNextWeapon()
 			EquipWeapon(NextWeapon);
 		}
 	}
+}
+
+float AShooterCharacter::PlayAnimMontage(UAnimMontage* AnimMontage, float InPlayRate, FName StartSectionName)
+{
+	//Super::PlayAnimMontage(AnimMontage, InPlayRate, StartSectionName);
+
+	USkeletalMeshComponent* UseMesh = GetPawnMesh();				// SkeletalMeshComponent用于创建动画SkeletalMesh资产的实例。
+	if (AnimMontage && UseMesh->AnimScriptInstance)
+	{
+		// Montage_Play 播放动画蒙太奇,以秒为单位返回动画蒙太奇的长度。如果失败则返回0.f
+		return UseMesh->AnimScriptInstance->Montage_Play(AnimMontage, InPlayRate);
+	}
+	return 0.0f;
+}
+
+void AShooterCharacter::StopAnimMontage(UAnimMontage* AnimMontage)
+{
+	// Super::StopAnimMontage(AnimMontage);
+	USkeletalMeshComponent* UseMesh = GetPawnMesh();
+	if (AnimMontage && UseMesh->AnimScriptInstance)
+	{
+		UseMesh->AnimScriptInstance->Montage_Stop(AnimMontage->BlendOut.GetBlendTime(), AnimMontage);
+	}
+}
+
+USkeletalMeshComponent* AShooterCharacter::GetPawnMesh()
+{
+	return Mesh1P;
 }
 
 void AShooterCharacter::EquipWeapon(AShooterWeapon* Weapon)

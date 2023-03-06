@@ -41,6 +41,8 @@ AShooterWeapon::AShooterWeapon()
 
 	CurrentAmmo = 0;
 	CurrentAmmoClip = 0;
+
+	bPlayingFireAnim = false;
 }
 
 // Called when the game starts or when spawned
@@ -107,6 +109,32 @@ FHitResult AShooterWeapon::WeaponTrace(const FVector& TraceFrom, const FVector& 
 EWeaponState::Type AShooterWeapon::GetCurrentState() const
 {
 	return NewState;
+}
+
+float AShooterWeapon::PlayMontageAnimation(const FWeaponAnim& Animation)
+{
+	float Duration = 0.0f;		// 播放时长
+	if (PawnOwner)
+	{
+		UAnimMontage* UseAnim = Animation.Pawn1P;
+		if (UseAnim)
+		{
+			Duration = PawnOwner->PlayAnimMontage(UseAnim);
+		}
+	}
+	return Duration;
+}
+
+void AShooterWeapon::StopMontageAnimation(const FWeaponAnim& Animation)
+{
+	if (PawnOwner)
+	{
+		UAnimMontage* UseAnim = Animation.Pawn1P;
+		if (UseAnim)
+		{
+			PawnOwner->StopAnimMontage(UseAnim);
+		}
+	}
 }
 
 // 设置武器当前的Pawn

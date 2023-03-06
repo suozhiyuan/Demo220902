@@ -44,6 +44,16 @@ struct FWeaponData
 	}
 };
 
+USTRUCT()
+struct FWeaponAnim
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, Category = Animation)
+	UAnimMontage* Pawn1P;
+
+};
+
 UCLASS()
 class DEMO220902_API AShooterWeapon : public AActor
 {
@@ -165,6 +175,12 @@ public:
 	// ·µ»ØÎäÆ÷×´Ì¬
 	EWeaponState::Type GetCurrentState() const;
 
+	// ²¥·ÅÃÉÌ«Ææ¶¯»­
+	float PlayMontageAnimation(const FWeaponAnim& Animation);
+
+	// Í£Ö¹ÃÉÌ«Ææ 
+	void StopMontageAnimation(const FWeaponAnim& Animation);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -213,6 +229,21 @@ protected:
 	int32 CurrentAmmoClip;
 
 	AShooterCharacter* PawnOwner;
+
+	// ¶¯»­¿ª¹Ø
+	bool bPlayingFireAnim;
+
+	// ¿ª»ð¶¯»­
+	UPROPERTY(EditDefaultsOnly, Category = Animation)
+	FWeaponAnim FireAnim;
+
+	// »»µ¯¶¯»­
+	UPROPERTY(EditDefaultsOnly, Category = Animation)
+	FWeaponAnim ReloadAnim;
+
+	// »»Ç¹¶¯»­
+	UPROPERTY(EditDefaultsOnly, Category = Animation)
+	FWeaponAnim EquipAnim;
 
 private:
 
