@@ -77,7 +77,6 @@ void AShooterWeapon_Instant::SpawnTrailEffects(const FVector& EndPoint)
 		{
 			TrailPSC->SetVectorParameter(TrailTargetParma, EndPoint);
 		}
-
 	}
 }
 
