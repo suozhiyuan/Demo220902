@@ -6,6 +6,9 @@
 #include "Weapon/ShooterWeapon.h"
 #include "ShooterWeapon_Instant.generated.h"
 
+class AShooterImpactEffect;
+
+
 // 即时武器的配置
 USTRUCT()
 struct FInstantWeaponDate
@@ -24,7 +27,6 @@ struct FInstantWeaponDate
 	UPROPERTY(EditDefaultsOnly, Category = WeaponState)
 	int32 HitDamage;						// 伤害
 };
-
 
 /**
  * 
@@ -64,8 +66,25 @@ public:
 	 */
 	void DealDamage(const FHitResult& Impact, const FVector ShootDir);
 
+	// 生成轨迹特效
+	void SpawnTrailEffects(const FVector& EndPoint);
+
+	// 生成碰撞特效
+	void SpawnImpactEffects(const FHitResult& Impact);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = Config)
 	FInstantWeaponDate InstantConfig;
 
+	// 粒子发射器
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	UParticleSystem* TraiFX;
+
+	// 用来配置特效的追踪名称，与特效中的 ParameterName 匹配
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	FName TrailTargetParma;
+
+	// 
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	TSubclassOf<AShooterImpactEffect> ImpactTemplate;
 };

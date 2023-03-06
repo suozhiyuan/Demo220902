@@ -3,7 +3,12 @@
 
 #include "Weapon/ShooterWeapon_Instant.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "Player/ShooterCharacter.h"
+#include "Effects/ShooterImpactEffect.h"
+
+
 
 void AShooterWeapon_Instant::FireWeapon()
 {
@@ -40,6 +45,11 @@ void AShooterWeapon_Instant::ProcessInstantHit_Confirm(const FHitResult& Impact,
 {
 	// 生命值处理
 	DealDamage(Impact, ShootDir);
+
+	// 生成特效
+	const FVector EndTrace = Orign + ShootDir * InstantConfig.WeaponRange;			// 特效结束位置
+	const FVector EndPoint = Impact.GetActor() ? Impact.ImpactPoint : EndTrace;		// 特效结束位置, 有命中目标返回ImpactPoint为特效结束位置，没有就返回 EndTrace 为终止位置
+	SpawnTrailEffects(EndPoint);
 }
 
 void AShooterWeapon_Instant::DealDamage(const FHitResult& Impact, const FVector ShootDir)
@@ -53,5 +63,33 @@ void AShooterWeapon_Instant::DealDamage(const FHitResult& Impact, const FVector 
 	if (Impact.GetActor() != nullptr)
 	{
 		Impact.GetActor()->TakeDamage(PointDmg.Damage, PointDmg, PawnOwner->Controller, this);
+	}
+}
+
+void AShooterWeapon_Instant::SpawnTrailEffects(const FVector& EndPoint)
+{
+	if (TraiFX)
+	{
+		const FVector Origin = GetMuzzleLocation();		// 枪口位置
+
+		UParticleSystemComponent* TrailPSC =  UGameplayStatics::SpawnEmitterAtLocation(this, TraiFX, Origin);
+		if (TrailPSC)
+		{
+			TrailPSC->SetVectorParameter(TrailTargetParma, EndPoint);
+		}
+
+	}
+}
+
+void AShooterWeapon_Instant::SpawnImpactEffects(const FHitResult& Impact)
+{
+	if (Impact.bBlockingHit && ImpactTemplate)
+	{
+		FTransform const SpawnTransform(Impact.ImpactNormal.Rotation(), Impact.ImpactPoint);			// 世界空间中的 旋转 与 位置
+		AShooterImpactEffect* EffectActor =  GetWorld()->SpawnActorDeferred<AShooterImpactEffect>(ImpactTemplate, SpawnTransform);
+		if (EffectActor)
+		{
+			UGameplayStatics::FinishSpawningActor(EffectActor, SpawnTransform);
+		}
 	}
 }
