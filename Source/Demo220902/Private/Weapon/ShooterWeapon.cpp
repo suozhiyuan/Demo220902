@@ -33,9 +33,9 @@ AShooterWeapon::AShooterWeapon()
 	
 	NewState = EWeaponState::Idle;
 	State = EWeaponState::Idle;
-	bIsExchangeWeapon = false;
+	bPendingEquip = false;
 	bIsEquipWeapon = false;
-	bIsReload = false;
+	bPendingReload = false;
 	bIsFire = false;
 	bRefiring = false;
 
@@ -102,6 +102,11 @@ FHitResult AShooterWeapon::WeaponTrace(const FVector& TraceFrom, const FVector& 
 	GetWorld()->LineTraceSingleByChannel(Hit, TraceFrom, TraceTo, COLLISION_WEAPON, TraceParams);
 
 	return Hit;
+}
+
+EWeaponState::Type AShooterWeapon::GetCurrentState() const
+{
+	return NewState;
 }
 
 // 设置武器当前的Pawn
@@ -248,7 +253,7 @@ void AShooterWeapon::WeaponState()
 
 	if (bIsEquipWeapon)		// 是否装备了武器
 	{
-		if (bIsReload)		// 是否进行装弹
+		if (bPendingReload)		// 是否进行装弹
 		{
 			if (CanReload())
 			{
@@ -269,7 +274,7 @@ void AShooterWeapon::WeaponState()
 	}
 	else
 	{
-		if (bIsExchangeWeapon)	// 是否更换武器
+		if (bPendingEquip)	// 是否更换武器
 		{
 			_NewState = EWeaponState::Equiping;
 		}
@@ -375,9 +380,9 @@ void AShooterWeapon::HandleEndReloadState()
 	//停止播放换子弹的动画
 	// to do ...
 
-	if (bIsReload)
+	if (bPendingReload)
 	{
-		bIsReload = false;
+		bPendingReload = false;
 	}
 	GetWorldTimerManager().ClearTimer(TimerHandler_StopReload);
 	//GetWorldTimerManager().ClearTimer(TimerHandler_ReloadWeapon);
@@ -412,7 +417,7 @@ void AShooterWeapon::HandleStartEquipState()
 		PlayWeaponSound(EquipSound);
 	}
 
-	bIsExchangeWeapon = true;
+	bPendingEquip = true;
 }
 
 void AShooterWeapon::HandleEndEquipState()
@@ -427,12 +432,38 @@ void AShooterWeapon::HandleEndEquipState()
 void AShooterWeapon::OnEquip(const AShooterWeapon* _LastWeapon)
 {
 	LastWeapon = (AShooterWeapon*)_LastWeapon;
-	if (!bIsExchangeWeapon)
+	if (!bPendingEquip)
 	{
-		bIsExchangeWeapon = true;
+		bPendingEquip = true;
 		WeaponState();			// 确定武器状态
 		HandleCurrentState();	// 根据当前状态处理事件
 	}
+}
+
+void AShooterWeapon::OnUnEquip()
+{
+	// 此函数不应纳入状态机流程管理
+
+	// 卸载 Mesh   to do...
+	bIsEquipWeapon = false;
+
+	StopFire();
+
+	if (bPendingReload)
+	{
+		bPendingReload = false;
+
+		// 停止播放装弹动画   to do...
+
+		GetWorldTimerManager().ClearTimer(TimerHandler_StopReload);
+		GetWorldTimerManager().ClearTimer(TimerHandler_ReloadWeapon);
+	}
+
+	if (bPendingEquip)
+	{
+		
+	}
+
 }
 
 // 响应装备完成
@@ -443,9 +474,9 @@ void AShooterWeapon::OnEquipFinish()
 		bIsEquipWeapon = true;
 	}
 
-	if (!bIsExchangeWeapon)
+	if (!bPendingEquip)
 	{
-		bIsExchangeWeapon = false;
+		bPendingEquip = false;
 	}
 	WeaponState();			// 确定武器状态
 	HandleCurrentState();	// 根据当前状态处理事件
@@ -453,9 +484,9 @@ void AShooterWeapon::OnEquipFinish()
 
 void AShooterWeapon::StartReload()
 {
-	if (!bIsReload && CanReload())
+	if (!bPendingReload && CanReload())
 	{
-		bIsReload = true;
+		bPendingReload = true;
 		WeaponState();			// 确定武器状态
 		HandleCurrentState();	// 根据当前状态处理事件
 	}
@@ -463,9 +494,9 @@ void AShooterWeapon::StartReload()
 
 void AShooterWeapon::StopReload()
 {
-	if (bIsReload)
+	if (bPendingReload)
 	{
-		bIsReload = false;
+		bPendingReload = false;
 		WeaponState();			// 确定武器状态
 		HandleCurrentState();	// 根据当前状态处理事件
 	}

@@ -16,9 +16,9 @@ namespace EWeaponState
 	enum Type
 	{
 		Idle,			// 闲置
-		Firing,			// 发射
-		Reloading,		// 重新装填
-		Equiping		// 更换武器
+		Firing,			// 发射中
+		Reloading,		// 重新装填中
+		Equiping		// 更换武器中
 	};
 }
 
@@ -124,6 +124,9 @@ public:
 	// 响应更换装备
 	void OnEquip(const AShooterWeapon* _LastWeapon);
 
+	// 响应卸载装备
+	void OnUnEquip();
+
 	// 设置武器当前的Pawn
 	void SetPawnOwner(AShooterCharacter* pawnOwner);
 
@@ -156,6 +159,9 @@ public:
 
 	// 返回伤害对象
 	FHitResult WeaponTrace(const FVector& TraceFrom, const FVector& TraceTo) const;
+
+	// 返回武器状态
+	EWeaponState::Type GetCurrentState() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -212,13 +218,13 @@ private:
 	bool bIsEquipWeapon;
 
 	// 是否进行装弹
-	bool bIsReload;
+	bool bPendingReload;
 
 	// 是否进行开火
 	bool bIsFire;
 
 	// 是否进行换武器
-	bool bIsExchangeWeapon;
+	bool bPendingEquip;
 
 	// 新状态
 	EWeaponState::Type NewState;

@@ -17,17 +17,17 @@ void AShooterWeapon_Instant::FireWeapon()
 	// 计算子弹发射方向
 	const int32 RandomSeed = FMath::Rand();
 	FRandomStream WeaponRandStream(RandomSeed);
-
-	const float CurrentSpread = InstantConfig.WeaponSpread;							 // 扩散角度
+	
+	const float CurrentSpread = InstantConfig.WeaponSpread;								 // 扩散角度
 	const float ConeHalfAngle = FMath::DegreesToRadians(CurrentSpread * 0.5);		 // 圆锥半角,   DegreesToRadians 将角度转换为弧度
-	const FVector AimDir = GetAdjustAim();											 // 获取瞄准方向（眼睛方向）
+	const FVector AimDir = GetAdjustAim();												 // 获取瞄准方向（眼睛方向）
 
 	FVector ShootDir =  WeaponRandStream.VRandCone(AimDir, ConeHalfAngle, ConeHalfAngle);	// 返回一个随机单位向量，均匀分布，在指定的圆锥内。
 
 	// 计算伤害的对象
-	const FVector StartTrace = GetMuzzleLocation();									// 子弹的发射位置
-	const float WeaponRange = InstantConfig.WeaponRange;							// 武器杀伤距离
-	const FVector EndTrace = StartTrace + ShootDir * WeaponRange;					// 结束追踪位置
+	const FVector StartTrace = GetMuzzleLocation();											// 子弹的发射位置
+	const float WeaponRange = InstantConfig.WeaponRange;									// 武器杀伤距离
+	const FVector EndTrace = StartTrace + ShootDir * WeaponRange;							// 结束追踪位置
 
 	const FHitResult Impact = WeaponTrace(StartTrace, EndTrace);
 
@@ -47,8 +47,8 @@ void AShooterWeapon_Instant::ProcessInstantHit_Confirm(const FHitResult& Impact,
 	DealDamage(Impact, ShootDir);
 
 	// 生成特效
-	const FVector EndTrace = Orign + ShootDir * InstantConfig.WeaponRange;			// 特效结束位置
-	const FVector EndPoint = Impact.GetActor() ? Impact.ImpactPoint : EndTrace;		// 特效结束位置, 有命中目标返回ImpactPoint为特效结束位置，没有就返回 EndTrace 为终止位置
+	const FVector EndTrace = Orign + ShootDir * InstantConfig.WeaponRange;				// 特效结束位置
+	const FVector EndPoint = Impact.GetActor() ? Impact.ImpactPoint : EndTrace;			// 特效结束位置, 有命中目标返回ImpactPoint为特效结束位置，没有就返回 EndTrace 为终止位置
 	SpawnTrailEffects(EndPoint);
 }
 

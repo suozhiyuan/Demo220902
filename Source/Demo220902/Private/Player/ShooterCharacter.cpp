@@ -391,3 +391,53 @@ void AShooterCharacter::AddWeapon(AShooterWeapon* Weapon)
 	}
 }
 
+void AShooterCharacter::OnNextWeapon()
+{
+	AShooterPlayerController* MyPC = Cast<AShooterPlayerController>(Controller);
+	if (MyPC)
+	{
+		if (Inventory.Num() > 0 && CurrentWeapon->GetCurrentState() != EWeaponState::Equiping)
+		{
+			const int32 CurrentWeaponIndex = Inventory.IndexOfByKey(CurrentWeapon);
+			const int32 NextWeaponIndex = (CurrentWeaponIndex + 1) % Inventory.Num();
+			AShooterWeapon* NextWeapon = Inventory[NextWeaponIndex];
+			EquipWeapon(NextWeapon);
+		}
+	}
+}
+
+void AShooterCharacter::EquipWeapon(AShooterWeapon* Weapon)
+{
+	if (Weapon && CurrentWeapon)
+	{
+		SetCurrentWeapon(Weapon, CurrentWeapon);
+	}
+}
+
+void AShooterCharacter::SetCurrentWeapon(AShooterWeapon* NewWeapon, AShooterWeapon* LastWeapon)
+{
+	AShooterWeapon* LocalLastWeapon = nullptr;
+
+	if (LastWeapon)		// 初始时 LastWeapon 一定是空的，如果不为空，那么这把武器将会成为 LocalLastWeapon
+	{
+		LocalLastWeapon = LastWeapon;
+	}
+	else if (NewWeapon != CurrentWeapon)		// 如果 LastWeapon 为空，那么要看新武器与当前武器是不是一样，如果不一样就会进行替换，吧当前武器给到旧武器
+	{
+		LocalLastWeapon = CurrentWeapon;
+	}
+
+	if (LocalLastWeapon)
+	{
+		//卸载武器 to do ...
+	}
+
+	CurrentWeapon = NewWeapon;
+
+	if (NewWeapon)
+	{
+		NewWeapon->SetPawnOwner(this);
+		NewWeapon->OnEquip(LastWeapon);
+	}
+}
+

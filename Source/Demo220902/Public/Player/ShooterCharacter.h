@@ -110,6 +110,17 @@ public:
 	// 向背包中添加武器
 	void AddWeapon(AShooterWeapon* Weapon);
 
+	// 响应背包中的武器切换
+	void OnNextWeapon();
+
+protected:
+	// 装备武器
+	void EquipWeapon(AShooterWeapon* Weapon);
+
+	// 设置当前武器
+	void SetCurrentWeapon(AShooterWeapon* NewWeapon, AShooterWeapon* LastWeapon);
+
+
 protected:
 
 	//// 摄像机（2023/02/01 考虑到AI调用该类，摄像机有些多余，摄像机将会放置到相机管理器中）
