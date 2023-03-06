@@ -122,8 +122,8 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Released, this, &AShooterCharacter::OnEndSpeedUp);			// 放开还原
 
 
-	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AShooterCharacter::OnReload);		// 换弹
-	//PlayerInputComponent->BindAction(TEXT("SpeedUp"), IE_Pressed, this, &AShooterCharacter::OnReload);		// 换枪
+	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AShooterCharacter::OnReload);					// 换弹
+	PlayerInputComponent->BindAction(TEXT("NextWeapon"), IE_Pressed, this, &AShooterCharacter::OnNextWeapon);			// 换枪
 }
 
 // 构建组件初始化
@@ -416,23 +416,23 @@ void AShooterCharacter::EquipWeapon(AShooterWeapon* Weapon)
 
 void AShooterCharacter::SetCurrentWeapon(AShooterWeapon* NewWeapon, AShooterWeapon* LastWeapon)
 {
-	AShooterWeapon* LocalLastWeapon = nullptr;
+	AShooterWeapon* LocalLastWeapon = nullptr;			// 存储的上一把武器
 
-	if (LastWeapon)		// 初始时 LastWeapon 一定是空的，如果不为空，那么这把武器将会成为 LocalLastWeapon
+	if (LastWeapon)										// 初始时 LastWeapon 一定是空的，如果不为空，那么这把武器将会成为 LocalLastWeapon
 	{
 		LocalLastWeapon = LastWeapon;
 	}
-	else if (NewWeapon != CurrentWeapon)		// 如果 LastWeapon 为空，那么要看新武器与当前武器是不是一样，如果不一样就会进行替换，吧当前武器给到旧武器
+	else if (NewWeapon != CurrentWeapon)				// 如果 LastWeapon 为空，那么要看新武器与当前武器是不是一样，如果不一样就会进行替换，吧当前武器给到旧武器
 	{
 		LocalLastWeapon = CurrentWeapon;
 	}
 
 	if (LocalLastWeapon)
 	{
-		//卸载武器 to do ...
+		LocalLastWeapon->OnUnEquip();					// 卸载旧武器
 	}
 
-	CurrentWeapon = NewWeapon;
+	CurrentWeapon = NewWeapon;							// 将新武器赋给当前武器
 
 	if (NewWeapon)
 	{

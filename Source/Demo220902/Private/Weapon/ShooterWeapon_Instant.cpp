@@ -50,6 +50,7 @@ void AShooterWeapon_Instant::ProcessInstantHit_Confirm(const FHitResult& Impact,
 	const FVector EndTrace = Orign + ShootDir * InstantConfig.WeaponRange;				// 特效结束位置
 	const FVector EndPoint = Impact.GetActor() ? Impact.ImpactPoint : EndTrace;			// 特效结束位置, 有命中目标返回ImpactPoint为特效结束位置，没有就返回 EndTrace 为终止位置
 	SpawnTrailEffects(EndPoint);
+	SpawnImpactEffects(Impact);
 }
 
 void AShooterWeapon_Instant::DealDamage(const FHitResult& Impact, const FVector ShootDir)

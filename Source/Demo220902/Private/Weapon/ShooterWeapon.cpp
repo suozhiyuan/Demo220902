@@ -135,6 +135,13 @@ void AShooterWeapon::AttachMeshToPawn()
 	}
 }
 
+void AShooterWeapon::DetachMeshFromPawn()
+{
+	//WeaponMesh1P->DetachFromComponent(FAttachmentTransformRules::KeepRelativeTransform);
+	WeaponMesh1P->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);		// 将该组件从它所连接的任何组件中分离。自动解除焊接在一起的组件
+	WeaponMesh1P->SetHiddenInGame(false);														// 改变bHiddenInGame的值，如果为false，将在游戏过程中不可见
+}
+
 // 获取眼睛方向
 FVector AShooterWeapon::GetAdjustAim()
 {
@@ -171,7 +178,7 @@ void AShooterWeapon::StartFire()
 	if (!bIsFire)
 	{
 		bIsFire = true;
-		WeaponState();
+		DetermineWeaponState();
 		HandleCurrentState();
 	}
 	//SimulateWeaponFire();
@@ -183,7 +190,7 @@ void AShooterWeapon::StopFire()
 	if (bIsFire)
 	{
 		bIsFire = false;
-		WeaponState();
+		DetermineWeaponState();
 		HandleCurrentState();
 	}
 }
@@ -247,7 +254,7 @@ FVector AShooterWeapon::GetMuzzleLocation()
 //}
 
 // 确定武器状态
-void AShooterWeapon::WeaponState()
+void AShooterWeapon::DetermineWeaponState()
 {
 	EWeaponState::Type _NewState = EWeaponState::Idle;
 
@@ -435,7 +442,7 @@ void AShooterWeapon::OnEquip(const AShooterWeapon* _LastWeapon)
 	if (!bPendingEquip)
 	{
 		bPendingEquip = true;
-		WeaponState();			// 确定武器状态
+		DetermineWeaponState();			// 确定武器状态
 		HandleCurrentState();	// 根据当前状态处理事件
 	}
 }
@@ -444,7 +451,9 @@ void AShooterWeapon::OnUnEquip()
 {
 	// 此函数不应纳入状态机流程管理
 
-	// 卸载 Mesh   to do...
+	// 卸载 Mesh
+	DetachMeshFromPawn();
+
 	bIsEquipWeapon = false;
 
 	StopFire();
@@ -461,9 +470,11 @@ void AShooterWeapon::OnUnEquip()
 
 	if (bPendingEquip)
 	{
-		
+		bPendingEquip = false;
+		// 停止播放换武器动画 to do ...
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandler_OnEquipFinish);
 	}
-
+	DetermineWeaponState();
 }
 
 // 响应装备完成
@@ -478,7 +489,7 @@ void AShooterWeapon::OnEquipFinish()
 	{
 		bPendingEquip = false;
 	}
-	WeaponState();			// 确定武器状态
+	DetermineWeaponState();			// 确定武器状态
 	HandleCurrentState();	// 根据当前状态处理事件
 }
 
@@ -487,7 +498,7 @@ void AShooterWeapon::StartReload()
 	if (!bPendingReload && CanReload())
 	{
 		bPendingReload = true;
-		WeaponState();			// 确定武器状态
+		DetermineWeaponState();			// 确定武器状态
 		HandleCurrentState();	// 根据当前状态处理事件
 	}
 }
@@ -497,7 +508,7 @@ void AShooterWeapon::StopReload()
 	if (bPendingReload)
 	{
 		bPendingReload = false;
-		WeaponState();			// 确定武器状态
+		DetermineWeaponState();			// 确定武器状态
 		HandleCurrentState();	// 根据当前状态处理事件
 	}
 }

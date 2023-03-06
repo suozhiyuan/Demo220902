@@ -57,6 +57,8 @@ public:
 	// 创建 Mesh 到 Pawn
 	void AttachMeshToPawn();
 
+	// 从 Pawn 上卸载 Mesh
+	void DetachMeshFromPawn();
 
 	// 获取眼睛方向
 	FVector GetAdjustAim();
@@ -89,7 +91,7 @@ public:
 	//int GetAmmoCountMax();
 
 	// 确定武器状态
-	void WeaponState();
+	void DetermineWeaponState();
 
 	// 是否可以开火
 	bool CanFire() const;
@@ -232,7 +234,7 @@ private:
 	// 当前状态
 	EWeaponState::Type State;
 
-	// 当前武器，当等于 nullptr 时, 不会播放换枪动画
+	// 上一把武器，当等于 nullptr 时, 不会播放换枪动画
 	AShooterWeapon* LastWeapon;
 
 	// 换武器定时器
@@ -249,6 +251,5 @@ private:
 
 	// 连发时用来判断再次射击
 	bool bRefiring;
-
-	// 
+	
 };
