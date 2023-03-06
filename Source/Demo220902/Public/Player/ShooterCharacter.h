@@ -104,6 +104,12 @@ public:
 	// 操作换弹
 	void OnReload();
 
+	// 创建默认背包
+	void SpawnDefaultInventory();
+
+	// 向背包中添加武器
+	void AddWeapon(AShooterWeapon* Weapon);
+
 protected:
 
 	//// 摄像机（2023/02/01 考虑到AI调用该类，摄像机有些多余，摄像机将会放置到相机管理器中）
@@ -115,9 +121,17 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Mesh)
 	USkeletalMeshComponent* Mesh1P;
 
-	// 为了暴露到蓝图当中去，这里用一个TSubclassOf
+	// 为了暴露到编辑器当中去配置，这里用一个TSubclassOf
 	UPROPERTY(EditAnywhere, Category = Weapon)
 	TSubclassOf<AShooterWeapon> ShooterWeaponClass;
+
+	// 背包
+	UPROPERTY(EditAnywhere, Category = Inventory)
+	TArray<TSubclassOf<AShooterWeapon>> DefaultInventoryClass;
+
+	// 存储武器的数组
+	UPROPERTY(Transient)
+	TArray<AShooterWeapon*> Inventory;
 
 	// 当前武器
 	AShooterWeapon* CurrentWeapon;

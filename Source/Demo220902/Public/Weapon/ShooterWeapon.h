@@ -226,7 +226,7 @@ private:
 	// 当前状态
 	EWeaponState::Type State;
 
-	// 当前武器
+	// 当前武器，当等于 nullptr 时, 不会播放换枪动画
 	AShooterWeapon* LastWeapon;
 
 	// 换武器定时器
