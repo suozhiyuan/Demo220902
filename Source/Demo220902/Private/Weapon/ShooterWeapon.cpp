@@ -233,7 +233,11 @@ void AShooterWeapon::FireWeapon()
 void AShooterWeapon::SimulateWeaponFire()
 {
 	// 播放开火动画
-	// to do ...
+	if (!bPlayingFireAnim)
+	{
+		bPlayingFireAnim = true;
+		PlayMontageAnimation(FireAnim);
+	}
 
 	if (FireSound)
 	{
@@ -244,7 +248,11 @@ void AShooterWeapon::SimulateWeaponFire()
 void AShooterWeapon::StopSimulateWeaponFire()
 {
 	// 停止播放开火动画
-	// to do ...
+	if (bPlayingFireAnim)
+	{
+		bPlayingFireAnim = false;
+		StopMontageAnimation(FireAnim);
+	}
 }
 
 // 播放声音组件
@@ -391,11 +399,8 @@ void AShooterWeapon::HandleEndFireState()
 
 void AShooterWeapon::HandleStartReloadState()
 {
-	// 播放装子弹的动画
-	// 播放装子弹的声音
-	//to do ...
-
-	float AnimTime = 0.0f;
+	// 播放装子弹的动画，返回动画时间
+	float AnimTime = PlayMontageAnimation(ReloadAnim);
 	if (AnimTime <= 0.0f)
 	{
 		AnimTime = 0.5f;
@@ -413,14 +418,14 @@ void AShooterWeapon::HandleStartReloadState()
 void AShooterWeapon::HandleEndReloadState()
 {
 	//停止播放换子弹的动画
-	// to do ...
+	StopMontageAnimation(ReloadAnim);
 
 	if (bPendingReload)
 	{
 		bPendingReload = false;
 	}
 	GetWorldTimerManager().ClearTimer(TimerHandler_StopReload);
-	//GetWorldTimerManager().ClearTimer(TimerHandler_ReloadWeapon);
+	GetWorldTimerManager().ClearTimer(TimerHandler_ReloadWeapon);
 }
 
 // 处理换武器
@@ -431,7 +436,12 @@ void AShooterWeapon::HandleStartEquipState()
 	if (LastWeapon != nullptr)		// 换枪
 	{
 		// 播放换枪动画
-		float EquipTime = 2.0f;		// 换枪时间
+		float EquipTime = PlayMontageAnimation(EquipAnim);
+		if (EquipTime <= 0.0f)
+		{
+			EquipTime = 0.5f;
+		}
+
 		/*
 		 * InOutHandle		如果传入的句柄引用了一个现有的计时器，那么在添加新计时器之前，它将被清除。在这两种情况下，都会返回新计时器的新句柄。对象调用定时器函数。
 		 * InObj			对象调用定时器函数。
@@ -460,7 +470,7 @@ void AShooterWeapon::HandleEndEquipState()
 	GetWorldTimerManager().ClearTimer(TimerHandler_OnEquipFinish);		// 清除计时器
 
 	// 停止武器动画的播放
-	// to do...
+	StopMontageAnimation(EquipAnim);
 }
 
 // 响应更换装备
@@ -490,8 +500,8 @@ void AShooterWeapon::OnUnEquip()
 	{
 		bPendingReload = false;
 
-		// 停止播放装弹动画   to do...
-
+		// 停止播放装弹动画
+		StopMontageAnimation(ReloadAnim);
 		GetWorldTimerManager().ClearTimer(TimerHandler_StopReload);
 		GetWorldTimerManager().ClearTimer(TimerHandler_ReloadWeapon);
 	}
@@ -499,7 +509,8 @@ void AShooterWeapon::OnUnEquip()
 	if (bPendingEquip)
 	{
 		bPendingEquip = false;
-		// 停止播放换武器动画 to do ...
+		// 停止播放换武器动画
+		StopMontageAnimation(EquipAnim);
 		GetWorld()->GetTimerManager().ClearTimer(TimerHandler_OnEquipFinish);
 	}
 	DetermineWeaponState();
