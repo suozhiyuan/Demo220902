@@ -32,7 +32,7 @@ AShooterProjectile::AShooterProjectile()
 	MovementComp->InitialSpeed = 10000.0f;											// 初始化速度
 	MovementComp->MaxSpeed = 10000.0f;												// 最大速度
 	MovementComp->bRotationFollowsVelocity = true;									// 是否旋转
-	MovementComp->ProjectileGravityScale = 8.f;										// 重量，影响下坠
+	MovementComp->ProjectileGravityScale = 0.0f;										// 重量，影响下坠
 
 	// 创建粒子发射器
 	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComp"));

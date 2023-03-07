@@ -253,7 +253,6 @@ void AShooterWeapon::SimulateWeaponFire()
 			PC->ClientStartCameraShake(FireCameraShake, 1);
 		}
 	}
-
 }
 
 void AShooterWeapon::StopSimulateWeaponFire()
