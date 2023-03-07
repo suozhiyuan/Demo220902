@@ -245,6 +245,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Animation)
 	FWeaponAnim EquipAnim;
 
+	// 相机震动
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	// TSubclassOf<UCameraShake> FireCameraShake;
+	TSubclassOf<UMatineeCameraShake> FireCameraShake;
+
 private:
 
 	// 是否装备武器
